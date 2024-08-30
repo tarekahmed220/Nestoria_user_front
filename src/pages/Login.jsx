@@ -73,7 +73,9 @@ function Login() {
                 catch (error) {
                     setErrors(error)
                      if (error.response && error.response.status >= 400 && error.response.status < 500) {
-                    toast.error(error.response.data);
+                      let err=error.response.data.message
+                    toast.error(err);
+                    // console.log(error.response.data.message)
                     return errors
                  }
                 }
@@ -94,7 +96,7 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="email">
-              Username or Email Address
+              Email Address
             </label>
             <input
               className={`w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${

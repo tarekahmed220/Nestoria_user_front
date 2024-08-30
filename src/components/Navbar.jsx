@@ -20,9 +20,9 @@ function Navbar() {
     <div className="bg-black overflow-hidden min-h-[50px] flex justify-center items-center">
       <div className="container flex justify-between items-center w-[1440px] mx-auto">
         <div className="social flex justify-center items-center gap-4 px-2 ">
-          <FaFacebookF className="text-white text-xl" />
-          <FaInstagram className="text-white text-xl" />
-          <FaWhatsapp className="text-white text-xl" />
+          <FaFacebookF className="text-white text-xl hover:text-[--mainColor] transition-all duration-150 cursor-pointer" />
+          <FaInstagram className="text-white text-xl hover:text-[--mainColor] transition-all duration-150 cursor-pointer" />
+          <FaWhatsapp className="text-white text-xl hover:text-[--mainColor] transition-all duration-150 cursor-pointer" />
         </div>
         <div
           className={`${styles.mianContainer} w-1/2  overflow-hidden mx-auto flex justify-center items-center h-10 relative `}

@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
+
 function App() {
   return (
     <Router>
@@ -17,10 +18,13 @@ function App() {
           <Route path="product-details" element={<ProductDetails />} />
           <Route path="contactus" element={<ContactUs />} />
           <Route path="aboutus" element={<AboutUs />} />
+          
+
         </Route>
-        <Route path="/signin" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotfountPage />} />
+
       </Routes>
     </Router>
   );

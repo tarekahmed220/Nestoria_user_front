@@ -26,6 +26,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [expanded, setExpanded] = useState(false);
@@ -225,11 +226,13 @@ function Home() {
         <div className="boxs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto px-3">
           <div className="box">
             <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
-              <img
-                src="/images/home/shop-2-01.jpg"
-                alt="collectionImg"
-                className="rounded-lg"
-              />
+              <Link to="/product-details">
+                <img
+                  src="/images/home/shop-2-01.jpg"
+                  alt="collectionImg"
+                  className="rounded-lg"
+                />
+              </Link>
               <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
                 ON SALE
               </span>

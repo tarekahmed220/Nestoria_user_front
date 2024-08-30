@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   return (
+
     <footer className="bg-black px-10 pt-7 m-auto">
       <div className="flex justify-between pt-20 pb-16">
         <div className="w-[30%]">
@@ -36,8 +37,8 @@ function Footer() {
               <FaX className="text-white text-xl hover:text-orange-500 duration-500"></FaX>
             </Link>
           </div>
-        </div>
 
+        </div>
         <div className="flex gap-24 w-[40%]">
           <div className="text-white flex flex-col">
             <h4 className="text-xl mb-4">Useful links</h4>
@@ -176,6 +177,68 @@ function Footer() {
             <img src="/images/home/Paypal@4x.png" alt="" />
           </figure>
         </div>
+
+      <div className="flex flex-col lg:flex-row gap-10 w-full lg:w-[40%] mb-8 lg:mb-0">
+        <div className="text-white flex flex-col">
+          <h4 className="text-lg lg:text-xl mb-4">Useful links</h4>
+          <Link className="my-1 hover:text-orange-500 duration-500" to={"/"}>
+            History
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500" to={"/"}>
+            Our Team
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Privacy Policy
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Services Offered
+          </Link>
+          <Link className="hover:text-orange-500 duration-500">
+            Product Catalog
+          </Link>
+        </div>
+
+        <div className="text-white flex flex-col">
+          <h4 className="text-lg lg:text-xl mb-4">Information</h4>
+          <Link className="my-2 hover:text-orange-500 duration-500">
+            FAQ/Return
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Privacy/Terms
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Affiliate
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Sizing Guide
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Accessibility
+          </Link>
+        </div>
+
+        <div className="text-white flex flex-col">
+          <h4 className="text-lg lg:text-xl mb-4">Support</h4>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Your Account
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Press Release
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Return Centre
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            App Download
+          </Link>
+          <Link className="my-1 hover:text-orange-500 duration-500">
+            Advertisements
+          </Link>
+        </div>
+      </div>
+
+      <div className="w-full lg:w-auto">
+        <h4 className="text-lg lg:text-xl">Follow @Instagram</h4>
       </div>
     </footer>
   );

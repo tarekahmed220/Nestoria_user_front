@@ -7,9 +7,9 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 import "swiper/css/scrollbar";
 import { IoIosArrowRoundForward } from "react-icons/io";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+// import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { motion, useInView } from "framer-motion";
+// import { useInView } from "framer-motion";
 import { GiCheckMark } from "react-icons/gi";
 import { GiSofa } from "react-icons/gi";
 import { GiBedLamp } from "react-icons/gi";
@@ -20,8 +20,20 @@ import { HiBuildingOffice2 } from "react-icons/hi2";
 import { MdDinnerDining } from "react-icons/md";
 import { useState } from "react";
 import { GiKitchenScale } from "react-icons/gi";
+import { LuIndianRupee } from "react-icons/lu";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Link } from "react-router-dom";
 
 function Home() {
+  const [expanded, setExpanded] = useState(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
   const [currentImg, setCurrentImg] = useState(
     "/images/home/Sofa-Home-1-Section-3-01.jpg"
   );
@@ -30,10 +42,13 @@ function Home() {
     "/images/home/2.jpg",
     "/images/home/1.jpg",
   ];
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+
+  // const [currentCollection] = useState([]);
+
+  // const { ref, inView } = useInView({
+  //   triggerOnce: true,
+  //   threshold: 0.1,
+  // });
 
   const sections = [
     {
@@ -194,6 +209,284 @@ function Home() {
         </div>
       </div>
       {/* section three */}
+      {/* Collection */}
+      <div className="container lg:w-[1440px] mx-auto flex flex-col justify-center items-center my-10">
+        <p className="text-[--mainColor]">EXPLORE OUR</p>
+        <h2 className="text-2xl md:text-4xl lg:text-6xl text-white">
+          Luxurious Haven Collection
+        </h2>
+        <div className="collectionsName my-8 flex justify-center items-center px-3">
+          <ul className="flex justify-center items-center gap-4 text-white">
+            <li className="border-b-[1px] cursor-pointer">Home Decoration</li>
+            <li>Office Decoration</li>
+            <li>Indoor Decoration</li>
+            <li>Outdoor Decoration</li>
+          </ul>
+        </div>
+        <div className="boxs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto px-3">
+          <div className="box">
+            <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
+              <Link to="/product-details">
+                <img
+                  src="/images/home/shop-2-01.jpg"
+                  alt="collectionImg"
+                  className="rounded-lg"
+                />
+              </Link>
+              <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
+                ON SALE
+              </span>
+            </div>
+            <div className="text-center">
+              <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
+              <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
+                Modern Ceramic Lamp
+              </h2>
+              <p className="flex justify-center items-center text-white my-2">
+                <LuIndianRupee />
+                51.70 - <LuIndianRupee /> 58.50
+              </p>
+            </div>
+          </div>
+          <div className="box">
+            <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
+              <img
+                src="/images/home/shop-1-01.jpg"
+                alt="collectionImg"
+                className="rounded-lg"
+              />
+              <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
+                ON SALE
+              </span>
+            </div>
+            <div className="text-center">
+              <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
+              <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
+                Soft Seater Chair
+              </h2>
+              <p className="flex justify-center items-center text-white my-2">
+                <LuIndianRupee />
+                108.95 - <LuIndianRupee /> 123.50
+              </p>
+            </div>
+          </div>
+          <div className="box">
+            <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
+              <img
+                src="/images/home/shop-7-01.jpg"
+                alt="collectionImg"
+                className="rounded-lg"
+              />
+              <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
+                ON SALE
+              </span>
+            </div>
+            <div className="text-center">
+              <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
+              <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
+                Elegant Wooden Table
+              </h2>
+              <p className="flex justify-center items-center text-white my-2">
+                <LuIndianRupee />
+                88.20 - <LuIndianRupee /> 146.40
+              </p>
+            </div>
+          </div>
+          <div className="box">
+            <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
+              <img
+                src="/images/home/shop-4-01.jpg"
+                alt="collectionImg"
+                className="rounded-lg"
+              />
+              <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
+                ON SALE
+              </span>
+            </div>
+            <div className="text-center">
+              <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
+              <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
+                Round Wood Table
+              </h2>
+              <p className="flex justify-center items-center text-white my-2">
+                <LuIndianRupee />
+                119.10 - <LuIndianRupee /> 123.75
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Collection */}
+      {/* accordian */}
+      <div className="container lg:w-[1440px] flex justify-center items-center mx-auto gap-4 my-10 flex-col lg:flex-row">
+        <div className="flex-1 px-3">
+          <p className="text-[--mainColor]">Product related queries</p>
+          <h2 className="text-2xl md:text-3xl lg:text-6xl text-white my-5">
+            Products & Service
+          </h2>
+          <Accordion
+            expanded={expanded === "panel1"}
+            onChange={handleChange("panel1")}
+            className="border-b-[1px] border-[#5a5a5a] mb-5"
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon className="text-red-500" />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+              sx={{ background: "black" }}
+            >
+              <Typography
+                sx={{ color: "white" }}
+                className="hover:text-[--mainColor]"
+              >
+                For furniture purchases, do you have financing options?
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ background: "black" }}>
+              <Typography className="text-[#dddcdccc] max-w-[80%]">
+                Pain should be followed by coaching. Elit duis sad sollicitudin
+                nibh is important. Utrice eros in the course of the high school.
+                Ultricies sad no aquet for the tortor at the auctor urn now.
+                Consectetur adipiscing elit duis trisque sollicitudin nibh sit
+                amet.{" "}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel2"}
+            onChange={handleChange("panel2")}
+            className="border-b-[1px] border-[#5a5a5a] mb-5"
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+              sx={{ background: "black" }}
+            >
+              <Typography
+                sx={{ color: "white" }}
+                className="hover:text-[--mainColor]"
+              >
+                Do you have eco-friendly furniture?
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ background: "black" }}>
+              <Typography className="text-[#dddcdccc] max-w-[80%]">
+                I need the wisdom of God. What a caricature of a doctor who
+                hates football. Everyone needs to drink and not need to do their
+                homework. It's a great airline for kids. Aliquet lectus proin
+                nibh nisl condimentum id. Ridiculous mus mauris vitae ultricies
+                leo integer.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel3"}
+            onChange={handleChange("panel3")}
+            className="border-b-[1px] border-[#5a5a5a] mb-5"
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+              sx={{ background: "black" }}
+            >
+              <Typography
+                sx={{ color: "white" }}
+                className="hover:text-[--mainColor]"
+              >
+                Is it possible to follow the delivery of my furniture?
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ background: "black" }}>
+              <Typography className="text-[#dddcdccc] max-w-[80%]">
+                The yeast of the god's throat in the ornament than the cartoon
+                of the doctor with football arrows. I want to decorate the bed.
+                Morbi, the urn of the employee, but the element of football is
+                easy. Everyone doesn't want to drink or do their homework. I
+                don't hate euismod lacinia at quis risus sed vulputate odio.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel4"}
+            onChange={handleChange("panel4")}
+            className="border-b-[1px] border-[#5a5a5a] mb-5"
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+              sx={{ background: "black" }}
+            >
+              <Typography
+                sx={{ color: "white" }}
+                className="hover:text-[--mainColor]"
+              >
+                Do you offer design consultations?
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ background: "black" }}>
+              <Typography className="text-[#dddcdccc] max-w-[80%]">
+                For the pure does not present an element that is easy or
+                natural. Pharetra diam should be a lot of fans. The mountains,
+                pregnant with their partners and born, will give birth to
+                feathers and great thrusts. The price of the product itself is
+                insignificant, or the price of the bed that adorns the pure
+                palate.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            expanded={expanded === "panel5"}
+            onChange={handleChange("panel5")}
+            className="border-b-[1px] border-[#5a5a5a] mb-5"
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+              sx={{ background: "black" }}
+            >
+              <Typography
+                sx={{ color: "white" }}
+                className="hover:text-[--mainColor]"
+              >
+                Are custom orders accepted for furniture that isn't in stock?
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ background: "black" }}>
+              <Typography className="text-[#dddcdccc] max-w-[80%]">
+                It is said that everyone who lived in this street is free from
+                arrows. It is said that it is sad and urgent that someone
+                himself suspended the basketball. Ultricies lake but ugly
+                tincidunt id aquiet risus feugiat. Maecenas was flattered by
+                some of the chocolates he wanted.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+        <div className="imgContainer flex-1 px-3">
+          <img src="/images/home/Home-1-Section-5-3.jpg" alt="" />
+        </div>
+      </div>
+      {/* accordian */}
+      {/* blog */}
+      <div className="container lg:w-[1440px] mx-auto my-10">
+        <p className="text-[--mainColor]">Get the Latest News</p>
+        <h2 className="text-2xl md:text-3xl lg:text-6xl text-white my-5">
+          Visit Our Blog
+        </h2>
+        <div className="flex justify-center items-center gap-5 flex-col lg:flex-row">
+          <div className="right flex-1">
+            <div className="imgCotainer">
+              <img src="" alt="" />
+            </div>
+          </div>
+          <div className="left flex-1"></div>
+        </div>
+      </div>
+      {/* blog */}
     </div>
   );
 }

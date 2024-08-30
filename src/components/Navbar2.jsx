@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function Navbar2(){
 
   return(
-    <div className="bg-slate-900 w-[1440px] m-auto flex items-center justify-between mt-10">
+    <div className="bg-slate-900 px-10 m-auto flex items-center justify-between mt-10">
       <div className="text-white text-3xl">
         <Link to="/">Nestoria</Link>
       </div>

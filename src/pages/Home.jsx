@@ -156,7 +156,7 @@ function Home() {
             <SwiperSlide key={index}>
               <div className="sectionOne relative ">
                 <div
-                  className={`${styles.text} flex flex-col gap-4 justify-center items-center absolute top-1/4 left-1/2 z-30`}
+                  className={`${styles.text} flex flex-col gap-4 justify-center items-center absolute top-[30%] left-1/2 z-30`}
                 >
                   <p className="text-[--mainColor]">SMART SOLUTION</p>
                   <h1 className="text-center text-lg md:text-3xl  lg:text-4xl xl:text-5xl 2xl:text-6xl my-2 md:my-3 lg:my-3 text-[#ffffffdc]">

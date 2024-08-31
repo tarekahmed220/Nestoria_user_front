@@ -4,14 +4,13 @@ import Navbar from "../components/Navbar";
 import Navbar2 from "../components/Navbar2";
 import Footer from "../components/Footer";
 
-
 function Layout() {
   return (
     <>
       <Navbar />
-      <Navbar2></Navbar2>
+      <Navbar2 />
       <Outlet />
-      <Footer></Footer>
+      <Footer />
     </>
   );
 }

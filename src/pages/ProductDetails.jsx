@@ -7,6 +7,8 @@ import {
   FaArrowsAltH,
   FaExpand,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { GiCheckMark } from "react-icons/gi";
 
 function ProductDetails() {
   // هنا عشان اخذن اللون يا برووو
@@ -27,13 +29,13 @@ function ProductDetails() {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-   // الداله الخاصه بتقليل الكميه
+  // الداله الخاصه بتقليل الكميه
 
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
 
-  // ده بتاع الزراير الى لما ادوس عليها يظهر الجزء الخاص بيها يعنى منابو اخر تانى سيكشن 
+  // ده بتاع الزراير الى لما ادوس عليها يظهر الجزء الخاص بيها يعنى منابو اخر تانى سيكشن
 
   const [activeTab, setActiveTab] = useState("description");
 
@@ -217,27 +219,27 @@ function ProductDetails() {
                   </p>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Dignissim convallis aenean et tortor at risus viverra.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Euisimod in pellentesque massa amnrita placerat.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Suspendisse in est ante sitra aretnarin nibh mauris.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Tincidunt vitae semper quis lectus nulla at diam.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Neque convallis a cras semper auctor neque.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Scelerisque felis imperdiet proin fermentum.
                     </li>
                   </ul>
@@ -356,9 +358,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -386,9 +388,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -416,9 +418,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -446,9 +448,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils, faCouch, faBlender, faBriefcase, faBed, faChair } from "@fortawesome/free-solid-svg-icons";
 
 function AboutUs() {
-  return
+  return (
   <div>
     {/* Section one*/}
     <div className="relative text-center">
@@ -274,7 +274,7 @@ function AboutUs() {
         </div>
       </section>
 
-  </div>;
+  </div>)
 
 }
 

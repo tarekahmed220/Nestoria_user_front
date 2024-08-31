@@ -1,5 +1,6 @@
 import { GiCheckMark } from "react-icons/gi";
 import { Link } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUtensils, faCouch, faBlender, faBriefcase, faBed, faChair } from "@fortawesome/free-solid-svg-icons";
 
@@ -108,6 +109,7 @@ function AboutUs() {
               <h2 className="text-lg md:text-2xl lg:text-3xl xl:text-4xl font-bold text-white">1000+</h2>
               <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white">Satisfied Customers</p>
             </div>
+
           </div>
         </div>
       </section>
@@ -273,6 +275,7 @@ function AboutUs() {
       </section>
 
   </div>;
+
 }
 
 export default AboutUs;

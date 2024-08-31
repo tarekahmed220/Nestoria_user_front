@@ -49,7 +49,7 @@ function Register() {
     if (!phone) {
       newErrors.phone = 'phone is required';
     } else if (!regexPhone.test(phone)) {
-      newErrors.phone = 'Email is invalid';
+      newErrors.phone = 'phone is invalid';
     }
     if (!email) {
       newErrors.email = 'Email is required';
@@ -115,7 +115,7 @@ function Register() {
     // <div className="min-h-screen flex items-center justify-center bg-gray-100">
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
       <div className="bg-black p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-white text-3xl font-bold mb-6 text-center">Log In</h2>
+        <h2 className="text-white text-3xl font-bold mb-6 text-center">Register</h2>
         <form onSubmit={handleSubmit}>
         <div className="mb-4">
             <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="fullName">

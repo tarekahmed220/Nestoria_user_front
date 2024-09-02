@@ -19,7 +19,7 @@ import { MdShelves } from "react-icons/md";
 import { MdTableChart } from "react-icons/md";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { MdDinnerDining } from "react-icons/md";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiKitchenScale } from "react-icons/gi";
 import { LuIndianRupee } from "react-icons/lu";
 import Accordion from "@mui/material/Accordion";
@@ -30,12 +30,17 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
+import axios from "axios";
+import Loader from "../components/Loader";
 
 function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState("");
+  const [categoryName, setCategoryName] = useState("Home Decoration");
+  const [collectionList, setCollectionList] = useState([]);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -46,6 +51,12 @@ function Home() {
     "/images/home/3.jpg",
     "/images/home/2.jpg",
     "/images/home/1.jpg",
+  ];
+  const collectionName = [
+    "Home Decoration",
+    "Office Decoration",
+    "Indoor Decoration",
+    "Outdoor Decoration",
   ];
 
   const customerReviews = [
@@ -128,6 +139,29 @@ function Home() {
       img: "/images/home/storage furniture.jpg",
     },
   ];
+
+  useEffect(() => {
+    const fetchCollection = async () => {
+      setIsLoading(true);
+      const collection = axios(
+        "http://localhost:5000/api/v1/fur/products/homeproducts"
+      )
+        .then((response) => {
+          const filteredCollection = response.data[1].homeProducts.filter(
+            (collection) => {
+              return collection.category === categoryName;
+            }
+          );
+          setCollectionList(filteredCollection);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setIsLoading(false);
+    };
+    fetchCollection();
+  }, [categoryName]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -274,139 +308,66 @@ function Home() {
           </h2>
           <div className="collectionsName my-8 flex justify-center items-center px-3">
             <ul className="flex justify-center items-center gap-4 text-white">
-              <li className="border-b-[1px] cursor-pointer">Home Decoration</li>
-              <li>Office Decoration</li>
-              <li>Indoor Decoration</li>
-              <li>Outdoor Decoration</li>
+              {collectionName.map((collection) => {
+                return (
+                  <li
+                    className={`cursor-pointer  ${
+                      collection === categoryName ? "border-b-[1px]" : ""
+                    }`}
+                    key={collection}
+                    onClick={() => {
+                      setCategoryName(collection);
+                    }}
+                  >
+                    {collection}
+                  </li>
+                );
+              })}
             </ul>
           </div>
-          <div className="boxs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto px-3">
-            <div className="box">
-              <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
-                <Link to="/product-details">
-                  <div className="relative group">
-                    <img
-                      src="/images/home/shop-2-01.jpg"
-                      alt="collectionImg"
-                      className="rounded-lg"
-                    />
-                    <img
-                      src="/images/home/shop-2-02.jpg"
-                      alt="Product Hover"
-                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <div className="boxs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto px-3">
+              {collectionList.map((product) => {
+                return (
+                  <div className="box" key={product.id}>
+                    <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
+                      <Link to={`/product-details/${product.id}`}>
+                        <div className="relative group">
+                          <img
+                            src={product.images[0]}
+                            alt="collectionImg"
+                            className="rounded-lg"
+                          />
+                          <img
+                            src={product.images[1]}
+                            alt="Product Hover"
+                            className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                          />
+                        </div>
+                      </Link>
+                      <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
+                        ON SALE
+                      </span>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-[#e2e1e1d0] my-2">
+                        {product.category}
+                      </p>
+                      <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
+                        {product.name}
+                      </h2>
+                      <p className="flex justify-center items-center text-white my-2">
+                        <LuIndianRupee />
+                        {product.price} - <LuIndianRupee /> {product.price + 50}
+                      </p>
+                    </div>
                   </div>
-                </Link>
-                <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
-                  ON SALE
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
-                <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
-                  Modern Ceramic Lamp
-                </h2>
-                <p className="flex justify-center items-center text-white my-2">
-                  <LuIndianRupee />
-                  51.70 - <LuIndianRupee /> 58.50
-                </p>
-              </div>
+                );
+              })}
             </div>
-            <div className="box">
-              <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
-                <Link to="product-details">
-                  <div className="relative group">
-                    <img
-                      src="/images/home/shop-1-04.jpg"
-                      alt="collectionImg"
-                      className="rounded-lg"
-                    />
-                    <img
-                      src="/shop/shop-1-05.jpg"
-                      alt="Product Hover"
-                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
-                  </div>
-                </Link>
-                <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
-                  ON SALE
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
-                <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
-                  Soft Seater Chair
-                </h2>
-                <p className="flex justify-center items-center text-white my-2">
-                  <LuIndianRupee />
-                  108.95 - <LuIndianRupee /> 123.50
-                </p>
-              </div>
-            </div>
-            <div className="box">
-              <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
-                <Link>
-                  <div className="relative group">
-                    <img
-                      src="/images/home/shop-7-01.jpg"
-                      alt="collectionImg"
-                      className="rounded-lg"
-                    />
-                    <img
-                      src="/images/home/shop-7-04.jpg"
-                      alt="Product Hover"
-                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
-                  </div>
-                </Link>
-
-                <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
-                  ON SALE
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
-                <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
-                  Elegant Wooden Table
-                </h2>
-                <p className="flex justify-center items-center text-white my-2">
-                  <LuIndianRupee />
-                  88.20 - <LuIndianRupee /> 146.40
-                </p>
-              </div>
-            </div>
-            <div className="box">
-              <div className="imgContainer relative hover:cursor-pointer hover:scale-105 transition-all duration-200">
-                <Link>
-                  <div className="relative group">
-                    <img
-                      src="/images/home/shop-4-01.jpg"
-                      alt="collectionImg"
-                      className="rounded-lg"
-                    />
-                    <img
-                      src="/images/home/shop-4-02.jpg"
-                      alt="Product Hover"
-                      className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                    />
-                  </div>
-                </Link>
-                <span className="absolute top-3 right-2 text-white bg-[--mainColor] p-1 text-xs rounded">
-                  ON SALE
-                </span>
-              </div>
-              <div className="text-center">
-                <p className="text-[#e2e1e1d0] my-2">HOME DECORSTION</p>
-                <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
-                  Round Wood Table
-                </h2>
-                <p className="flex justify-center items-center text-white my-2">
-                  <LuIndianRupee />
-                  119.10 - <LuIndianRupee /> 123.75
-                </p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
       {/* Collection */}

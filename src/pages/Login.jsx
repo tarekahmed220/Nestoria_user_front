@@ -1,24 +1,23 @@
-
-
 // export default LoginForm;
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import userloginApi from "../apis/userloginApi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [user, setUser] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
 
   const [errors, setErrors] = useState({});
-  
+
   const [showPassword, setShowPassword] = useState(false);
-  const navigate =useNavigate()
-  
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\*\@\%\$\#]).{8,30}$/;
+  const navigate = useNavigate();
+
+  const passwordRegex =
+    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\*\@\%\$\#]).{8,30}$/;
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
   const handleChange = (e) => {
@@ -33,58 +32,60 @@ function Login() {
     let newErrors = {};
 
     if (!email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!emailRegex.test(email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = "Email is invalid";
     }
 
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = "Password is required";
     } else if (password.length < 8) {
-      newErrors.password = 'Password must be at least 8 characters';
-    }else if(!passwordRegex.test(password)){
-      newErrors.password = "invalid  ,Password must include upper, lower, digit, and special character from  @ # % $ ";
+      newErrors.password = "Password must be at least 8 characters";
+    } else if (!passwordRegex.test(password)) {
+      newErrors.password =
+        "invalid  ,Password must include upper, lower, digit, and special character from  @ # % $ ";
     }
-   
 
     return newErrors;
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validateForm();
     setErrors(validationErrors);
-    console.log('Form submitted:', user ,validationErrors);
-    if ( !validationErrors.email && !validationErrors.password) {
+    console.log("Form submitted:", user, validationErrors);
+    if (!validationErrors.email && !validationErrors.password) {
       // setIsSubmitted(true);
-      
-      console.log('Form submitted:', user);
-      try{
-                const { data: user2 } = await userloginApi.createUser(user)
-                    // .then((res)=>{console.log(res.data.msg)})
-                    
-                    console.log(user2);//res
-                    const token =user2.token
-                     localStorage.setItem("token",token)
-                     localStorage.setItem("role",user2.data.user.role)
-                    // console.log(mytoken);//res
-                    navigate('/'); // Assuming you want to navigate to home after successful signup
-                }
-                catch (error) {
-                    setErrors(error)
-                     if (error.response && error.response.status >= 400 && error.response.status < 500) {
-                      let err=error.response.data.message
-                    toast.error(err);
-                    // console.log(error.response.data.message)
-                    return errors
-                 }
-                }
-            }
-           
-       else {
-        
-      toast.error('email and password are required. Please fix the errors in the form.');
-      return errors
+
+      console.log("Form submitted:", user);
+      try {
+        const { data: user2 } = await userloginApi.createUser(user);
+        // .then((res)=>{console.log(res.data.msg)})
+
+        console.log(user2); //res
+        const token = user2.token;
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", user2.data.user.role);
+        // console.log(mytoken);//res
+        navigate("/"); // Assuming you want to navigate to home after successful signup
+      } catch (error) {
+        setErrors(error);
+        if (
+          error.response &&
+          error.response.status >= 400 &&
+          error.response.status < 500
+        ) {
+          let err = error.response.data.message;
+          toast.error(err);
+          // console.log(error.response.data.message)
+          return errors;
+        }
+      }
+    } else {
+      toast.error(
+        "email and password are required. Please fix the errors in the form."
+      );
+      return errors;
     }
   };
 
@@ -92,15 +93,20 @@ function Login() {
     // <div className="min-h-screen flex items-center justify-center bg-gray-100">
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
       <div className="bg-black p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-white text-3xl font-bold mb-6 text-center">Log In</h2>
+        <h2 className="text-white text-3xl font-bold mb-6 text-center">
+          Log In
+        </h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="email">
+            <label
+              className="block text-gray-400 text-sm font-medium mb-2"
+              htmlFor="email"
+            >
               Email Address
             </label>
             <input
               className={`w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                errors.email ? 'focus:ring-red-500' : 'focus:ring-orange-500'
+                errors.email ? "focus:ring-red-500" : "focus:ring-orange-500"
               }`}
               id="email"
               name="email"
@@ -114,17 +120,22 @@ function Login() {
             )}
           </div>
           <div className="mb-6">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="password">
+            <label
+              className="block text-gray-400 text-sm font-medium mb-2"
+              htmlFor="password"
+            >
               Password
             </label>
             <div className="relative">
               <input
                 className={`w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                  errors.password ? 'focus:ring-red-500' : 'focus:ring-orange-500'
+                  errors.password
+                    ? "focus:ring-red-500"
+                    : "focus:ring-orange-500"
                 }`}
                 id="password"
                 name="password"
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 value={user.password}
                 onChange={handleChange}
                 placeholder="*"
@@ -134,7 +145,7 @@ function Login() {
                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? '🙈' : '👁️'}
+                {showPassword ? "🙈" : "👁️"}
               </button>
             </div>
             {errors.password && (
@@ -145,23 +156,22 @@ function Login() {
             <button
               className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
               type="submit"
-              
             >
               Log In
             </button>
           </div>
           <div className="text-center mt-6">
-            <a
+            <Link
               className="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-600"
-              href="#"
+              to="/forgotpassword"
             >
               Lost your password?
-            </a>
+            </Link>
           </div>
         </form>
-     
-      <ToastContainer />
-    </div>
+
+        <ToastContainer />
+      </div>
     </div>
   );
 }

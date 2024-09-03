@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList, faCommentSms, faEnvelopeOpenText, faStore } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 function ContactUs() {
   return (
@@ -9,9 +10,9 @@ function ContactUs() {
         <div className="m-auto w-fit">
           <h3 className="text-5xl text-white">Contact Us</h3>
           <div className="text-center my-4">
-            <a href="">
+            <Link href="">
               <span className="text-white hover:text-orange-500 duration-500">Home</span>
-            </a>
+            </Link>
             <span className="text-[#A5A5A5]"> / </span>
             <span className="text-[#A5A5A5]">Contact US</span>
           </div>

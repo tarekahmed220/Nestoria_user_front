@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
+import WishList from "./pages/WishList";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
           <Route path="product-details" element={<ProductDetails />} />
           <Route path="contactus" element={<ContactUs />} />
           <Route path="aboutus" element={<AboutUs />} />
+          <Route path="wishlist" element={<WishList />} />
+
           
 
         </Route>

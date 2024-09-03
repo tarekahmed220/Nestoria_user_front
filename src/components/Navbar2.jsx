@@ -38,6 +38,7 @@ function Navbar2() {
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
             <Link to="/register">REGISTER</Link>
           </li>
+
         </ul>
         <div className="flex gap-2 sm:gap-4 lg:gap-5">
           <FontAwesomeIcon

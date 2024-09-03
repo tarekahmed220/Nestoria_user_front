@@ -9,6 +9,15 @@ import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 
+import WishList from "./pages/WishList";
+
+import Cart from "./pages/Cart";
+
+
+import ConfirmEmail from "./pages/ConfirmEmail";
+
+import Shop from "./pages/shop";
+
 function App() {
   return (
     <Router>
@@ -16,12 +25,20 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="product-details" element={<ProductDetails />} />
+          <Route path="shop" element={<Shop />} />
           <Route path="contactus" element={<ContactUs />} />
           <Route path="aboutus" element={<AboutUs />} />
+          <Route path="wishlist" element={<WishList />} />
+
           
+
+
+          <Route path="cart" element={<Cart />} />
+
 
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/confirmemail" element={<ConfirmEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotfountPage />} />
 

@@ -13,9 +13,11 @@ import {
 
 function AboutUs() {
   return (
+
     <div>
       {/* Section one*/}
       <div className="relative text-center">
+
         <img
           src="/images/about/home-hotspot-img-1.jpg"
           alt="Background"
@@ -340,8 +342,10 @@ function AboutUs() {
           </div>
         </div>
       </section>
+
     </div>
   );
+
 }
 
 export default AboutUs;

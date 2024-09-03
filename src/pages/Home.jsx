@@ -266,7 +266,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
       {/* section two */}
       {/* section three */}
       <div className={`${styles.sectionThree} bg-black relative`}>

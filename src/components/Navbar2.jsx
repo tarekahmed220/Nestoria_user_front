@@ -4,9 +4,12 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import SearchContainer from "./searchContainer";
 
 function Navbar2() {
+  const [showSearch, setShowSearch] = useState(false);
   return (
     <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50">
       <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
@@ -38,17 +41,18 @@ function Navbar2() {
         </ul>
         <div className="flex gap-2 sm:gap-4 lg:gap-5">
           <FontAwesomeIcon
-            className="text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-150"
+            className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
             icon={faMagnifyingGlass}
           />
           <FontAwesomeIcon
-            className="text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-150"
+            className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
             icon={faCartPlus}
           />
           <FontAwesomeIcon
-            className="text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-150"
+            className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
             icon={faCaretDown}
           />
+          {showSearch && <SearchContainer />}
         </div>
       </div>
     </div>

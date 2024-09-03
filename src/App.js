@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
+import ConfirmEmail from "./pages/ConfirmEmail";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
 
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/confirmemail" element={<ConfirmEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotfountPage />} />
 

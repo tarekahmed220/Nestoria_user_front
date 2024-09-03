@@ -24,10 +24,10 @@ function Navbar2() {
             <Link to="">PAGES</Link>
           </li>
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link href="">SHOP</Link>
+            <Link to="/shop">SHOP</Link>
           </li>
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link href="">COLLECTION</Link>
+            <Link to="/wishlist">WISHLIST</Link>
           </li>
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
             <Link to="/aboutus">ABOUT US</Link>
@@ -38,7 +38,6 @@ function Navbar2() {
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
             <Link to="/register">REGISTER</Link>
           </li>
-
         </ul>
         <div className="flex gap-2 sm:gap-4 lg:gap-5">
           <FontAwesomeIcon

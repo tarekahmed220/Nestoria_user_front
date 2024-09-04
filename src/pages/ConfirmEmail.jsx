@@ -2,8 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import userloginApi from "../apis/userloginApi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import axios from 'axios';
 
 function ConfirmEmail() {
@@ -42,16 +41,16 @@ function ConfirmEmail() {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-800">
       <div className="bg-black p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-white text-3xl font-bold mb-6 text-center">Confirm Email</h2>
+        <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']">Confirm Email</h2>
         <form onSubmit={handleSubmit}>
         <p className="text-red-500 text-md mt-2">{serverErr}</p>
           <div className="mb-4">
             <p className="inline-block align-baseline font-bold text-sm text-gray-100 ">  when you enter confirm  you'll have an account with us </p>
           </div>
         
-          <div className="flex items-center justify-center">
-            <button
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
+          <div className="flex items-center justify-center rounded-full border border-solid border-[#EA580C]"  >
+          <button
+              className="w-full bg-black  hover:bg-orange-600 hover:text-white text-orange-500 font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
               type="submit"
             >
               Confirm
@@ -59,7 +58,7 @@ function ConfirmEmail() {
           </div>
          
         </form>
-        <ToastContainer />
+        
       </div>
     </div>
   );

@@ -9,7 +9,8 @@ import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 import ConfirmEmail from "./pages/ConfirmEmail";
-
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 function App() {
   return (
     <Router>
@@ -23,6 +24,8 @@ function App() {
 
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/confirmemail" element={<ConfirmEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotfountPage />} />

@@ -1,10 +1,9 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import userApi from '../apis/userApi';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import InputField from "../components/Input";
+import { FaRegEyeSlash } from "react-icons/fa";
 function Register() {
   const [user, setUser] = useState({
     fullName: '',
@@ -66,7 +65,7 @@ function Register() {
         if (!value) {
           error = 'Password is required';
         } else if (!passwordRegex.test(value)) {
-          error = 'Password must include upper, lower, digit, and special character from @ # % $';
+          error = 'use upper, lower, digit, and special char from @ # % $';
         }
         break;
       case 'passwordConfirm':
@@ -124,7 +123,7 @@ console.log('Form submitted:', user, newErrors);
           // console.log(error.response.data.message);
         } else {
           console.log(error);
-          toast.error('Something went wrong. Please try again later.');
+          setServerErr('Something went wrong. Please try again later.');
          
         }
       }
@@ -134,60 +133,59 @@ console.log('Form submitted:', user, newErrors);
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-800 py-5">
-      <div className="bg-black p-8 rounded-xl shadow-xl w-full max-w-md">
-        <h2 className="text-white text-3xl font-bold mb-6 text-center">Register</h2>
-        <form onSubmit={handleSubmit}>
+    
+       <div className="flex justify-center items-center min-h-screen bg-[#171716] py-7">
+
+      <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-md">
+        <h2 className="text-white text-3xl font-200 mb-6 text-center font-[serif]">Register Form</h2>
+        {/* <p className='text-gray-400 text-sm text-center my-2'>Do not have an account?</p> */}
+        <form onSubmit={handleSubmit} >
         <span className="text-green-500 text-sm mt-2">{success} </span>
-          <div className="mb-4">
-            <label className="block text-gray-400 text-sm font-medium mb-2 mx-2" htmlFor="fullName">
-              Full Name
-            </label>
+        <div className='h-[40px] mb-[40px]'>
+          <div className="mb-2 inputDiv  py-1">
             <input
-              className={`w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                errors.fullName ? 'focus:ring-red-500' : 'focus:ring-orange-500'
+              className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                errors.fullName ? 'focus:ring-red-500 border-red-500 ' : 'focus:ring-orange-500 border-orange-500'
               }`}
               id="fullName"
               name="fullName"
               type="text"
+              style={{ border: '1px solid #A5A5A5' }}
               value={user.fullName}
               onChange={(e) => setUser({ ...user, fullName: e.target.value })}
               onBlur={handleBlur}
-              placeholder="Full name"
+              placeholder="Full name*"
             />
-            {errors.fullName && <p className="text-red-500 text-sm mt-2">{errors.fullName}</p>}
           </div>
-          <div className='container mx-auto flex justify-start items-end'>
+           {errors.fullName ? <span className="text-red-500 text-sm " style={{ display: 'block',margin:'-5px'}}>{errors.fullName}</span>:<span className="text-red-500 text-sm " style={{ display: 'none'}}>{errors.fullName}</span>}
+          </div>
+       
             
-          <div className="mb-4 mx-auto">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="email">
-              Email
-            </label>
-            <input
-              className={`w-full  py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                errors.email ? 'focus:ring-red-500' : 'focus:ring-orange-500'
-              }`}
-              id="email"
-              name="email"
-              type="email"
-              value={user.email}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
-              onBlur={handleBlur}
-              placeholder="Email*"
-            />
-            {errors.email && <p className="text-red-500 text-md mt-2">{errors.email}</p>}
-          </div>
-         
-          <div className="mb-4 mx-auto">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="role">
-              Role
-            </label>
+          <div className='h-[40px] mb-[40px]'>
+          <InputField
+                id="email"
+                name="email"
+                type="email"
+                value={user.email}
+                placeholder="please Enter your Email*"
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                onBlur={handleBlur}
+                error={errors.email}
+                />
+           </div>
+           <div className='h-[40px] mb-[40px]'>
+
+          <div className="mb-2 py-1">
+           
             <select
               name="role"
               value={user.role}
               onChange={(e) => setUser({ ...user, role: e.target.value })}
               onBlur={handleBlur}
-              className="w-full p-3 rounded-full bg-gray-700 text-white focus:ring-2 focus:ring-orange-500"
+              style={{ border: '1px solid #A5A5A5' }}
+              className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                errors.fullName ? 'focus:ring-red-500 border-red-500 ' : 'focus:ring-orange-500 border-orange-500'
+              }`}
             >
               <option value="" disabled>
                  Role*
@@ -195,40 +193,39 @@ console.log('Form submitted:', user, newErrors);
               <option value="client">Client</option>
               <option value="workshop">Workshop</option>
             </select>
-            {errors.role && <p className="text-red-500 text-md mt-2">{errors.role}</p>}
+
           </div>
+          {errors.role ? <span className="text-red-500 text-sm " style={{ display: 'block',margin:'-5px'}}>{errors.role}</span>:<span className="text-red-500 text-sm " style={{ display: 'none'}}>{errors.role}</span>}
+
           </div>
-          <div className='container mx-auto flex '>
-          <div className="mb-4 mx-auto">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="phone">
-              Phone*
-            </label>
-            <input
-              className={`w-full  py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                errors.phone ? 'focus:ring-red-500' : 'focus:ring-orange-500'
-              }`}
-              id="phone"
-              name="phone"
-              type="text"
-              value={user.phone}
-              onChange={(e) => setUser({ ...user, phone: e.target.value })}
-              onBlur={handleBlur}
-              placeholder="phone number"
-            />
-            {errors.phone && <p className="text-red-500 text-md mt-2">{errors.phone}</p>}
-          </div>
-          <div className="mb-4 mx-auto">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="address">
-              Address
-            </label>
+          <div className='container mx-auto flex gap-8'>
+          <div className='h-[40px] mb-[40px]'>
+          <InputField
+                id="phone"
+                name="phone"
+                type="text"
+                value={user.phone}
+                placeholder="phone*"
+                onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                onBlur={handleBlur}
+                error={errors.phone}
+                />
+           </div>
+          
+           <div className='h-[40px] mb-[40px]'>
+
+           <div className="mb-2 py-1">
+           
             <select
               name="address"
               value={user.address}
               onChange={(e) => setUser({ ...user, address: e.target.value })}
               onBlur={handleBlur}
-              className="w-full p-3 rounded-full bg-gray-700 text-white focus:ring-2 focus:ring-orange-500"
-            >
-              <option value="" disabled>
+              style={{ border: '1px solid #A5A5A5' }}
+              className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                errors.address ? 'focus:ring-red-500 border-red-500 ' : 'focus:ring-orange-500 border-orange-500'
+              }`}            >
+              <option value="" disabled >
                  Address*
               </option>
               <option value="England">England</option>
@@ -237,47 +234,48 @@ console.log('Form submitted:', user, newErrors);
               <option value="Canada">Canada</option>
               <option value="Australia">Australia</option>
             </select>
-            {errors.address && <p className="text-red-500 text-sm mt-2">{errors.address}</p>}
-          </div>
-
+            </div>
+            {errors.address ? <span className="text-red-500 text-sm " style={{ display: 'block',margin:'-5px'}}>{errors.address}</span>:<span className="text-red-500 text-sm " style={{ display: 'none'}}>{errors.address}</span>}
+      
            </div>
+          </div>
+          <div className='h-[40px] mb-[40px]'>
           <div className="mb-6">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="password">
-              Password
-            </label>
+          
             <div className="relative">
               <input
-                className={`w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                  errors.password ? 'focus:ring-red-500' : 'focus:ring-orange-500'
-                }`}
+                style={{ border: '1px solid #A5A5A5' }}
+                className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                  errors.password ? 'focus:ring-red-500 border-red-500 ' : 'focus:ring-orange-500 border-orange-500'
+                }`} 
                 id="password"
                 name="password"
                 type={showPassword ? 'text' : 'password'}
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
                 onBlur={handleBlur}
-                placeholder=" password"
+                placeholder="Enter your password*"
               />
               <button
                 type="button"
                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? '🙈' : '👁️'}
+                {showPassword ? <FaRegEyeSlash/> : '👁️'}
               </button>
             </div>
-            {errors.password && <p className="text-red-500 text-md mt-2">{errors.password}</p>}
+            {errors.password && <p className="text-red-500 text-sm mt-2">{errors.password}</p>}
           </div>
-
+          </div>
+          <div className='h-[40px] mb-[40px]'>
           <div className="mb-6">
-            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="passwordConfirm">
-              Confirm Password
-            </label>
+           
             <div className="relative">
               <input
-                className={`w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:outline-none focus:ring-2 ${
-                  errors.passwordConfirm ? 'focus:ring-red-500' : 'focus:ring-orange-500'
-                }`}
+                style={{ border: '1px solid #A5A5A5' }}
+                className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                  errors.passwordConfirm ? 'focus:ring-red-500 border-red-500 ' : 'focus:ring-orange-500 border-orange-500'
+                }`} 
                 id="passwordConfirm"
                 name="passwordConfirm"
                 type={showPassword ? 'text' : 'password'}
@@ -291,12 +289,12 @@ console.log('Form submitted:', user, newErrors);
                 className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? '🙈' : '👁️'}
+                {showPassword ? <FaRegEyeSlash/> : '👁️'}
               </button>
             </div>
-            {errors.passwordConfirm && <p className="text-red-500 text-md mt-2">{errors.passwordConfirm}</p>}
+            {errors.passwordConfirm && <p className="text-red-500 text-sm mt-2">{errors.passwordConfirm}</p>}
           </div>
-
+          </div>
 <p className="text-red-500 text-md mt-2 text-center">{serverErr}</p>
           <div className="flex items-center justify-center">
             <button
@@ -309,15 +307,15 @@ console.log('Form submitted:', user, newErrors);
 
           <div className="text-center mt-6">
         <span   className="inline-block align-baseline font-bold text-sm text-gray-100 "> Already have an account ? </span> 
-            <a
+            <Link
               className="inline-block align-baseline font-bold text-md text-orange-500 hover:text-orange-700"
-              href="/login"
+              to="/login"
             >
             Login
-            </a>
+            </Link>
           </div>
         </form>
-        <ToastContainer />
+        
       </div>
     </div>
   );

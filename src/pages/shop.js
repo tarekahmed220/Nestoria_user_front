@@ -19,15 +19,16 @@ const Shop = () => {
   useEffect(() => {
     // جلب المنتجات
     axios
-      .get("http://localhost:5000/api/v1/fur/products")
+      .get("http://localhost:5000/api/v1/fur/products?page=1&limit=10")
       .then((res) => {
-        setProducts(res.data[1].products);
+        setProducts(res.data.data);
+
         // إضافة خيار "All" إلى قائمة التصنيفات
         setCategories([
           "All",
-          ...new Set(res.data[1].products.map((p) => p.category)),
+          ...new Set(res.data.data.map((p) => p.category)),
         ]);
-        setMaxPrice(Math.max(...res.data[1].products.map((p) => p.price))); // تعيين أقصى سعر
+        setMaxPrice(Math.max(...res.data.data.map((p) => p.price))); // تعيين أقصى سعر
       })
       .catch((err) => {
         console.log(err);
@@ -48,7 +49,7 @@ const Shop = () => {
   );
 
   const handleProductClick = (id) => {
-    navigate(`/details/${id}`);
+    navigate(`/product-details/${id}`);
   };
 
   return (
@@ -72,7 +73,7 @@ const Shop = () => {
             ))}
           </ul>
 
-          <div className="mt-6">
+          <div className="mt-8">
             <h2 className="text-white mb-4">Filter By Price</h2>
             <input
               type="range"

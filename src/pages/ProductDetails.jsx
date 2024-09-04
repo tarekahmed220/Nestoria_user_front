@@ -12,19 +12,18 @@ import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
 
-
 function ProductDetails() {
   const params = useParams();
-  console.log(params.id);
   const [product, setproduct] = useState({});
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
+        console.log("ssss", res.data.data.product["Workshop-Name"]);
         setproduct(res.data.data.product);
         console.log("ssss", res.data.data.product);
-        console.log("aaaaaa", res.data.data.product.images[0]);
+   
       })
       .catch((err) => {
         console.log(err);
@@ -49,11 +48,9 @@ function ProductDetails() {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
-
 
   const [activeTab, setActiveTab] = useState("description");
 
@@ -62,7 +59,7 @@ function ProductDetails() {
   };
 
   return (
-    <div className="bg-[#030303] text-white p-8">
+    <div className="bg-[#030303] text-white mt-6 p-8">
       {/*  section 1111111111111 */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -122,6 +119,9 @@ function ProductDetails() {
           <p className="text-gray-400 mb-4">{product.description}</p>
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
+          <div className="text-xl font-semibold mb-4">
+            {product["Workshop-Name"]} 
+          </div>
 
           {/* قسم الألوان */}
           <div className="mb-4">
@@ -492,6 +492,6 @@ function ProductDetails() {
       </div>
     </div>
   );
-};
+}
 
 export default ProductDetails;

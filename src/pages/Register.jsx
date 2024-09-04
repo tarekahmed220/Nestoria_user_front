@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import userApi from '../apis/userApi';
@@ -21,7 +20,7 @@ function Register() {
   const [serverErr, setServerErr] = useState('');
   const [success, setSuccess] = useState('');
 
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%*]).{8,30}$/;
+  const passwordRegex = /^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.[@#$%*]).{8,30}$/;
   const regexName = /^[a-zA-Z][a-zA-Z ]{2,30}$/;
   const regexPhone = /^01[0125][0-9]{8}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;

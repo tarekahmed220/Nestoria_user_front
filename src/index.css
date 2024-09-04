@@ -5,7 +5,11 @@
 :root {
   --mainColor: #c96b14;
 }
-
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -13,7 +17,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
 }
 
 code {
@@ -57,4 +60,15 @@ code {
 }
 .MuiSvgIcon-root {
   color: white;
+}
+
+.swiper-slide-custom {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2s ease-in-out, visibility 1s ease-in-out;
+}
+
+.swiper-slide-active.swiper-slide-custom {
+  opacity: 1;
+  visibility: visible;
 }

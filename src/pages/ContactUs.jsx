@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClipboardList, faCommentSms, faEnvelopeOpenText, faStore } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 function ContactUs() {
   return (
@@ -9,9 +10,9 @@ function ContactUs() {
         <div className="m-auto w-fit">
           <h3 className="text-5xl text-white">Contact Us</h3>
           <div className="text-center my-4">
-            <a href="">
+            <Link href="">
               <span className="text-white hover:text-orange-500 duration-500">Home</span>
-            </a>
+            </Link>
             <span className="text-[#A5A5A5]"> / </span>
             <span className="text-[#A5A5A5]">Contact US</span>
           </div>
@@ -19,18 +20,18 @@ function ContactUs() {
       </section>
 
       {/* section drop up */}
-      <section className="bg-black text-center py-20">
-        <div className="w-1/2 m-auto px-11">
+      <section className="bg-black text-center py-20 px-6 md:px-10">
+        <div className="lg:w-1/2 m-auto px-11">
           <p className="text-[#C5660E]">DROP US A LINE</p>
-          <h2 className="text-white text-6xl my-6">Round-the-clock Service</h2>
-          <p className="text-[#9C9C9C] text-[15px] font-bold">
+          <h2 className="text-white text-4xl md:text-6xl my-6">Round-the-clock Service</h2>
+          <p className="text-[#9C9C9C] text-[17px] md:text-[15px] font-bold">
             Sed id semper risus in hendrerit gravida rutrum quisque. Vitae proin
             sagittis nisl Vel elit scelerisque mauris rhoncus mattis rhoncus
             urna.
           </p>
         </div>
 
-        <div className="bg-[#101010] my-14 p-14 rounded-3xl w-2/3 mx-auto shadow-lg">
+        <div className="bg-[#101010] my-14 p-14 rounded-3xl w-full lg:w-2/3 mx-auto shadow-lg">
           <form>
             {/* Name and Mobile Number */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -79,7 +80,7 @@ function ContactUs() {
 
       {/* section contact links */}
       <section className="bg-[#161615] py-16 px-10">
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
           <div className="content flex items-center gap-5">
             <div>
               <FontAwesomeIcon className="text-orange-500 text-7xl" icon={faClipboardList} />

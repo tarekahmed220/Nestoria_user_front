@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import userloginApi from "../apis/userloginApi";
@@ -17,7 +16,7 @@ function Login() {
   const navigate = useNavigate();
   const [serverErr, setServerErr] = useState("");
   const [success, setSuccess] = useState('');
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%*]).{8,30}$/;
+  const passwordRegex = /^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.[@#$%*]).{8,30}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
 
   const validateField = (name, value) => {

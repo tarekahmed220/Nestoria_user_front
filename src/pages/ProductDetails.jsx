@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import {
   FaCheck,
   FaStar,
@@ -7,33 +8,49 @@ import {
   FaArrowsAltH,
   FaExpand,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { GiCheckMark } from "react-icons/gi";
+import { useParams } from "react-router-dom";
 
 function ProductDetails() {
-  // هنا عشان اخذن اللون يا برووو
+  const params = useParams();
+  const [product, setproduct] = useState({});
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
+      .then((res) => {
+        console.log("ssss", res.data.data.product["Workshop-Name"]);
+        setproduct(res.data.data.product);
+        console.log("ssss", res.data.data.product);
+   
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [params.id]);
+
+  // الحالة لتتبع اللون المحدد
   const [selectedColor, setSelectedColor] = useState(null);
-  // هنا عشان اخذن الكميه يا برووو
+  // الحالة لتتبع الكمية
   const [quantity, setQuantity] = useState(1);
 
-  // array بتاع الالوان
+  // الألوان المتاحة
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
 
-  // الداله الخاصه بتغير اللون يا صحبب
+  // التعامل مع اختيار اللون
   const handleColorSelect = (index) => {
     setSelectedColor(index);
   };
 
-  //  يستاااااااا  الداله الخاصه بزياده الكميه
+  // التعامل مع زيادة الكمية
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-   // الداله الخاصه بتقليل الكميه
-
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
-
-  // ده بتاع الزراير الى لما ادوس عليها يظهر الجزء الخاص بيها يعنى منابو اخر تانى سيكشن 
 
   const [activeTab, setActiveTab] = useState("description");
 
@@ -42,57 +59,71 @@ function ProductDetails() {
   };
 
   return (
-    <div className="bg-[#030303] text-white p-8">
+    <div className="bg-[#030303] text-white mt-6 p-8">
       {/*  section 1111111111111 */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* الصور الجانبية */}
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:h-full">
-          <div className="flex flex-col space-y-4 h-full">
-            <img
-              src="/table/shop-4-01.jpg"
-              alt="Table"
-              className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
-            />
-            <img
-              src="/table/shop-4-02.jpg"
-              alt="Table"
-              className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
-            />
-          </div>
-          <div className="flex flex-col space-y-4 h-full">
-            <img
-              src="/table/shop-4-03.jpg"
-              alt="Table"
-              className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
-            />
-            <img
-              src="/table/shop-4-04.jpg"
-              alt="Table"
-              className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
-            />
-          </div>
+          {product.images && product.images.length > 0 ? (
+            <>
+              <div className="flex flex-col space-y-4 h-full">
+                <img
+                  src={`${product.images[0]}`}
+                  alt="Table"
+                  className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
+                />
+                <img
+                  src={`${product.images[1]}`}
+                  alt="Table"
+                  className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
+                />
+              </div>
+              <div className="flex flex-col space-y-4 h-full">
+                <img
+                  src={`${product.images[1]}`}
+                  alt="Table"
+                  className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
+                />
+                <img
+                  src={`${product.images[0]}`}
+                  alt="Table"
+                  className="w-full h-[50%] lg:h-[40%] object-cover rounded-lg"
+                />
+              </div>
+            </>
+          ) : (
+            <p>No images available</p>
+          )}
         </div>
 
         {/* قسم التفاصيل */}
         <div>
-          <h2 className="text-3xl font-bold mb-4">Round Wood Table</h2>
+          <h2 className="text-3xl font-bold mb-4">{product.name}</h2>
           <div className="flex items-center mb-2">
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <span className="ml-2">(1 customer review)</span>
+            {[...Array(5)].map((_, index) => (
+              <FaStar
+                key={index}
+                className={`${
+                  index < (product.rating || 0)
+                    ? "text-yellow-500"
+                    : "text-gray-300"
+                }`}
+              />
+            ))}
+            <span className="ml-2">
+              ({product.reviewCount} customer reviews)
+            </span>
           </div>
 
-          <p className="text-gray-400 mb-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi,
-            autem.
-          </p>
+          <p className="text-gray-400 mb-4">{product.description}</p>
 
-          <div className="text-xl font-semibold mb-4">₹ 119.10 - ₹ 123.75</div>
-          {/* قسم الالوان */}
+          <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
+          <div className="text-xl font-semibold mb-4">
+            {product["Workshop-Name"]} 
+          </div>
+
+          {/* قسم الألوان */}
           <div className="mb-4">
             <span className="mr-2">Colors:</span>
             <div className="flex space-x-2 my-4">
@@ -131,7 +162,7 @@ function ProductDetails() {
             </div>
 
             {/* زر إضافة إلى السلة */}
-            <button className="bg-inherit rounded-md border  border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
+            <button className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
               <FaShoppingCart className="mr-2" /> Add to Cart
             </button>
           </div>
@@ -217,37 +248,44 @@ function ProductDetails() {
                   </p>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Dignissim convallis aenean et tortor at risus viverra.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Euisimod in pellentesque massa amnrita placerat.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Suspendisse in est ante sitra aretnarin nibh mauris.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Tincidunt vitae semper quis lectus nulla at diam.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Neque convallis a cras semper auctor neque.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Scelerisque felis imperdiet proin fermentum.
                     </li>
                   </ul>
                 </div>
+
                 <div className="md:w-full w-full mt-4 md:mt-0">
-                  <img
-                    src="Product-detail-Image.jpg"
-                    alt="Wooden Table"
-                    className="rounded-lg shadow-lg w-full"
-                  />
+                  {product.images && product.images.length > 0 ? (
+                    <>
+                      <img
+                        src={`${product.images[0]}`}
+                        alt="Wooden Table"
+                        className="rounded-lg shadow-lg w-full"
+                      />
+                    </>
+                  ) : (
+                    <p>No images available</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -356,9 +394,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -386,9 +424,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -416,9 +454,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -446,9 +484,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
       </div>

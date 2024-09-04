@@ -1,13 +1,14 @@
+
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import userloginApi from "../apis/userloginApi";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FaRegEyeSlash } from "react-icons/fa";
-import InputField from '../components/Input';
-function Login() {
+
+import axios from 'axios';
+function ResetPassword() {
   const [user, setUser] = useState({
-    email: '',
     password: '',
   });
 
@@ -15,21 +16,14 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [serverErr, setServerErr] = useState("");
-  const [success, setSuccess] = useState('');
-  const passwordRegex = /^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.[@#$%*]).{8,30}$/;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+//  const token =useParams().token
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%*]).{8,30}$/;
+ 
 
   const validateField = (name, value) => {
     let error = '';
     switch (name) {
-      case 'email':
-        if (!value) {
-          error = 'Email is required';
-        } else if (!emailRegex.test(value)) {
-          error = 'Email is invalid';
-        }
-        break;
-        
+     
       case 'password':
         if (!value) {
           error = 'Password is required';
@@ -74,15 +68,14 @@ function Login() {
 console.log('Form submitted:', user, newErrors);
     if (Object.keys(newErrors).length === 0) {
       try {
-        const { data: user2 } = await userloginApi.createUser(user);
-        const token = user2?.token;
-        localStorage.setItem("token", token);
-        localStorage.setItem("role", user2?.data?.user?.role);
-        navigate('/');
+       let token = localStorage.getItem("token");
+        const { data: user2 } = await axios.patch(`http://localhost:5000/api/v1/fur/auth/resetpassword/${token}`, user);
+      
+        navigate('/login');
       } catch (error) {
         if (error.response && error.response.status >= 400 && error.response.status < 500) {
-          if(error.response.status===401)
-        {setSuccess('Check your email to verify your account.');}
+          
+        
           setServerErr(error.response.data.message);
           // toast.error(serverErr);
           
@@ -99,27 +92,12 @@ console.log('Form submitted:', user, newErrors);
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#171716]">
       <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-xl mx-auto">
-        <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']">Log In</h2>
+        <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']"> Reset Password</h2>
         <form onSubmit={handleSubmit}>
         <p className="text-red-500 text-md mt-2">{serverErr}</p>
-        <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="email">
-             User Email 
-            </label>
-        <div className='h-[40px] mb-[40px] w-full'>
-        
-          <InputField
-                id="email"
-                name="email"
-                type="email"
-                value={user.email}
-                placeholder="please Enter your Email*"
-                onChange={(e) => setUser({ ...user, email: e.target.value })}
-                onBlur={handleBlur}
-                error={errors.email}
-                />
-           </div>
+     
            <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="email">
-             Password
+             Reset Password
             </label>
            <div className='h-[40px] mb-[40px] w-full'>
           <div className="mb-6">
@@ -136,7 +114,7 @@ console.log('Form submitted:', user, newErrors);
                 value={user.password}
                 onChange={(e) => setUser({ ...user, password: e.target.value })}
                 onBlur={handleBlur}
-                placeholder="Enter your password*"
+                placeholder="Enter your new password*"
               />
               <button
                 type="button"
@@ -155,22 +133,15 @@ console.log('Form submitted:', user, newErrors);
               className="w-full bg-black  hover:bg-orange-600 hover:text-white text-orange-500 font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
               type="submit"
             >
-              Log In
+              Reset Password
             </button>
           </div>
-          <div className="text-center mt-6">
-            <Link
-              className="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-600"
-              to="/forgotpassword"
-            >
-              Forgot your password?
-            </Link>
-          </div>
+        
         </form>
-      
+        
       </div>
     </div>
   );
 }
 
-export default Login;
+export default ResetPassword;

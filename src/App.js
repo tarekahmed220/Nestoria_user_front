@@ -16,7 +16,12 @@ import Cart from "./pages/Cart";
 
 import ConfirmEmail from "./pages/ConfirmEmail";
 
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+
+
 import Shop from "./pages/shop";
+
 
 function App() {
   return (
@@ -38,6 +43,8 @@ function App() {
 
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/resetpassword" element={<ResetPassword />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/confirmemail" element={<ConfirmEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotfountPage />} />

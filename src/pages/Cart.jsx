@@ -1,15 +1,32 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../apis/axiosConfig.js";
 
 function Cart() {
-  const price = 500;
+  const [price, setPrice] = useState(0);
   let [quantity, setQuantity] = useState(1);
   let [subTotal, setSubTotal] = useState(price);
   let [coupon, setCoupon] = useState();
   let [total, setTotal] = useState(price);
-  let [isProduct, setIsProducts] = useState(true);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/getCartPrducts");
+        setProducts(response.data);
+        console.log(products);
+        // setQuantity(products[0].quantity);
+        // console.log(quantity);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleQuantity = (e) => {
     if (e.target.id === "decrease") {
@@ -39,6 +56,28 @@ function Cart() {
     }
   };
 
+  const handleRemoveProduct = async (productId) => {
+    console.log(productId);
+    try {
+      const removeProduct = await axiosInstance.delete(
+        `/removeFromCart/${productId}`
+      );
+
+      if (removeProduct) {
+        console.log("done");
+        setProducts(
+          products.filter((product) => product.productId._id !== productId)
+        );
+        console.log("removed Product");
+        console.log(products);
+      } else {
+        console.log("Failed to remove the product");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div>
       {/* section header */}
@@ -58,9 +97,8 @@ function Cart() {
       </section>
 
       <section className="bg-[#161615] py-16 px-10">
-
         {/* section products empty */}
-        <div className={`${isProduct && "hidden"}`}>
+        <div className={`${products && "hidden"}`}>
           <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
             <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
             <div className="p-6 text-white font-bold">
@@ -73,7 +111,7 @@ function Cart() {
         </div>
 
         {/* section products cart */}
-        <div className={`${!isProduct && "hidden"}`}>
+        <div className={`${!products && "hidden"}`}>
           <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
             <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
             <div className="p-6 text-white font-bold">
@@ -96,49 +134,66 @@ function Cart() {
               <li className="col-span-2">SubTotal</li>
             </ul>
             <span className="my-6 bg-[#393938] w-full h-[2px] hidden md:block"></span>
-            <ul className="md:relative px-7 grid grid-cols-10 items-center">
-              <li className="col-span-full md:col-span-4 flex flex-col md:flex-row items-center gap-0 md:gap-6">
-                <figure className="relative md:static w-full md:w-24">
-                  <img
-                    className="w-full rounded-lg"
-                    src="/images/home/Instagram-02.jpg"
-                    alt=""
-                  />
-                  <li className="absolute text-center w-[26px] h-[26px] rounded-[50%] bg-[#C26510] hover:bg-[#9F2124] duration-500 top-5 right-5 md:top-1/2 md:-translate-y-1/2 md:right-12 text-white"><FontAwesomeIcon icon={faX} /> </li>
-                </figure>
-                <div className="mt-5 md:mt-0 text-center md:text-start">
-                  <p className="text-xl md:text-base text-white hover:text-[#C26510] duration-500">
-                    0.5 Watt Night Lamp
-                  </p>
-                  <span className="mt-3 block text-[#999999]">
-                    Color: <span>Blue</span>
-                  </span>
-                </div>
-              </li>
-              <li className="col-span-5 md:col-span-2 text-center md:text-start text-white">EGP {price}</li>
-              <li className="col-span-5 md:col-span-2 text-center md:text-start ml-auto mr-auto mt-6 md:m-0">
-                <div className="p-3 w-fit flex gap-3 rounded-3xl border border-[#C26510]">
-                  <span
-                    id="decrease"
-                    value="increase"
-                    onClick={(e) => handleQuantity(e)}
-                    className="text-[#C26510] cursor-pointer"
-                  >
-                    -
-                  </span>
-                  <span className="text-white">{quantity}</span>
-                  <span
-                    id="increase"
-                    onClick={(e) => handleQuantity(e)}
-                    className="text-[#C26510] cursor-pointer"
-                  >
-                    +
-                  </span>
-                </div>
-              </li>
-              <li className="col-span-full my-5 block md:hidden h-[1px] bg-[#C26510]"></li>
-              <li className="col-span-5 md:col-span-2 text-center md:text-start top-1/2 md:top-0 translate-x-1/2 md:translate-x-0 text-white">EGP {subTotal}</li>
-            </ul>
+            {products &&
+              products.map((product) => (
+                <ul
+                  key={product}
+                  className="md:relative px-7 grid grid-cols-10 items-center"
+                >
+                  <li className="col-span-full md:col-span-4 flex flex-col md:flex-row items-center gap-0 md:gap-6">
+                    <figure className="relative md:static w-full md:w-24">
+                      <img
+                        className="w-full rounded-lg"
+                        src={`${product.productId.images[0]}`}
+                        alt=""
+                      />
+                      <li
+                        onClick={() =>
+                          handleRemoveProduct(product.productId.id)
+                        }
+                        className="absolute text-center w-[26px] h-[26px] rounded-[50%] bg-[#C26510] hover:bg-[#9F2124] hover:cursor-pointer duration-500 top-5 right-5 md:top-1/2 md:-translate-y-1/2 md:right-12 text-white"
+                      >
+                        <FontAwesomeIcon icon={faX} />{" "}
+                      </li>
+                    </figure>
+                    <div className="mt-5 md:mt-0 text-center md:text-start">
+                      <p className="text-xl md:text-base text-white hover:text-[#C26510] duration-500">
+                        {product.productId.name}
+                      </p>
+                      <span className="mt-3 block text-[#999999]">
+                        Color: <span>Blue</span>
+                      </span>
+                    </div>
+                  </li>
+                  <li className="col-span-5 md:col-span-2 text-center md:text-start text-white">
+                    EGP {product.productId.price}
+                  </li>
+                  <li className="col-span-5 md:col-span-2 text-center md:text-start ml-auto mr-auto mt-6 md:m-0">
+                    <div className="p-3 w-fit flex gap-3 rounded-3xl border border-[#C26510]">
+                      <span
+                        id="decrease"
+                        value="increase"
+                        onClick={(e) => handleQuantity(e)}
+                        className="text-[#C26510] cursor-pointer"
+                      >
+                        -
+                      </span>
+                      <span className="text-white">{quantity}</span>
+                      <span
+                        id="increase"
+                        onClick={(e) => handleQuantity(e)}
+                        className="text-[#C26510] cursor-pointer"
+                      >
+                        +
+                      </span>
+                    </div>
+                  </li>
+                  <li className="col-span-full my-5 block md:hidden h-[1px] bg-[#C26510]"></li>
+                  <li className="col-span-5 md:col-span-2 text-center md:text-start top-1/2 md:top-0 translate-x-1/2 md:translate-x-0 text-white">
+                    EGP {subTotal}
+                  </li>
+                </ul>
+              ))}
           </div>
           <div className="text-center md:text-end">
             <button className="px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
@@ -148,7 +203,9 @@ function Cart() {
 
           {/* coupon */}
           <div className="mt-14 p-12 border border-[#5E5E5E] rounded-2xl">
-            <div className="text-center md:text-start text-white text-2xl font-bold mb-4">Coupon:</div>
+            <div className="text-center md:text-start text-white text-2xl font-bold mb-4">
+              Coupon:
+            </div>
             <form
               onSubmit={(e) => handleSubmitCoupon(e)}
               className="flex flex-col md:flex-row"

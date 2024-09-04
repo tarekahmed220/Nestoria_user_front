@@ -1,4 +1,4 @@
-import { faAt, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAt, faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
@@ -78,11 +78,14 @@ function Footer() {
             <h4 id="useful" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
               Useful links
               <FontAwesomeIcon
-                className="text-white text-2xl md:hidden"
+                className={`text-white text-2xl ${focusPlus.useful && "hidden"} md:hidden`}
                 icon={faPlus}
               />
+              <FontAwesomeIcon icon={faMinus}
+                className={`text-white text-2xl ${!focusPlus.useful && "hidden"} md:hidden`}
+                />
             </h4>
-            <div className={`${!focusPlus.useful && "hidden"} flex flex-col`}>
+            <div className={`${!focusPlus.useful ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
               <Link
                 className="my-1 hover:text-orange-500 duration-500"
                 to={"/"}
@@ -114,11 +117,14 @@ function Footer() {
             <h4 id="information" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
               Information
               <FontAwesomeIcon
-                className="text-white text-2xl md:hidden"
+                className={`text-white text-2xl ${focusPlus.information && "hidden"} md:hidden`}
                 icon={faPlus}
               />
+              <FontAwesomeIcon icon={faMinus}
+                className={`text-white text-2xl ${!focusPlus.information && "hidden"} md:hidden`}
+                />
             </h4>
-            <div className={`${!focusPlus.information && "hidden"} md:flex flex-col`}>
+            <div className={`${!focusPlus.information ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
               <Link className="my-1 hover:text-orange-500 duration-500">
                 FAQ/Return
               </Link>
@@ -144,11 +150,14 @@ function Footer() {
             <h4 id="support" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
               Support
               <FontAwesomeIcon
-                className="text-white text-2xl md:hidden"
+                className={`text-white text-2xl ${focusPlus.support && "hidden"} md:hidden`}
                 icon={faPlus}
               />
+              <FontAwesomeIcon icon={faMinus}
+                className={`text-white text-2xl ${!focusPlus.support && "hidden"} md:hidden`}
+                />
             </h4>
-            <div className={`${!focusPlus.support && "hidden"} md:flex flex-col`}>
+            <div className={`${!focusPlus.support ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
               <Link className="my-1 hover:text-orange-500 duration-500">
                 Your Account
               </Link>

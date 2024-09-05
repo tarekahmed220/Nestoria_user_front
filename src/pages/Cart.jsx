@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig.js";
+import { HeaderPages } from "../components/HeaderPages.jsx";
+import { toast } from "react-toastify";
 
 function Cart() {
   // const [price, setPrice] = useState(0);
@@ -156,9 +158,11 @@ function Cart() {
         setProducts(
           products.filter((product) => product.productId._id !== productId)
         );
-        console.log("removed Product");
+        console.log("Product removed");
+        toast.success("Product removed");
       } else {
         console.log("Failed to remove the product");
+        toast.error("error");
       }
     } catch (err) {
       console.log(err);
@@ -168,31 +172,7 @@ function Cart() {
   return (
     <div>
       {/* section header */}
-      <section className="relative flex w-full h-[300px] md:h-[450px]">
-        <div
-          style={{
-            backgroundImage: "url('/home-hotspot-img-1.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            width: "100%",
-            height: "100%",
-            opacity: "0.45",
-          }}
-          className="absolute top-0 left-0 w-full h-full"
-        ></div>
-        <div className="relative m-auto w-fit">
-          <h3 className="text-5xl text-white">Cart</h3>
-          <div className="text-center my-4">
-            <Link href="">
-              <span className="text-white hover:text-orange-500 duration-500">
-                Home
-              </span>
-            </Link>
-            <span className="text-[#A5A5A5]"> / </span>
-            <span className="text-[#A5A5A5]">Cart</span>
-          </div>
-        </div>
-      </section>
+      <HeaderPages namePage="Cart"></HeaderPages>
 
       <section
         style={{
@@ -206,7 +186,7 @@ function Cart() {
         className="py-16 px-4 md:px-10"
       >
         {/* section products empty */}
-        <div className={`${products.length > 1 && "hidden"}`}>
+        <div className={`${products.length >= 1 && "hidden"}`}>
           <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
             <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
             <div className="p-6 text-white font-bold">
@@ -222,7 +202,7 @@ function Cart() {
 
         {/* section products cart */}
         <div className={`${products.length < 1 && "hidden"}`}>
-          <div className="bg-[rgb(43,43,43)] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
+          <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
             <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
             <div className="p-6 text-white font-bold">
               Got a gift card from a loved one?{" "}
@@ -311,11 +291,6 @@ function Cart() {
                   ></span>
                 </div>
               ))}
-          </div>
-          <div className="text-center md:text-end">
-            <button className="px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
-              Update Cart
-            </button>
           </div>
 
           {/* coupon */}

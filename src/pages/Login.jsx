@@ -37,6 +37,7 @@ function Login() {
         } else if (!passwordRegex.test(value)) {
           error =
             "Password must include upper, lower, digit, and special character from @ # % $";
+
         }
 
         break;

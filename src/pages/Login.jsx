@@ -33,8 +33,6 @@ function Login() {
       case 'password':
         if (!value) {
           error = 'Password is required';
-        } else if (!passwordRegex.test(value)) {
-          error = 'Password must include upper, lower, digit, and special character from @ # % $';
         }
         
         break;

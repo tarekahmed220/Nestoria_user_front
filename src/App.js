@@ -13,15 +13,13 @@ import WishList from "./pages/WishList";
 
 import Cart from "./pages/Cart";
 
-
 import ConfirmEmail from "./pages/ConfirmEmail";
 
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
-
 import Shop from "./pages/shop";
-
+import HeroSection from "./components/workshop/HeroSection";
 
 function App() {
   return (
@@ -34,13 +32,9 @@ function App() {
           <Route path="contactus" element={<ContactUs />} />
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="wishlist" element={<WishList />} />
-
-          
-
+          <Route path="workshop" element={<HeroSection />} />
 
           <Route path="cart" element={<Cart />} />
-
-
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/resetpassword" element={<ResetPassword />} />
@@ -48,7 +42,6 @@ function App() {
         <Route path="/confirmemail" element={<ConfirmEmail />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotfountPage />} />
-
       </Routes>
     </Router>
   );

@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
+import axiosInstance from "../apis/axiosConfig";
 
 function ProductDetails() {
   const params = useParams();
@@ -23,7 +24,6 @@ function ProductDetails() {
         console.log("ssss", res.data.data.product["Workshop-Name"]);
         setproduct(res.data.data.product);
         console.log("ssss", res.data.data.product);
-   
       })
       .catch((err) => {
         console.log(err);
@@ -38,10 +38,47 @@ function ProductDetails() {
   // الألوان المتاحة
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
 
+  const [colorSelect, setColorSelect] = useState("");
   // التعامل مع اختيار اللون
   const handleColorSelect = (index) => {
     setSelectedColor(index);
+    switch(index){
+      case 0:
+        return setColorSelect("Blue");
+      case 1:
+        return setColorSelect("Orange");
+      case 2:
+        return setColorSelect("Pink");
+      case 3:
+        return setColorSelect("Purple");
+      default:
+        return colorSelect;
+    }
   };
+
+
+  const addToCart = async (quantity, productId, color) => {
+    try {
+      const response = await axiosInstance.post(
+        "/addToCart",
+        {
+          quantity,
+          productId,
+          color,
+        }
+      );
+      console.log("product added");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if(colorSelect === ""){
+      return console.log("select color");
+    }
+    addToCart(quantity,product._id,colorSelect);
+  }
 
   // التعامل مع زيادة الكمية
   const handleIncreaseQuantity = () => {
@@ -162,7 +199,7 @@ function ProductDetails() {
             </div>
 
             {/* زر إضافة إلى السلة */}
-            <button className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
+            <button onClick={() => handleAddToCart()} className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
               <FaShoppingCart className="mr-2" /> Add to Cart
             </button>
           </div>

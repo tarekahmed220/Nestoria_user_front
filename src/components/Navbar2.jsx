@@ -44,10 +44,12 @@ function Navbar2() {
             className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
             icon={faMagnifyingGlass}
           />
-          <FontAwesomeIcon
-            className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
-            icon={faCartPlus}
-          />
+          <Link to="/cart">
+            <FontAwesomeIcon
+              className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
+              icon={faCartPlus}
+            />
+          </Link>
           <FontAwesomeIcon
             className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
             icon={faCaretDown}

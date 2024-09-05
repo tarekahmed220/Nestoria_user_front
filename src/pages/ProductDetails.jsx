@@ -11,13 +11,18 @@ import {
 import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
+
+import Loader from "../components/Loader";
+
 import axiosInstance from "../apis/axiosConfig";
 
 function ProductDetails() {
   const params = useParams();
   const [product, setproduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
@@ -27,19 +32,19 @@ function ProductDetails() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [params.id]);
 
-  // الحالة لتتبع اللون المحدد
   const [selectedColor, setSelectedColor] = useState(null);
-  // الحالة لتتبع الكمية
   const [quantity, setQuantity] = useState(1);
 
-  // الألوان المتاحة
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
 
+
   const [colorSelect, setColorSelect] = useState("");
-  // التعامل مع اختيار اللون
   const handleColorSelect = (index) => {
     setSelectedColor(index);
     switch(index){
@@ -55,6 +60,7 @@ function ProductDetails() {
         return colorSelect;
     }
   };
+
 
 
   const addToCart = async (quantity, productId, color) => {
@@ -80,7 +86,7 @@ function ProductDetails() {
     addToCart(quantity,product._id,colorSelect);
   }
 
-  // التعامل مع زيادة الكمية
+ 
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
@@ -95,6 +101,13 @@ function ProductDetails() {
     setActiveTab(tab);
   };
 
+  if (isLoading) {
+    return (
+      // <div className="min-h-[80vh]">
+      <Loader />
+      // </div>
+    );
+  }
   return (
     <div className="bg-[#030303] text-white mt-6 p-8">
       {/*  section 1111111111111 */}
@@ -157,7 +170,7 @@ function ProductDetails() {
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
           <div className="text-xl font-semibold mb-4">
-            {product["Workshop-Name"]} 
+            {product["Workshop-Name"]}
           </div>
 
           {/* قسم الألوان */}

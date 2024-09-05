@@ -20,8 +20,13 @@ import ResetPassword from "./pages/ResetPassword";
 
 import Shop from "./pages/shop";
 import HeroSection from "./components/workshop/HeroSection";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Router>
       <Routes>

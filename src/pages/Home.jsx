@@ -35,6 +35,9 @@ import Loader from "../components/Loader";
 import LazyLoadedItem from "../components/LazyLoadedItem";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState("");
@@ -270,7 +273,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       {/* section two */}
       {/* section three */}
       <div className={`${styles.sectionThree} bg-black relative`}>

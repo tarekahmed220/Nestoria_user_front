@@ -7,20 +7,23 @@ import {
   FaHeart,
   FaArrowsAltH,
   FaExpand,
-} from "react-icons/fa"; 
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
+import axiosInstance from "../apis/axiosConfig";
+
 function ProductDetails() {
   const params = useParams();
-  console.log(params.id);
   const [product, setproduct] = useState({});
 
   useEffect(() => {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
+        console.log("ssss", res.data.data.product["Workshop-Name"]);
         setproduct(res.data.data.product);
         console.log("ssss", res.data.data.product);
-        console.log("aaaaaa", res.data.data.product.images[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -35,22 +38,56 @@ function ProductDetails() {
   // الألوان المتاحة
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
 
+  const [colorSelect, setColorSelect] = useState("");
   // التعامل مع اختيار اللون
   const handleColorSelect = (index) => {
     setSelectedColor(index);
+    switch(index){
+      case 0:
+        return setColorSelect("Blue");
+      case 1:
+        return setColorSelect("Orange");
+      case 2:
+        return setColorSelect("Pink");
+      case 3:
+        return setColorSelect("Purple");
+      default:
+        return colorSelect;
+    }
   };
+
+
+  const addToCart = async (quantity, productId, color) => {
+    try {
+      const response = await axiosInstance.post(
+        "/addToCart",
+        {
+          quantity,
+          productId,
+          color,
+        }
+      );
+      console.log("product added");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if(colorSelect === ""){
+      return console.log("select color");
+    }
+    addToCart(quantity,product._id,colorSelect);
+  }
 
   // التعامل مع زيادة الكمية
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-  // التعامل مع تقليل الكمية
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
-
-  // سيكشن الزرار و التغير
 
   const [activeTab, setActiveTab] = useState("description");
 
@@ -59,7 +96,7 @@ function ProductDetails() {
   };
 
   return (
-    <div className="bg-[#030303] text-white p-8">
+    <div className="bg-[#030303] text-white mt-6 p-8">
       {/*  section 1111111111111 */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -119,6 +156,9 @@ function ProductDetails() {
           <p className="text-gray-400 mb-4">{product.description}</p>
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
+          <div className="text-xl font-semibold mb-4">
+            {product["Workshop-Name"]} 
+          </div>
 
           {/* قسم الألوان */}
           <div className="mb-4">
@@ -159,7 +199,7 @@ function ProductDetails() {
             </div>
 
             {/* زر إضافة إلى السلة */}
-            <button className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
+            <button onClick={() => handleAddToCart()} className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
               <FaShoppingCart className="mr-2" /> Add to Cart
             </button>
           </div>
@@ -245,27 +285,27 @@ function ProductDetails() {
                   </p>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Dignissim convallis aenean et tortor at risus viverra.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Euisimod in pellentesque massa amnrita placerat.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Suspendisse in est ante sitra aretnarin nibh mauris.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Tincidunt vitae semper quis lectus nulla at diam.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Neque convallis a cras semper auctor neque.
                     </li>
                     <li className="flex items-center">
-                      <FaCheck className="mr-2" />
+                      <GiCheckMark className="mr-2 text-[--mainColor]" />
                       Scelerisque felis imperdiet proin fermentum.
                     </li>
                   </ul>
@@ -391,9 +431,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -421,9 +461,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -451,9 +491,9 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -481,14 +521,14 @@ function ProductDetails() {
             </div>
           </div>
           <div className="absolute bottom-0 left-0 right-0 text-center p-4 bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-            <a href="#" className="text-white">
+            <Link to="/product-details" className="text-white">
               Select Options
-            </a>
+            </Link>
           </div>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default ProductDetails;

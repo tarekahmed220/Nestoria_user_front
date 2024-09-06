@@ -11,7 +11,11 @@ import {
 import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
+<<<<<<< HEAD
 import axiosInstance from "../apis/axiosConfig";
+=======
+
+>>>>>>> 628e5599ca91f22580be9057096a15ed42a964bc
 
 function ProductDetails() {
   const params = useParams();
@@ -85,10 +89,18 @@ function ProductDetails() {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 628e5599ca91f22580be9057096a15ed42a964bc
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 628e5599ca91f22580be9057096a15ed42a964bc
   const [activeTab, setActiveTab] = useState("description");
 
   const handleTabClick = (tab) => {

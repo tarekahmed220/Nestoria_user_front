@@ -6,16 +6,28 @@ import {
   faStore,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import IntroSection from "../components/IntroSection";
+import { HeaderPages } from "../components/HeaderPages";
 
 function ContactUs() {
   return (
     <div>
       {/* section header */}
-      <IntroSection pageTitle="Contact Us" pageName="Contact Us" />
+
+      <HeaderPages namePage="Contact Us"></HeaderPages>
+
 
       {/* section drop up */}
-      <section className="bg-black text-center py-20 px-6 md:px-10">
+      <section
+        style={{
+          backgroundImage: "url('/body-bg.png')",
+          backgroundPosition: "left top",
+          backgroundSize: "auto",
+          backgroundRepeat: "repeat",
+          backgroundAttachment: "scroll",
+          backgroundColor: "#000000",
+        }}
+        className="text-center py-20 px-6 md:px-10"
+      >
         <div className="lg:w-1/2 m-auto px-11">
           <p className="text-[#C5660E]">DROP US A LINE</p>
           <h2 className="text-white text-4xl md:text-6xl my-6">
@@ -76,7 +88,17 @@ function ContactUs() {
       </section>
 
       {/* section contact links */}
-      <section className="bg-[#161615] py-16 px-10">
+      <section
+        style={{
+          backgroundImage: "url('/body-bg.png')",
+          backgroundPosition: "left top",
+          backgroundSize: "auto",
+          backgroundRepeat: "repeat",
+          backgroundAttachment: "scroll",
+          backgroundColor: "#101010",
+        }}
+        className="py-16 px-10"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14">
           <div className="content flex items-center gap-5">
             <div>

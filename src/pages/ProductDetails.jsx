@@ -11,10 +11,9 @@ import {
 import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
-
+import axiosInstance from "../apis/axiosConfig";
 import Loader from "../components/Loader";
 
-import axiosInstance from "../apis/axiosConfig";
 
 function ProductDetails() {
   const params = useParams();
@@ -42,8 +41,6 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
 
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
-
-
   const [colorSelect, setColorSelect] = useState("");
   const handleColorSelect = (index) => {
     setSelectedColor(index);
@@ -60,7 +57,6 @@ function ProductDetails() {
         return colorSelect;
     }
   };
-
 
 
   const addToCart = async (quantity, productId, color) => {
@@ -86,7 +82,6 @@ function ProductDetails() {
     addToCart(quantity,product._id,colorSelect);
   }
 
- 
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
@@ -103,9 +98,7 @@ function ProductDetails() {
 
   if (isLoading) {
     return (
-      // <div className="min-h-[80vh]">
       <Loader />
-      // </div>
     );
   }
   return (
@@ -170,7 +163,7 @@ function ProductDetails() {
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
           <div className="text-xl font-semibold mb-4">
-            {product["Workshop-Name"]}
+            {product["Workshop-Name"]} 
           </div>
 
           {/* قسم الألوان */}

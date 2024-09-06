@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 import ProductCard from "../componant/ProductCard.js";
 import Pagination from "../componant/Pagination.js";
 import { FaHome } from "react-icons/fa";
+
 
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -25,11 +27,13 @@ const Shop = () => {
       .then((res) => {
         setProducts(res.data.data);
         setTotalPages(res.data.pages || 1);
+
         setCategories([
           "All",
           ...new Set(res.data.data.map((p) => p.category)),
         ]);
         setMaxPrice(Math.max(...res.data.data.map((p) => p.price)));
+
       })
       .catch((err) => {
         console.log(err);

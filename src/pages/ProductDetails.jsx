@@ -11,17 +11,17 @@ import {
 import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
-<<<<<<< HEAD
 import axiosInstance from "../apis/axiosConfig";
-=======
+import Loader from "../components/Loader";
 
->>>>>>> 628e5599ca91f22580be9057096a15ed42a964bc
 
 function ProductDetails() {
   const params = useParams();
   const [product, setproduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
@@ -31,19 +31,17 @@ function ProductDetails() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [params.id]);
 
-  // الحالة لتتبع اللون المحدد
   const [selectedColor, setSelectedColor] = useState(null);
-  // الحالة لتتبع الكمية
   const [quantity, setQuantity] = useState(1);
 
-  // الألوان المتاحة
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
-
   const [colorSelect, setColorSelect] = useState("");
-  // التعامل مع اختيار اللون
   const handleColorSelect = (index) => {
     setSelectedColor(index);
     switch(index){
@@ -84,29 +82,25 @@ function ProductDetails() {
     addToCart(quantity,product._id,colorSelect);
   }
 
-  // التعامل مع زيادة الكمية
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 628e5599ca91f22580be9057096a15ed42a964bc
   const handleDecreaseQuantity = () => {
     setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
   };
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 628e5599ca91f22580be9057096a15ed42a964bc
   const [activeTab, setActiveTab] = useState("description");
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
+  if (isLoading) {
+    return (
+      <Loader />
+    );
+  }
   return (
     <div className="bg-[#030303] text-white mt-6 p-8">
       {/*  section 1111111111111 */}

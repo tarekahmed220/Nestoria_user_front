@@ -19,6 +19,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useEffect } from "react";
+import { SearchProvider } from "./context/SearchContext";
 
 function App() {
   useEffect(() => {
@@ -27,41 +28,42 @@ function App() {
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Home />} />
-            <Route path="product-details/:id" element={<ProductDetails />} />
-            <Route path="shop" element={<Shop />} />
-            <Route path="contactus" element={<ContactUs />} />
-            <Route path="aboutus" element={<AboutUs />} />
-            <Route path="wishlist" element={<WishList />} />
-            <Route path="workshop" element={<HeroSection />} />
-            <Route path="/register" element={<Register />} />
+      <SearchProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="product-details/:id" element={<ProductDetails />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="contactus" element={<ContactUs />} />
+              <Route path="aboutus" element={<AboutUs />} />
+              <Route path="wishlist" element={<WishList />} />
+              <Route path="workshop" element={<HeroSection />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="cart" element={<Cart />} />
+            </Route>
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/confirmemail" element={<ConfirmEmail />} />
+            <Route path="*" element={<NotfountPage />} />
+          </Routes>
+        </Router>
 
-            <Route path="cart" element={<Cart />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-          <Route path="/resetpassword" element={<ResetPassword />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
-          <Route path="/confirmemail" element={<ConfirmEmail />} />
-          <Route path="*" element={<NotfountPage />} />
-        </Routes>
-      </Router>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        //transition= {Bounce}
-      />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          //transition= {Bounce}
+        />
+      </SearchProvider>
     </>
   );
 }

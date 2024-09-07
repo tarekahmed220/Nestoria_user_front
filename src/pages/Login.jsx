@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import userloginApi from "../apis/userloginApi";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaRegEyeSlash } from "react-icons/fa";
 import InputField from "../components/Input";
+import IntroSection from "../components/IntroSection";
+import { IoIosWarning } from "react-icons/io";
+import { IoEye } from "react-icons/io5";
 function Login() {
   const [user, setUser] = useState({
     email: "",
@@ -37,7 +40,6 @@ function Login() {
         } else if (!passwordRegex.test(value)) {
           error =
             "Password must include upper, lower, digit, and special character from @ # % $";
-
         }
 
         break;
@@ -65,7 +67,6 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate all fields on submit
     const newErrors = {};
     Object.keys(user).forEach((key) => {
       const error = validateField(key, user[key]);
@@ -75,7 +76,7 @@ function Login() {
     });
 
     setErrors(newErrors);
-    console.log("Form submitted:", user, newErrors);
+
     if (Object.keys(newErrors).length === 0) {
       try {
         const { data: user2 } = await userloginApi.createUser(user);
@@ -91,105 +92,120 @@ function Login() {
         ) {
           if (error.response.status === 401) {
             setSuccess("Check your email to verify your account.");
+            // toast.error("Check your email to verify your account.");
           }
           setServerErr(error.response.data.message);
-          // toast.error(serverErr);
-
-          console.log(error.response.data);
+          toast.error(error.response.data.message);
         } else {
           setServerErr("Something went wrong. Please try again later.");
+          console.log("Something went wrong. Please try again later.");
         }
       }
     } else {
       setServerErr("Please fix the errors in the form.");
+      toast.error("Please fix the errors in the form.");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#171716]">
-      <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-xl mx-auto">
-        <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']">
-          Log In
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <p className="text-red-500 text-md mt-2">{serverErr}</p>
-          <label
-            className="block text-gray-400 text-sm font-medium mb-2"
-            htmlFor="email"
-          >
-            User Email
-          </label>
-          <div className="h-[40px] mb-[40px] w-full">
-            <InputField
-              id="email"
-              name="email"
-              type="email"
-              value={user.email}
-              placeholder="please Enter your Email*"
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
-              onBlur={handleBlur}
-              error={errors.email}
-            />
-          </div>
-          <label
-            className="block text-gray-400 text-sm font-medium mb-2"
-            htmlFor="email"
-          >
-            Password
-          </label>
-          <div className="h-[40px] mb-[40px] w-full">
-            <div className="mb-6">
-              <div className="relative">
-                <input
-                  style={{ border: "1px solid #A5A5A5" }}
-                  className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
-                    errors.password
-                      ? "focus:ring-red-500 border-red-500 "
-                      : "focus:ring-orange-500 border-orange-500"
-                  }`}
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={user.password}
-                  onChange={(e) =>
-                    setUser({ ...user, password: e.target.value })
-                  }
-                  onBlur={handleBlur}
-                  placeholder="Enter your password*"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FaRegEyeSlash /> : "👁️"}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-red-500 text-sm mt-2">{errors.password}</p>
-              )}
+    <>
+      <IntroSection pageName="Signin" pageTitle="Signin" />
+      <div
+        className="flex justify-center items-center min-h-screen "
+        style={{
+          backgroundImage: "url('/body-bg.png')",
+          backgroundPosition: "left top",
+          backgroundSize: "auto",
+          backgroundRepeat: "repeat",
+          backgroundAttachment: "scroll",
+          backgroundColor: "#101010",
+        }}
+      >
+        <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-xl mx-auto">
+          <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']">
+            Log In
+          </h2>
+          <form onSubmit={handleSubmit}>
+            <div className="h-[40px] mb-[40px] w-full">
+              <InputField
+                id="email"
+                name="email"
+                type="email"
+                value={user.email}
+                placeholder="Please Enter your Email*"
+                onChange={(e) => setUser({ ...user, email: e.target.value })}
+                onBlur={handleBlur}
+                error={errors.email}
+              />
             </div>
-          </div>
+            <div className="h-[40px] mb-[40px] w-full">
+              <div className="mb-6">
+                <div className="relative">
+                  <input
+                    style={{ border: "1px solid #A5A5A5" }}
+                    className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                      errors.password
+                        ? "focus:ring-red-500 border-red-500 "
+                        : "focus:ring-orange-500 border-orange-500"
+                    }`}
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={user.password}
+                    onChange={(e) =>
+                      setUser({ ...user, password: e.target.value })
+                    }
+                    onBlur={handleBlur}
+                    placeholder="Enter your password*"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <FaRegEyeSlash /> : <IoEye />}
+                  </button>
+                </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm mt-2 ml-3">
+                    {errors.password}{" "}
+                    <IoIosWarning className="text-yellow-500 inline" />
+                  </p>
+                )}
+              </div>
+            </div>
 
-          <div className="flex items-center justify-center rounded-full border border-solid border-[#EA580C]">
-            <button
-              className="w-full bg-black  hover:bg-orange-600 hover:text-white text-orange-500 font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
-              type="submit"
-            >
-              Log In
-            </button>
-          </div>
-          <div className="text-center mt-6">
-            <Link
-              className="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-600"
-              to="/forgotpassword"
-            >
-              Forgot your password?
-            </Link>
-          </div>
-        </form>
+            <div className="flex items-center justify-center rounded-full border border-solid border-[#EA580C]">
+              <button
+                className="w-full bg-black  hover:bg-orange-600 hover:text-white text-orange-500 font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
+                type="submit"
+              >
+                Log In
+              </button>
+            </div>
+            <div className="text-center mt-6">
+              <Link
+                className="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-600"
+                to="/forgotpassword"
+              >
+                Forgot your password?
+              </Link>
+            </div>
+            <div className="text-center mt-6 flex justify-center items-center gap-2">
+              <span className="inline-block align-baseline font-bold text-sm text-gray-100 ">
+                Don't have an account ?
+              </span>
+              <Link
+                className="inline-block align-baseline font-bold text-md text-orange-500 hover:text-orange-700 "
+                to="/register"
+              >
+                Signup
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

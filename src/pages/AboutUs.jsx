@@ -10,39 +10,13 @@ import {
   faBed,
   faChair,
 } from "@fortawesome/free-solid-svg-icons";
+import IntroSection from "../components/IntroSection";
 
 function AboutUs() {
   return (
-
     <div>
       {/* Section one*/}
-      <div className="relative text-center">
-
-        <img
-          src="/images/about/home-hotspot-img-1.jpg"
-          alt="Background"
-          className="w-full h-auto object-cover rounded-lg shadow-lg"
-        />
-        <div className="absolute inset-0 bg-black opacity-60"></div>
-        <div className="absolute inset-0 flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 lg:px-24">
-          <div className="m-auto w-full max-w-4xl text-center text-white">
-            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-              About Us
-            </h3>
-            <div className="text-center my-4">
-              <Link to="/">
-                <span className="text-white hover:text-orange-500 duration-500 text-base sm:text-lg md:text-xl lg:text-2xl">
-                  Home
-                </span>
-              </Link>
-              <span className="text-[#A5A5A5] mx-2"> / </span>
-              <span className="text-[#A5A5A5] text-base sm:text-lg md:text-xl lg:text-2xl">
-                About Us
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <IntroSection pageTitle="About Us" pageName="About Us" />
 
       {/* Section Two */}
       <div className="homeHub flex flex-col md:flex-row container lg:w-[1440px] mx-auto gap-4 py-20 my-[40px] px-[15px]">
@@ -342,10 +316,8 @@ function AboutUs() {
           </div>
         </div>
       </section>
-
     </div>
   );
-
 }
 
 export default AboutUs;

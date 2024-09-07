@@ -21,6 +21,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Shop from "./pages/shop";
 import HeroSection from "./components/workshop/HeroSection";
 import { useEffect } from "react";
+import ProfileUser from "./pages/ProfileUser";
 
 function App() {
   useEffect(() => {
@@ -38,8 +39,9 @@ function App() {
           <Route path="aboutus" element={<AboutUs />} />
           <Route path="wishlist" element={<WishList />} />
           <Route path="workshop" element={<HeroSection />} />
-
           <Route path="cart" element={<Cart />} />
+          <Route path="profile" element={<ProfileUser />} />
+
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/resetpassword" element={<ResetPassword />} />

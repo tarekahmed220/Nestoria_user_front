@@ -19,7 +19,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useEffect } from "react";
+
+import ProfileUser from "./pages/ProfileUser";
+
 import { SearchProvider } from "./context/SearchContext";
+
 
 function App() {
   useEffect(() => {
@@ -43,6 +47,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="cart" element={<Cart />} />
+              <Route path="profile" element={<ProfileUser />} />
             </Route>
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/confirmemail" element={<ConfirmEmail />} />

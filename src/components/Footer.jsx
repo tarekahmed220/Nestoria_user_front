@@ -198,7 +198,7 @@ function Footer() {
 
       <div className="my-5 flex flex-col md:flex-row justify-between items-center">
         <div className="text-white text-xl md:text-base text-center md:text-left mb-4 md:mb-0">
-          ©TeaPoy site all rights Reserved
+          ©Nestoria site all rights Reserved
         </div>
         <div className="flex items-center flex-wrap justify-center gap-2">
           {[

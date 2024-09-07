@@ -6,7 +6,7 @@ function IntroSection({ pageTitle, pageName }) {
       <img
         src=" /images/about/home-hotspot-img-1.jpg"
         alt="Background"
-        className="w-full min-h-[400px] object-cover rounded-lg shadow-lg"
+        className="w-full max-h-[400px]  object-cover rounded-lg shadow-lg"
       />
       <div className="absolute inset-0 bg-black opacity-60"></div>
       <div className="absolute inset-0 flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 lg:px-24">

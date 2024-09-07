@@ -11,8 +11,9 @@ const ProductCard = () => {
 
   const fetchProducts = async (page = 1) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/fur/workshops/66d87cd6b4d55d64579e20cf?page=${page}&limit=6`);
+      const response = await axios.get(`http://localhost:5000/api/v1/fur/workshops/66d87cbeb4d55d64579e20cc?page=${page}&limit=8`);
       setProducts(response.data.products);
+      console.log("my products :",response.data.products);
       setTotalPages(Math.ceil(response.data.totalProducts / 6)); // Set total pages based on totalProducts and limit
     } catch (error) {
       console.error('Error fetching products:', error);
@@ -53,7 +54,7 @@ const ProductCard = () => {
             {/* "On Sale" Tag */}
             {product.availability && (
               <div className="absolute top-2 right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded group-hover:opacity-100">
-                {product['Workshop-Name']}
+                {product.workshop_id.name}
               </div>
             )}
 
@@ -68,9 +69,9 @@ const ProductCard = () => {
 
             {/* Product Info */}
             <div className="p-4 text-center">
-              <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
+              <h3 className="text-lg font-semibold mb-2 line-clamp-1">{product.name}</h3>
               <h4 className="text-md text-gray-500 mb-2">{product.category}</h4>
-              <h4 className=" text-gray-500 mb-2">{product['Workshop-Name']}</h4>
+              <h4 className=" text-gray-500 mb-2">{product.workshop_id.name}</h4>
               <p className="text-xl font-bold text-orange-500">
                 ₹ {product.price}
               </p>

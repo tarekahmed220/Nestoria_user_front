@@ -12,7 +12,9 @@ function ContactUs() {
   return (
     <div>
       {/* section header */}
+
       <HeaderPages namePage="Contact Us"></HeaderPages>
+
 
       {/* section drop up */}
       <section

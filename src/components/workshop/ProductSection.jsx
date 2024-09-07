@@ -1,19 +1,19 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faStarHalfAlt, faStar as faStarOutline } from '@fortawesome/free-solid-svg-icons';
 import "../../css modules/productSection.module.css";
-
 
 const ProductCard = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalPages] = useState(1);
 
   const fetchProducts = async (page = 1) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/fur/products?page=${page}&limit=12`);
-      setProducts(response.data.data);
-      setTotalPages(response.data.pages); // Assumes API returns totalPages
+      const response = await axios.get(`http://localhost:5000/api/v1/fur/workshops/66d87cd6b4d55d64579e20cf?page=${page}&limit=6`);
+      setProducts(response.data.products);
+      setTotalPages(Math.ceil(response.data.totalProducts / 6)); // Set total pages based on totalProducts and limit
     } catch (error) {
       console.error('Error fetching products:', error);
     }
@@ -23,6 +23,24 @@ const ProductCard = () => {
     fetchProducts(currentPage);
   }, [currentPage]);
 
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 !== 0;
+    const emptyStars = 5 - Math.ceil(rating);
+
+    return (
+      <div className="flex items-center">
+        {[...Array(fullStars)].map((_, i) => (
+          <FontAwesomeIcon key={i} icon={faStar} className="text-yellow-500" />
+        ))}
+        {halfStar && <FontAwesomeIcon icon={faStarHalfAlt} className="text-yellow-500" />}
+        {[...Array(emptyStars)].map((_, i) => (
+          <FontAwesomeIcon key={i} icon={faStarOutline} className="text-gray-300" />
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="container mx-auto px-4">
 
@@ -30,7 +48,7 @@ const ProductCard = () => {
         {products.map((product) => (
           <div
             key={product._id}
-            className="relative cardBack  rounded-lg shadow-lg overflow-hidden group transition-transform transform hover:scale-105"
+            className="relative cardBack rounded-lg shadow-lg overflow-hidden group transition-transform transform hover:scale-105"
           >
             {/* "On Sale" Tag */}
             {product.availability && (
@@ -52,10 +70,13 @@ const ProductCard = () => {
             <div className="p-4 text-center">
               <h3 className="text-lg font-semibold mb-2">{product.name}</h3>
               <h4 className="text-md text-gray-500 mb-2">{product.category}</h4>
-              <h4 className=" text-gray-500 mb-2">{product['Workshop-Name']}</h4> 
+              <h4 className=" text-gray-500 mb-2">{product['Workshop-Name']}</h4>
               <p className="text-xl font-bold text-orange-500">
                 ₹ {product.price}
               </p>
+              <div className="mt-2">
+                {renderStars(product.rating)}
+              </div>
             </div>
 
             {/* Hover Actions */}
@@ -84,7 +105,7 @@ const ProductCard = () => {
         </button>
 
         {/* Page Numbers */}
-        {[...Array(totalPages).keys()].map((page) => (
+        {[...Array(totalProducts)].map((_, page) => (
           <button
             key={page + 1}
             className={`px-4 py-2 mx-1 rounded-full shadow-md transition-colors duration-300 ${
@@ -99,10 +120,10 @@ const ProductCard = () => {
         {/* Next Button */}
         <button
           className={`flex items-center justify-center px-4 py-2 mx-1 rounded-full shadow-md transition-colors duration-300 ${
-            currentPage === totalPages ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-gray-800 text-white hover:bg-gray-700'
+            currentPage === totalProducts ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-gray-800 text-white hover:bg-gray-700'
           }`}
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalProducts))}
+          disabled={currentPage === totalProducts}
         >
           <svg className="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />

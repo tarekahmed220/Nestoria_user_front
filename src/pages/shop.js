@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ProductCard from "../componant/ProductCard.js";
-import Pagination from "../componant/Pagination.js";
+import ProductCard from "../components/ProductCard.js";
+import Pagination from "../components/Pagination.js";
 import { FaHome } from "react-icons/fa";
 
 const Shop = () => {

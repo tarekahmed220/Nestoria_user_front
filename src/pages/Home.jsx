@@ -27,14 +27,18 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import axios from "axios";
 import Loader from "../components/Loader";
 import LazyLoadedItem from "../components/LazyLoadedItem";
+import { useSearchContext } from "../context/SearchContext";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState("");
@@ -45,6 +49,7 @@ function Home() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const navigate = useNavigate();
   const [currentImg, setCurrentImg] = useState(
     "/images/home/Sofa-Home-1-Section-3-01.jpg"
   );
@@ -204,6 +209,9 @@ function Home() {
                     the bed how much does it matter to the pellentesque tortor
                   </p>
                   <button
+                    onClick={() => {
+                      navigate("/shop");
+                    }}
                     className={`${styles.shopNowBtn} relative bg-[--mainColor] text-[white] py-1 lg:py-2 px-7 rounded-3xl text-sm md:text-lg lg:text-xl`}
                   >
                     <span className="pr-8"> Shop Now</span>
@@ -270,7 +278,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       {/* section two */}
       {/* section three */}
       <div className={`${styles.sectionThree} bg-black relative`}>

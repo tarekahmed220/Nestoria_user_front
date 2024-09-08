@@ -18,6 +18,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+html,
+body {
+  scroll-behavior: smooth;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
@@ -71,4 +75,27 @@ code {
 .swiper-slide-active.swiper-slide-custom {
   opacity: 1;
   visibility: visible;
+}
+
+.searchAnimation {
+  animation: searchAnimation 0.4s 1 linear;
+}
+
+@keyframes searchAnimation {
+  0% {
+    transform: translateY(-200%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes searchAnimationreverse {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-200%);
+  }
 }

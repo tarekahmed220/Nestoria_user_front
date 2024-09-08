@@ -27,14 +27,18 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import axios from "axios";
 import Loader from "../components/Loader";
 import LazyLoadedItem from "../components/LazyLoadedItem";
+import { useSearchContext } from "../context/SearchContext";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState("");
@@ -45,6 +49,7 @@ function Home() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const navigate = useNavigate();
   const [currentImg, setCurrentImg] = useState(
     "/images/home/Sofa-Home-1-Section-3-01.jpg"
   );
@@ -191,20 +196,25 @@ function Home() {
             <SwiperSlide key={index}>
               <div className="sectionOne relative ">
                 <div
-                  className={`${styles.text} flex flex-col gap-4 justify-center items-center absolute top-[30%] left-1/2 z-30`}
+                  className={`${styles.text} flex flex-col gap-1 justify-center items-center absolute top-[30%] left-1/2 z-30`}
                 >
-                  <p className="text-[--mainColor]">SMART SOLUTION</p>
-                  <h1 className="text-center text-lg md:text-3xl  lg:text-4xl xl:text-5xl 2xl:text-6xl my-2 md:my-3 lg:my-3 text-[#ffffffdc]">
+                  <p className="text-[--mainColor] hidden md:block">
+                    SMART SOLUTION
+                  </p>
+                  <h1 className="text-center text-lg md:text-3xl  lg:text-4xl xl:text-5xl 2xl:text-6xl my-2 md:my-3 lg:my-1 text-[#ffffffdc] ">
                     Enjoy With Style & Comfort
                   </h1>
-                  <p className="text-[#dddadaf5] hidden md:block text-center my-1 md:my-2 line-clamp-2 md:line-clamp-3 lg:line-clamp-5">
+                  <p className="text-[#dddadaf5]   text-center my-1 md:my-2 line-clamp-1 md:line-clamp-2 lg:line-clamp-3">
                     The price of the product is very low, or the price of the
                     book. Some like the ferry line from diam concern For the bed
                     of two valleys. But the price of the sauce is the price of
                     the bed how much does it matter to the pellentesque tortor
                   </p>
                   <button
-                    className={`${styles.shopNowBtn} relative bg-[--mainColor] text-[white] py-1 lg:py-2 px-7 rounded-3xl text-sm md:text-lg lg:text-xl`}
+                    onClick={() => {
+                      navigate("/shop");
+                    }}
+                    className={`${styles.shopNowBtn} relative bg-[--mainColor] text-[white] py-1 lg:py-2 px-7 rounded-3xl text-sm md:text-lg lg:text-xl mt-2`}
                   >
                     <span className="pr-8"> Shop Now</span>
                     <span className=" absolute top-1/2 translate-y-[-50%] right-1 bg-white p-[1px] lg:p-[7px] rounded-full flex justify-center items-center  text-black">
@@ -270,7 +280,7 @@ function Home() {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       {/* section two */}
       {/* section three */}
       <div className={`${styles.sectionThree} bg-black relative`}>

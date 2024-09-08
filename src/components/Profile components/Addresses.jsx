@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axiosInstance from "../../apis/axiosConfig";
+import { useUserInfoContext } from "../../context/UserProvider";
 
 export function Addresses() {
-  const [currentUser, setCurrentUser] = useState("");
-  
-  useEffect(() => {
-    const fetchUser = async () =>{
-      try{
-        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
-        setCurrentUser(res);
-        console.log(res);
-      }catch (err){
-        console.log(err);
-      }
-    };
+  const { currentUser } = useUserInfoContext();
 
-    fetchUser();
-  }, [])
-  
   return (
     <div>
       <p className="text-[#A2A2A2]">

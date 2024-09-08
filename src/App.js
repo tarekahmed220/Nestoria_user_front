@@ -27,6 +27,7 @@ import ProfileUser from "./pages/ProfileUser";
 
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
+import { BillingAddress } from "./components/Profile components/BillingAddress";
 
 function App() {
   useEffect(() => {
@@ -54,7 +55,8 @@ function App() {
               <Route path="cart" element={<Cart />} />
               <Route path="profile" element={<ProfileUser />} />
               <Route path="checkout" element={<Checkout />} />
-              
+              <Route path="billingAddress" element={<BillingAddress/>} />
+
             </Route>
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/confirmemail" element={<ConfirmEmail />} />

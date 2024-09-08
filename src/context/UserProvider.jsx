@@ -1,19 +1,19 @@
-
-
 import { createContext, useContext, useEffect, useState } from "react";
 import axiosInstance from "../apis/axiosConfig";
 
 const userInfoContext = createContext();
 
 function UserProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
         setCurrentUser(res);
-        console.log(res);
+        setIsLogin(res.isLoggedin);
+        console.log(res.isLoggedin);
       } catch (err) {
         console.log(err);
       }
@@ -23,7 +23,9 @@ function UserProvider({ children }) {
   }, []);
 
   return (
-    <userInfoContext.Provider value={{ currentUser, setCurrentUser }}>
+    <userInfoContext.Provider
+      value={{ currentUser, setCurrentUser, isLogin, setIsLogin }}
+    >
       {children}
     </userInfoContext.Provider>
   );

@@ -5,16 +5,19 @@ import { Link } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig.js";
 import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
+import { useUserInfoContext } from "../context/UserProvider.jsx";
 
 function Cart() {
-  // const [price, setPrice] = useState(0);
   let [subTotal, setSubTotal] = useState(0);
   let [coupon, setCoupon] = useState();
   let [total, setTotal] = useState(0);
   const [products, setProducts] = useState([]);
   const [isUsedCupon, setIsUsedCoupon] = useState(false);
   const [totalAfterCoupon, setAfterCoupon] = useState(0);
-  // const [productColor, setProductColor] = useState("");
+
+  const { currentUser } = useUserInfoContext();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,17 +25,13 @@ function Cart() {
         const response = await axiosInstance.get("/getCartPrducts");
         const productsWithSubTotal = response.data.map((product) => ({
           ...product,
-          subTotal: product.quantity * product.productId.price,
+          subTotal: (product.quantity * product.productId.price).toFixed(2),
         }));
         setProducts(productsWithSubTotal);
-        console.log(productsWithSubTotal);
-        console.log(products);
-        // setProducts(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        toast.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -40,26 +39,11 @@ function Cart() {
     let subTotal = products.reduce(
       (acc, product) => acc + product.quantity * product.productId.price,
       0
-    );
+    ).toFixed(2);
     setSubTotal(subTotal);
     setTotal(subTotal);
+    setAfterCoupon(subTotal);
   }, [products]);
-
-  // const handleQuantity = (e,productId) => {
-  //   console.log(productId);
-  //   if (e.target.id === "decrease") {
-  //     if (quantity !== 1) {
-  //       setQuantity(--quantity);
-  //       setSubTotal((subTotal -= price));
-  //       setTotal(subTotal);
-  //     }
-  //   }
-  //   if (e.target.id === "increase") {
-  //     setQuantity(++quantity);
-  //     setSubTotal((subTotal += price));
-  //     setTotal(subTotal);
-  //   }
-  // };
 
   const updateCart = async (quantity, productId, color) => {
     try {
@@ -68,9 +52,9 @@ function Cart() {
         productId,
         color,
       });
-      console.log("cart updated");
-    } catch (err) {
-      console.log(err);
+      toast.success("Quantity updated")
+    } catch (error) {
+      toast.error(error);
     }
   };
 
@@ -78,35 +62,24 @@ function Cart() {
     if (newQuantity && productId && color) {
       updateCart(newQuantity, productId, color);
     } else {
-      console.log("fail data");
+      toast.error("Invalid data");
     }
   };
 
-  // const handleQuantityChange = (action, product) => {
-  //   let newQuantity = product.quantity;
-  //   if (action === "increase") {
-  //     newQuantity += 1;
-  //     setSubTotal(subTotal += product.productId.price);
-  //     setTotal(subTotal);
-  //   } else if (action === "decrease" && newQuantity > 1) {
-  //     newQuantity -= 1;
-  //     setSubTotal(subTotal -= product.productId.price);
-  //     setTotal(subTotal);
-  //   }
-  //   if (newQuantity !== product.quantity) {
-  //     handleToUpdateQuantity(newQuantity, product.productId._id);
-  //     product.quantity = newQuantity;
-  //     setProducts([...products]);
-  //   }
-  // };
-
   const handleQuantityChange = (action, product) => {
     let newQuantity = product.quantity;
-
     if (action === "increase") {
-      newQuantity += 1;
-    } else if (action === "decrease" && newQuantity > 1) {
-      newQuantity -= 1;
+      if(newQuantity < product.productId.quantity){
+        newQuantity += 1;
+      }else{
+        toast.error("This is the maximum.");
+      }
+    } else if (action === "decrease") {
+      if(newQuantity > 1){
+        newQuantity -= 1;
+      }else{
+        toast.error("This is the minimum.");
+      }
     }
 
     if (newQuantity !== product.quantity) {
@@ -132,26 +105,46 @@ function Cart() {
   const handleSubmitCoupon = (e) => {
     e.preventDefault();
     if (isUsedCupon) {
-      return console.log("not allow");
+      return toast.error("Not allowed because coupon used");
     }
     switch (coupon) {
       case "A12H34":
         setAfterCoupon(total - total*0.4);
+        setIsUsedCoupon(true);
+        toast.success("Coupon done");
         break;
-      case "1234":
+      case "ahmed":
         setAfterCoupon(total - total*0.2);
+        setIsUsedCoupon(true);
+        toast.success("Coupon done");
         break;
-      case "5678":
+      case "tarek":
         setAfterCoupon(total - total*0.1);
+        setIsUsedCoupon(true);
+        toast.success("Coupon done");
         break;
       default:
         setAfterCoupon(total);
+        toast.error("Invalid Coupon")
         break;
     }
-    setIsUsedCoupon(true);
   };
 
   const handleRemoveProduct = async (productCartId) => {
+    const confirmed = await Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you want to remove this product?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, remove it!',
+    });
+  
+    if (!confirmed.isConfirmed) {
+      return;
+    }
+
     try {
       const removeProduct = await axiosInstance.delete(
         `/removeFromCart/${productCartId}`
@@ -160,16 +153,34 @@ function Cart() {
         setProducts(
           products.filter((product) => product._id !== productCartId)
         );
-        console.log("Product removed");
         toast.success("Product removed");
       } else {
-        console.log("Failed to remove the product");
-        toast.error("error");
+        toast.error("Failed to remove the product");
+      }
+    } catch (err) {
+      toast.error("An error occurred while removing the product");
+    }
+  };
+
+  const handleCheckoutBtn = async () => {
+    console.log(products);
+    console.log(subTotal);
+    console.log(totalAfterCoupon);
+    try {
+      const response = await axiosInstance.post("/api/v1/fur/orders/addOrders", {
+        products,
+        subTotal,
+        total
+      });
+      if (response.status === 200) {
+        console.log("Order successfully added");
+      } else {
+        console.error("Failed to add order");
       }
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
   return (
     <div>
@@ -258,7 +269,7 @@ function Cart() {
                         EGP {product.productId.price}
                       </li>
                       <li className="col-span-5 md:col-span-2 text-center md:text-start ml-auto mr-auto mt-6 md:m-0">
-                        <div className="p-3 w-fit flex gap-3 rounded-3xl border border-[#C26510]">
+                        <div className="p-3 w-fit flex gap-5 rounded-3xl border border-[#C26510]">
                           <span
                             id="decrease"
                             onClick={() =>
@@ -334,12 +345,12 @@ function Cart() {
                   <div className="md:text-end">
                     <div className="flex flex-col my-3">
                       <span className="text-white mb-1">Shipping to</span>
-                      <span className="text-white font-bold">Tamil Nadu.</span>
+                      <span className="text-white font-bold">{currentUser.address}</span>
                     </div>
                     <div>
-                      <span className="text-white underline cursor-pointer hover:text-[#C26510] duration-500">
+                      <Link to="/billingAddress" className="text-white underline cursor-pointer hover:text-[#C26510] duration-500">
                         Change Address
-                      </span>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -352,7 +363,7 @@ function Cart() {
                   isUsedCupon && (<span className="text-white flex justify-center md:justify-end mt-2 duration-500">EGP {totalAfterCoupon}</span>)
                 }
                 <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
-                <button className="w-full md:w-fit mt-5 px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
+                <button onClick={() => handleCheckoutBtn()} className="w-full md:w-fit mt-5 px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
                   Proceed To Checkout
                 </button>
               </div>

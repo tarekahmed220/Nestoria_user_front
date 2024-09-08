@@ -49,9 +49,9 @@ function Checkout() {
                 </div>
 
                 
-                <div className="text-center md:text-start mt-14 mb-14 px-12 py-10 border border-[#5E5E5E] rounded-2xl">
+                {/* <div className="text-center md:text-start mt-14 mb-14 px-12 py-10 border border-[#5E5E5E] rounded-2xl">
                   <AccountDetails />
-                </div>
+                </div> */}
             
           
                 
@@ -123,7 +123,7 @@ function Checkout() {
                     and for other purposes described in our
                     <Link
                         to="#"
-                        className="text-white hover:text-[--mainColor] transition-colors"
+                        className="text-white hover:text-[--mainColor] transition-colors ms-1"
                         style={{ borderBottom: "2px solid white" }}
                     >
                         privacy policy

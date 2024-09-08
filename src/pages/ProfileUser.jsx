@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HeaderPages } from "../components/HeaderPages";
 import { Orders } from "../components/Profile components/Orders";
-import { Addresses } from "../components/Profile components/Addresses";
 import { AccountDetails } from "../components/Profile components/AccountDetails";
 import { BillingAddress } from "../components/Profile components/BillingAddress";
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
 
 import { Link } from "react-router-dom";
-import axiosInstance from "../apis/axiosConfig";
+import { useUserInfoContext } from "../context/UserProvider";
 
 function ProfileUser() {
   const itemsSlide = [
@@ -23,21 +22,8 @@ function ProfileUser() {
 
   const [itemSelected, setItemSelected] = useState("Dashboard");
   const [typeAddress, setTypeAddress] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  
-  useEffect(() => {
-    const fetchUser = async () =>{
-      try{
-        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
-        setCurrentUser(res);
-        console.log(res);
-      }catch (err){
-        console.log(err);
-      }
-    };
+  const { currentUser } = useUserInfoContext();
 
-    fetchUser();
-  }, [])
 
   const handleTypeAddress = (action) => {
     if(action === "Add"){

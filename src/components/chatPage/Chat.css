@@ -1,5 +1,7 @@
 body {
   background-color: #000000; /* Black background */
+  color: #e0e0e0; /* Light gray text */
+
 }
 
 .sidebar {
@@ -8,6 +10,7 @@ body {
 
 .input-field {
   background-color: #333333; /* Darker background for input fields */
+  padding : 10px;
 }
 
 .search-input {
@@ -34,7 +37,7 @@ body {
 }
 
 .notification-button {
-  color: #fcfc00; /* Yellow notification button */
+  color: orangered; /* Yellow notification button */
 }
 
 .delete-button {
@@ -99,4 +102,14 @@ button:hover {
 
 button:hover {
   opacity: 0.8;
+}
+.chat-body{
+  background-color: #333333;
+  color: #e0e0e0;
+
+  overflow-y: auto;
+  padding-top: 3%;
+  border-radius: 5px;
+
+  margin-top: 10px;
 }

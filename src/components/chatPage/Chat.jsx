@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { io } from "socket.io-client";
-import "./Chat.css";
+import './Chat.css';
+
 import {
   FaPaperPlane,
   FaUserCircle,
@@ -11,8 +11,6 @@ import {
   FaBell,
   FaTrashAlt,
 } from "react-icons/fa";
-
-const socket = io("http://localhost:5001");
 
 // Mock user and initial chat data
 const currentUsername = "User1";
@@ -46,17 +44,6 @@ const ChatPage = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    socket.on("message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      setShowNotification(true);
-    });
-
-    return () => {
-      socket.off("message");
-    };
-  }, []);
-
-  useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -70,7 +57,6 @@ const ChatPage = () => {
         file: attachment ? URL.createObjectURL(attachment) : null,
         seen: false,
       };
-      socket.emit("send-message", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setMessage("");
       setAttachment(null);
@@ -114,7 +100,7 @@ const ChatPage = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row h-screen body">
+    <div className="flex flex-col md:flex-row h-screen chat-body">
       {/* Sidebar */}
       <aside className="sidebar w-full md:w-1/4 p-6 flex flex-col border-r border-gray-700">
         <div className="flex items-center mb-6">

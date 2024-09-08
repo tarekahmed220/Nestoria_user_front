@@ -14,7 +14,7 @@ const ProductCard = () => {
       const response = await axios.get(`http://localhost:5000/api/v1/fur/workshops/66d87cbeb4d55d64579e20cc?page=${page}&limit=8`);
       setProducts(response.data.products);
       console.log("my products :",response.data.products);
-      setTotalPages(Math.ceil(response.data.totalProducts / 6)); // Set total pages based on totalProducts and limit
+      setTotalPages(Math.ceil(response.data.totalProducts / 8)); // Set total pages based on totalProducts and limit
     } catch (error) {
       console.error('Error fetching products:', error);
     }

@@ -162,24 +162,15 @@ function Cart() {
     }
   };
 
-  const handleCheckoutBtn = async () => {
-    console.log(products);
-    console.log(subTotal);
-    console.log(totalAfterCoupon);
-    try {
-      const response = await axiosInstance.post("/api/v1/fur/orders/addOrders", {
-        products,
-        subTotal,
-        total
-      });
-      if (response.status === 200) {
-        console.log("Order successfully added");
-      } else {
-        console.error("Failed to add order");
-      }
-    } catch (err) {
-      console.log(err);
+  const handleCheckoutBtn = async () => {    
+    const dataToLocal = {
+      "products": products,
+      "subTotal": subTotal,
+      "total": totalAfterCoupon,
     }
+
+    console.log(dataToLocal);
+    localStorage.setItem("ordersLocal",dataToLocal);
   }
 
   return (

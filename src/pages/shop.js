@@ -6,6 +6,9 @@ import Pagination from "../components/Pagination.js";
 import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 
+import { FaHome } from "react-icons/fa";
+
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);

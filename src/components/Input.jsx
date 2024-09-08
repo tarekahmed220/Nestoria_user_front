@@ -37,7 +37,8 @@ const InputField = ({
               justifyContent: "start",
               alignItems: "center",
               gap: "5px",
-              margin: "5px",
+
+              margin: "5px 9px",
             }}
           >
             {error} <IoIosWarning className="text-yellow-500" />

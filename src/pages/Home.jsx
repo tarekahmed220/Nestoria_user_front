@@ -27,13 +27,18 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import axios from "axios";
 import Loader from "../components/Loader";
+import LazyLoadedItem from "../components/LazyLoadedItem";
+import { useSearchContext } from "../context/SearchContext";
 
 function Home() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [isLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [email, setEmail] = useState("");
@@ -44,6 +49,7 @@ function Home() {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+  const navigate = useNavigate();
   const [currentImg, setCurrentImg] = useState(
     "/images/home/Sofa-Home-1-Section-3-01.jpg"
   );
@@ -142,23 +148,23 @@ function Home() {
 
   useEffect(() => {
     const fetchCollection = async () => {
-      setIsLoading(true);
-      const collection = axios(
-        "http://localhost:5000/api/v1/fur/products/homeproducts"
-      )
-        .then((response) => {
-          const filteredCollection = response.data[1].homeProducts.filter(
-            (collection) => {
-              return collection.category === categoryName;
-            }
-          );
-          setCollectionList(filteredCollection);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      setIsLoading(false);
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          "http://localhost:5000/api/v1/fur/products/homeproducts"
+        );
+
+        const filteredCollection = response.data[1].homeProducts.filter(
+          (collection) => collection.category === categoryName
+        );
+        setCollectionList(filteredCollection);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
+
     fetchCollection();
   }, [categoryName]);
 
@@ -203,10 +209,13 @@ function Home() {
                     the bed how much does it matter to the pellentesque tortor
                   </p>
                   <button
+                    onClick={() => {
+                      navigate("/shop");
+                    }}
                     className={`${styles.shopNowBtn} relative bg-[--mainColor] text-[white] py-1 lg:py-2 px-7 rounded-3xl text-sm md:text-lg lg:text-xl`}
                   >
                     <span className="pr-8"> Shop Now</span>
-                    <span className=" absolute top-1/2 translate-y-[-50%] right-1 bg-white p-[6px] rounded-full flex justify-center items-center  text-black">
+                    <span className=" absolute top-1/2 translate-y-[-50%] right-1 bg-white p-[1px] lg:p-[7px] rounded-full flex justify-center items-center  text-black">
                       <IoIosArrowRoundForward className="text-2xl arrow" />
                     </span>
                   </button>
@@ -232,11 +241,14 @@ function Home() {
               for the silent partners who turn to the shores through our
               marriages, through the Hymenaean projects.
             </p>
-
-            <img alt="example" src="/images/home/first.jpg" />
+            <LazyLoadedItem x="-100">
+              <img alt="example" src="/images/home/first.jpg" />
+            </LazyLoadedItem>
           </div>
           <div className="second flex-1">
-            <img alt="example" src="/images/home/second.jpg" />
+            <LazyLoadedItem x="100">
+              <img alt="example" src="/images/home/second.jpg" />
+            </LazyLoadedItem>
 
             <h2 className="text-xl md:text-2xl lg:text-4xl text-white mt-4">
               Discover Endless Designs
@@ -564,7 +576,13 @@ function Home() {
             </Accordion>
           </div>
           <div className="imgContainer flex-1 px-3">
-            <img src="/images/home/Home-1-Section-5-3.jpg" alt="" />
+            <LazyLoadedItem x="100">
+              <img
+                src="/images/home/Home-1-Section-5-3.jpg"
+                alt=""
+                className="rounded-lg"
+              />
+            </LazyLoadedItem>
           </div>
         </div>
       </div>
@@ -682,11 +700,13 @@ function Home() {
           <div className="flex justify-center items-center gap-5 flex-col lg:flex-row">
             <div className="right flex-1">
               <div className="imgCotainer overflow-hidden">
-                <img
-                  src="/images/home/blog-01.jpg"
-                  alt="blog-01"
-                  className="hover:scale-110 transition-all duration-500 cursor-pointer"
-                />
+                <LazyLoadedItem x="-100">
+                  <img
+                    src="/images/home/blog-01.jpg"
+                    alt="blog-01"
+                    className="hover:scale-110 transition-all duration-500 cursor-pointer"
+                  />
+                </LazyLoadedItem>
               </div>
               <p className="date text-[--mainColor] my-3">
                 May 27, 2024 -{" "}
@@ -711,11 +731,13 @@ function Home() {
             <div className="left flex-1 ">
               <div className="box flex justify-center items-center gap-5 h-[180px] mb-6">
                 <div className="imgContainer w-[45%] overflow-hidden h-full">
-                  <img
-                    src="/images/home/blog-04.jpg"
-                    alt="blog-04"
-                    className="h-full rounded-lg hover:scale-110 transition-all duration-500 cursor-pointer"
-                  />
+                  <LazyLoadedItem x="100">
+                    <img
+                      src="/images/home/blog-04.jpg"
+                      alt="blog-04"
+                      className="h-full rounded-lg hover:scale-110 transition-all duration-500 cursor-pointer"
+                    />
+                  </LazyLoadedItem>
                 </div>
                 <div className="info flex-1">
                   <p className="date text-[--mainColor]">May 27, 2024</p>
@@ -733,11 +755,13 @@ function Home() {
               </div>
               <div className="box flex justify-center items-center gap-5 h-[180px] mb-6">
                 <div className="imgContainer w-[45%] overflow-hidden h-full">
-                  <img
-                    src="/images/home/blog-05.jpg"
-                    alt="blog-04"
-                    className="h-full rounded-lg hover:scale-110 transition-all duration-500 cursor-pointer"
-                  />
+                  <LazyLoadedItem x="100">
+                    <img
+                      src="/images/home/blog-05.jpg"
+                      alt="blog-04"
+                      className="h-full rounded-lg hover:scale-110 transition-all duration-500 cursor-pointer"
+                    />
+                  </LazyLoadedItem>
                 </div>
                 <div className="info flex-1">
                   <p className="date text-[--mainColor]">May 26, 2024</p>
@@ -755,11 +779,13 @@ function Home() {
               </div>
               <div className="box flex justify-center items-center gap-5 h-[180px] ">
                 <div className="imgContainer w-[45%] overflow-hidden h-full">
-                  <img
-                    src="/images/home/blog-09.jpg"
-                    alt="blog-04"
-                    className="h-full rounded-lg hover:scale-110 transition-all duration-500 cursor-pointer"
-                  />
+                  <LazyLoadedItem x="100">
+                    <img
+                      src="/images/home/blog-09.jpg"
+                      alt="blog-04"
+                      className="h-full rounded-lg hover:scale-110 transition-all duration-500 cursor-pointer"
+                    />
+                  </LazyLoadedItem>
                 </div>
                 <div className="info flex-1">
                   <p className="date text-[--mainColor]">May 25, 2024</p>

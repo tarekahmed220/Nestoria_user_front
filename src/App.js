@@ -26,7 +26,7 @@ import { useEffect } from "react";
 import ProfileUser from "./pages/ProfileUser";
 
 import { SearchProvider } from "./context/SearchContext";
-
+import { UserProvider } from "./context/UserProvider";
 
 function App() {
   useEffect(() => {
@@ -35,6 +35,7 @@ function App() {
 
   return (
     <>
+     <UserProvider>     
       <SearchProvider>
         <Router>
           <Routes>
@@ -61,20 +62,21 @@ function App() {
           </Routes>
         </Router>
 
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          //transition= {Bounce}
-        />
-      </SearchProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            //transition= {Bounce}
+          />
+        </SearchProvider>
+      </UserProvider>
     </>
   );
 }

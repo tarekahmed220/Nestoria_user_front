@@ -1,6 +1,24 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import axiosInstance from "../../apis/axiosConfig";
 
 export function Addresses() {
+  const [currentUser, setCurrentUser] = useState("");
+  
+  useEffect(() => {
+    const fetchUser = async () =>{
+      try{
+        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
+        setCurrentUser(res);
+        console.log(res);
+      }catch (err){
+        console.log(err);
+      }
+    };
+
+    fetchUser();
+  }, [])
+  
   return (
     <div>
       <p className="text-[#A2A2A2]">
@@ -14,7 +32,7 @@ export function Addresses() {
               Edit
             </Link>
           </div>
-          <span className="mt-5 italic font-bold text-[#A2A2A2]">Ahmed</span>
+          <span className="mt-5 italic font-bold text-[#A2A2A2]">{currentUser.fullName}</span>
         </div>
       </div>
 

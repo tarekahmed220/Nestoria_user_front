@@ -12,12 +12,15 @@ import { LiaCartPlusSolid } from "react-icons/lia";
 import { IoMdLogOut } from "react-icons/io";
 import { IoIosMan } from "react-icons/io";
 import styles from "../css modules/nab2.module.css";
+import { useUserInfoContext } from "../context/UserProvider";
 
 function Navbar2() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const divRef = useRef(null);
 
+  const { currentUser } = useUserInfoContext();
+  console.log("home", currentUser.fullName);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (divRef.current && !divRef.current.contains(event.target)) {
@@ -88,10 +91,14 @@ function Navbar2() {
               setShowProfile((prev) => !prev);
             }}
           >
-            <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
+            <div className="flex text-white gap-2">
+              <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
+              <p>{currentUser.fullName}</p>
+            </div>
+
             {showProfile && (
               <div
-                className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] right-[-30px] z-10`}
+                className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] left-[-53px] z-10`}
               >
                 <p
                   className="flex items-center gap-2 justify-center  cursor-pointer text-white hover:bg-[--mainColor] py-2 px-4 text-center rounded-lg"

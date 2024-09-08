@@ -11,23 +11,23 @@ import {
 import { Link } from "react-router-dom";
 import { GiCheckMark } from "react-icons/gi";
 import { useParams } from "react-router-dom";
-import axiosInstance from "../apis/axiosConfig";
-import Loader from "../components/Loader";
-
+import axiosInstance from "../apis/axiosConfig.js";
+import Loader from "../components/Loader.jsx";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetails() {
   const params = useParams();
   const [product, setproduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setIsLoading(true);
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
-        console.log("ssss", res.data.data.product["Workshop-Name"]);
+        console.log(res.data.data.product);
         setproduct(res.data.data.product);
-        console.log("ssss", res.data.data.product);
       })
       .catch((err) => {
         console.log(err);
@@ -44,7 +44,7 @@ function ProductDetails() {
   const [colorSelect, setColorSelect] = useState("");
   const handleColorSelect = (index) => {
     setSelectedColor(index);
-    switch(index){
+    switch (index) {
       case 0:
         return setColorSelect("Blue");
       case 1:
@@ -58,17 +58,13 @@ function ProductDetails() {
     }
   };
 
-
   const addToCart = async (quantity, productId, color) => {
     try {
-      const response = await axiosInstance.post(
-        "/addToCart",
-        {
-          quantity,
-          productId,
-          color,
-        }
-      );
+      const response = await axiosInstance.post("/addToCart", {
+        quantity,
+        productId,
+        color,
+      });
       console.log("product added");
     } catch (err) {
       console.log(err);
@@ -76,11 +72,11 @@ function ProductDetails() {
   };
 
   const handleAddToCart = () => {
-    if(colorSelect === ""){
+    if (colorSelect === "") {
       return console.log("select color");
     }
-    addToCart(quantity,product._id,colorSelect);
-  }
+    addToCart(quantity, product._id, colorSelect);
+  };
 
   const handleIncreaseQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -95,14 +91,15 @@ function ProductDetails() {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
-
+  const handleWorkshop = (id) => {
+    navigate(`/workShopProfile/${id}`);
+    console.log(id)
+  };
   if (isLoading) {
-    return (
-      <Loader />
-    );
+    return <Loader />;
   }
   return (
-    <div className="bg-[#030303] text-white mt-6 p-8">
+    <div className="bg-[#030303] text-white  p-8">
       {/*  section 1111111111111 */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -162,9 +159,6 @@ function ProductDetails() {
           <p className="text-gray-400 mb-4">{product.description}</p>
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
-          <div className="text-xl font-semibold mb-4">
-            {product["Workshop-Name"]} 
-          </div>
 
           {/* قسم الألوان */}
           <div className="mb-4">
@@ -205,13 +199,20 @@ function ProductDetails() {
             </div>
 
             {/* زر إضافة إلى السلة */}
-            <button onClick={() => handleAddToCart()} className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow">
+            <button
+              onClick={() => handleAddToCart()}
+              className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow"
+            >
               <FaShoppingCart className="mr-2" /> Add to Cart
             </button>
           </div>
 
-          <button className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3 ">
-            Buy Now
+          <button
+            onClick={() => handleWorkshop(product["workshop_id"])}
+            className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3 "
+          >
+            see more about workShop
+            {product["Workshop-Name"]}
           </button>
 
           {/* معلومات إضافية */}

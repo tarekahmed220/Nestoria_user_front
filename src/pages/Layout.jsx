@@ -8,7 +8,6 @@ function Layout() {
   const blackList = ["/register", "/login", "/forgotpassword"];
 
   const hideComponents = blackList.includes(location.pathname);
-  console.log(hideComponents);
   return (
     <>
       <Navbar />

@@ -76,3 +76,26 @@ code {
   opacity: 1;
   visibility: visible;
 }
+
+.searchAnimation {
+  animation: searchAnimation 0.4s 1 linear;
+}
+
+@keyframes searchAnimation {
+  0% {
+    transform: translateY(-200%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+@keyframes searchAnimationreverse {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-200%);
+  }
+}

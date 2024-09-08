@@ -1,8 +1,10 @@
 import { CiSearch } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
 import { useSearchContext } from "../context/SearchContext";
+import { useState } from "react";
 
 function SearchContainer({ setShowSearch }) {
+  const [isClosed, setIsClosed] = useState(false);
   const { search, setSearch } = useSearchContext();
 
   const handleSearchQuery = () => {
@@ -10,10 +12,18 @@ function SearchContainer({ setShowSearch }) {
   };
   return (
     <div>
-      <div className=" bg-[#101010] w-full h-[400px] mx-auto absolute top-[-60px] left-0 z-[200]">
+      <div
+        className={` ${
+          isClosed ? "searchAnimationreverse" : "searchAnimation"
+        } bg-[#101010] w-full h-[400px] mx-auto absolute top-[-60px] left-0 z-[200]`}
+      >
         <button
           className="bg-[--mainColor] text-white p-2 rounded-full w-10 cursor-pointer hover:opacity-80 transition-all duration-200 absolute top-7 right-7"
-          onClick={handleSearchQuery}
+          onClick={() => {
+            setIsClosed(true);
+            setShowSearch(false);
+            console.log(isClosed);
+          }}
         >
           X
         </button>
@@ -31,8 +41,11 @@ function SearchContainer({ setShowSearch }) {
               }}
               placeholder="Enter Keyword"
             />
-            <IoIosSearch className="cursor-pointer text-xl absolute top-[32%] right-5 text-white hover:text-[--mainColor]" />
-          </div>{" "}
+            <IoIosSearch
+              className="cursor-pointer text-xl absolute top-[32%] right-5 text-white hover:text-[--mainColor]"
+              onClick={handleSearchQuery}
+            />
+          </div>
         </div>
       </div>
     </div>

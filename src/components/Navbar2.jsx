@@ -4,17 +4,44 @@ import {
   faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import SearchContainer from "./searchContainer";
+import { CgProfile } from "react-icons/cg";
+import { LiaCartPlusSolid } from "react-icons/lia";
+import { IoMdLogOut } from "react-icons/io";
+import { IoIosMan } from "react-icons/io";
+import styles from "../css modules/nab2.module.css";
 
 function Navbar2() {
   const [showSearch, setShowSearch] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setShowProfile(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
 
   return (
     <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50">
       <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
-        <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif">
+        <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif ">
           {/* <Link to="/">
             <img
               className="w-[230px]"
@@ -35,37 +62,58 @@ function Navbar2() {
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
             <Link to="/wishlist">WISHLIST</Link>
           </li>
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/workshop">WORK SHOP</Link>
-          </li>
+
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
             <Link to="/aboutus">ABOUT US</Link>
           </li>
           <li className="text-white hover:text-[--mainColor] transition-all duration-150">
             <Link to="/contactus">CONTACT US</Link>
           </li>
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/register">REGISTER</Link>
-          </li>
         </ul>
-        <div className="flex gap-2 sm:gap-4 lg:gap-5">
+        <div className="flex gap-2 sm:gap-4 lg:gap-5 justify-center items-center">
           <FontAwesomeIcon
             onClick={() => {
               setShowSearch(true);
             }}
-            className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
+            className="cursor-pointer text-lg  lg:text-xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200"
             icon={faMagnifyingGlass}
           />
           <Link to="/cart">
-            <FontAwesomeIcon
-              className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
-              icon={faCartPlus}
-            />
+            <LiaCartPlusSolid className="cursor-pointer text-lg  lg:text-3xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200" />
           </Link>
-          <FontAwesomeIcon
-            className="cursor-pointer text-lg sm:text-xl lg:text-2xl text-white hover:text-[--mainColor] transition-all duration-200"
-            icon={faCaretDown}
-          />
+          <div
+            ref={divRef}
+            className="relative z-50"
+            onClick={() => {
+              setShowProfile((prev) => !prev);
+            }}
+          >
+            <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
+            {showProfile && (
+              <div
+                className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] right-[-30px] z-10`}
+              >
+                <p
+                  className="flex items-center gap-2 justify-center  cursor-pointer text-white hover:bg-[--mainColor] py-2 px-4 text-center rounded-lg"
+                  value="profile"
+                  onClick={() => {
+                    navigate("/profile");
+                  }}
+                >
+                  <span>Profile</span>
+                  <IoIosMan />
+                </p>
+                <p
+                  className="flex items-center gap-2 justify-center cursor-pointer text-white hover:bg-[--mainColor] py-2 px-2 text-center rounded-lg"
+                  value="logout"
+                  onClick={() => handleLogout()}
+                >
+                  <span> Logout</span>
+                  <IoMdLogOut className="inline-block" />
+                </p>
+              </div>
+            )}
+          </div>
           {showSearch && <SearchContainer setShowSearch={setShowSearch} />}
         </div>
       </div>

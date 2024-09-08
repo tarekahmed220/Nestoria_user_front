@@ -23,7 +23,7 @@ import { useEffect } from "react";
 import ProfileUser from "./pages/ProfileUser";
 
 import { SearchProvider } from "./context/SearchContext";
-
+import { UserProvider } from "./context/UserProvider";
 
 function App() {
   useEffect(() => {
@@ -32,43 +32,48 @@ function App() {
 
   return (
     <>
-      <SearchProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="product-details/:id" element={<ProductDetails />} />
-              <Route path="shop" element={<Shop />} />
-              <Route path="contactus" element={<ContactUs />} />
-              <Route path="aboutus" element={<AboutUs />} />
-              <Route path="wishlist" element={<WishList />} />
-              <Route path="workshop" element={<HeroSection />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/forgotpassword" element={<ForgotPassword />} />
-              <Route path="cart" element={<Cart />} />
-              <Route path="profile" element={<ProfileUser />} />
-            </Route>
-            <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/confirmemail" element={<ConfirmEmail />} />
-            <Route path="*" element={<NotfountPage />} />
-          </Routes>
-        </Router>
+      <UserProvider>
+        <SearchProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="product-details/:id"
+                  element={<ProductDetails />}
+                />
+                <Route path="shop" element={<Shop />} />
+                <Route path="contactus" element={<ContactUs />} />
+                <Route path="aboutus" element={<AboutUs />} />
+                <Route path="wishlist" element={<WishList />} />
+                <Route path="workshop" element={<HeroSection />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="profile" element={<ProfileUser />} />
+              </Route>
+              <Route path="/resetpassword" element={<ResetPassword />} />
+              <Route path="/confirmemail" element={<ConfirmEmail />} />
+              <Route path="*" element={<NotfountPage />} />
+            </Routes>
+          </Router>
 
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-          //transition= {Bounce}
-        />
-      </SearchProvider>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+            //transition= {Bounce}
+          />
+        </SearchProvider>
+      </UserProvider>
     </>
   );
 }

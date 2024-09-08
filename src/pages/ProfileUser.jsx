@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HeaderPages } from "../components/HeaderPages";
 import { Orders } from "../components/Profile components/Orders";
 import { Addresses } from "../components/Profile components/Addresses";
@@ -7,6 +7,7 @@ import { BillingAddress } from "../components/Profile components/BillingAddress"
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
 
 import { Link } from "react-router-dom";
+import axiosInstance from "../apis/axiosConfig";
 
 function ProfileUser() {
   const itemsSlide = [
@@ -22,7 +23,22 @@ function ProfileUser() {
 
   const [itemSelected, setItemSelected] = useState("Dashboard");
   const [typeAddress, setTypeAddress] = useState("");
+  const [currentUser, setCurrentUser] = useState("");
   
+  useEffect(() => {
+    const fetchUser = async () =>{
+      try{
+        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
+        setCurrentUser(res);
+        console.log(res);
+      }catch (err){
+        console.log(err);
+      }
+    };
+
+    fetchUser();
+  }, [])
+
   const handleTypeAddress = (action) => {
     if(action === "Add"){
       setTypeAddress(action);
@@ -70,7 +86,7 @@ function ProfileUser() {
             {/* Dashboard */}
             {itemSelected === "Dashboard" && (
               <div>
-                <h3 className="text-lg text-[#A9A9A9]">Hello </h3>
+                <h3 className="text-lg text-[#A9A9A9]">Hello {currentUser.fullName}</h3>
                 <p className="text-[#A9A9A9] mt-4">
                   From your account dashboard you can view your recent orders,
                   manage your shipping and billing addresses, and edit your
@@ -103,7 +119,7 @@ function ProfileUser() {
                         </Link>
                       </div>
                       <span className="mt-5 italic font-bold text-[#A2A2A2]">
-                        Ahmed
+                        {currentUser.fullName}
                       </span>
                     </div>
                   </div>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axiosInstance from "../../apis/axiosConfig";
 
 export function BillingAddress() {
   const countries = [
@@ -11,13 +12,29 @@ export function BillingAddress() {
 
   const [selectedCountry, setSelectedCountry] = useState("");
 
+  const [currentUser, setCurrentUser] = useState("");
+  
+  useEffect(() => {
+    const fetchUser = async () =>{
+      try{
+        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
+        setCurrentUser(res);
+        console.log(res);
+      }catch (err){
+        console.log(err);
+      }
+    };
+
+    fetchUser();
+  }, [])
+
   const handleChange = (e) => {
     setSelectedCountry(e.target.value);
   };
 
   return (
     <form className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
         <div className="flex flex-col gap-4">
           <label className="text-[#929292]">
             First name
@@ -40,7 +57,19 @@ export function BillingAddress() {
             placeholder="Tarek"
           />
         </div>
-      </div>
+      </div> */}
+      <h3 className="text-white text-2xl">Billing Address</h3>
+      <div className="flex flex-col gap-4 text-[#929292]">
+          <label>
+            Full name
+          </label>
+          <input
+            className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
+            type="text"
+            name=""
+            placeholder={currentUser.fullName}
+          />
+        </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Company name (optional)</label>
         <input
@@ -64,7 +93,7 @@ export function BillingAddress() {
                 value={country}
                 className="bg-[#101010] px-3 font-bold text-[#929292] cursor-pointer hover:text-white hover:bg-slate-100"
               >
-                {country}
+                {currentUser.address}
               </option>
             ))}
           </select>
@@ -95,7 +124,7 @@ export function BillingAddress() {
         />
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
-        <label>Twon/city</label>
+        <label>Town/city</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -103,7 +132,7 @@ export function BillingAddress() {
           placeholder=""
         />
       </div>
-      <div className="flex flex-col gap-4 text-[#929292]">
+      {/* <div className="flex flex-col gap-4 text-[#929292]">
         <label>State/Country</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
@@ -111,7 +140,7 @@ export function BillingAddress() {
           name=""
           placeholder=""
         />
-      </div>
+      </div> */}
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Postcode/ZIP</label>
         <input
@@ -127,7 +156,7 @@ export function BillingAddress() {
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="number"
           name=""
-          placeholder=""
+          value={currentUser.phone}
         />
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
@@ -136,7 +165,8 @@ export function BillingAddress() {
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="email"
           name=""
-          placeholder="ahmed@gmail.com"
+          readOnly
+          placeholder={currentUser.email}
         />
       </div>
       <div>

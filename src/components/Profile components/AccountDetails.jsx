@@ -1,7 +1,27 @@
+import { useEffect, useState } from "react";
+import axiosInstance from "../../apis/axiosConfig";
+
 export function AccountDetails() {
+
+  const [currentUser, setCurrentUser] = useState("");
+  
+  useEffect(() => {
+    const fetchUser = async () =>{
+      try{
+        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
+        setCurrentUser(res);
+        console.log(res);
+      }catch (err){
+        console.log(err);
+      }
+    };
+
+    fetchUser();
+  }, [])
+
   return (
     <form className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
         <div className="flex flex-col gap-4">
           <label className="text-[#929292]">
             First name
@@ -24,6 +44,15 @@ export function AccountDetails() {
             placeholder="Tarek"
           />
         </div>
+      </div> */}
+      <div className="flex flex-col gap-4 text-[#929292]">
+        <label>Full name</label>
+        <input
+          className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
+          type="text"
+          name=""
+          placeholder={currentUser.fullName}
+        />
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Display name</label>
@@ -31,7 +60,7 @@ export function AccountDetails() {
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
           name=""
-          placeholder="Ahmed Tarek"
+          placeholder={currentUser.fullName}
         />
         <span className="italic font-bold">
           This will be how your name will be displayed in the account section
@@ -44,15 +73,14 @@ export function AccountDetails() {
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="email"
           name=""
-          placeholder="ahmed@gmail.com"
+          readOnly
+          placeholder={currentUser.email}
         />
       </div>
       <div className="flex flex-col gap-6">
         <h3 className="text-2xl text-white">Password change</h3>
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label>
-            Current password (leave blank to leave unchanged)
-          </label>
+          <label>Current password (leave blank to leave unchanged)</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="password"
@@ -60,9 +88,7 @@ export function AccountDetails() {
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label>
-            New password (leave blank to leave unchanged)
-          </label>
+          <label>New password (leave blank to leave unchanged)</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="password"

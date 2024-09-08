@@ -8,6 +8,8 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
+import ChatPage from "./components/chatPage/Chat";
+
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import ConfirmEmail from "./pages/ConfirmEmail";
@@ -43,6 +45,7 @@ function App() {
               <Route path="aboutus" element={<AboutUs />} />
               <Route path="wishlist" element={<WishList />} />
               <Route path="workshop" element={<HeroSection />} />
+              <Route path="/chat" element={<ChatPage />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />

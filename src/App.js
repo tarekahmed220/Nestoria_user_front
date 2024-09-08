@@ -14,6 +14,7 @@ import ConfirmEmail from "./pages/ConfirmEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Shop from "./pages/shop";
+import Checkout from "./pages/Checkout";
 import HeroSection from "./components/workshop/HeroSection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +49,8 @@ function App() {
               <Route path="/forgotpassword" element={<ForgotPassword />} />
               <Route path="cart" element={<Cart />} />
               <Route path="profile" element={<ProfileUser />} />
+              <Route path="checkout" element={<Checkout />} />
+              
             </Route>
             <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/confirmemail" element={<ConfirmEmail />} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { io } from "socket.io-client";
+
 import './Chat.css';
+
 import {
   FaPaperPlane,
   FaUserCircle,
@@ -11,8 +12,6 @@ import {
   FaBell,
   FaTrashAlt,
 } from "react-icons/fa";
-
-const socket = io("http://localhost:5001");
 
 // Mock user and initial chat data
 const currentUsername = "User1";
@@ -46,17 +45,6 @@ const ChatPage = () => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    socket.on("message", (data) => {
-      setMessages((prevMessages) => [...prevMessages, data]);
-      setShowNotification(true);
-    });
-
-    return () => {
-      socket.off("message");
-    };
-  }, []);
-
-  useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
@@ -70,7 +58,6 @@ const ChatPage = () => {
         file: attachment ? URL.createObjectURL(attachment) : null,
         seen: false,
       };
-      socket.emit("send-message", newMessage);
       setMessages((prevMessages) => [...prevMessages, newMessage]);
       setMessage("");
       setAttachment(null);
@@ -114,7 +101,7 @@ const ChatPage = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row h-screen body">
+    <div className="flex flex-col md:flex-row h-screen chat-body">
       {/* Sidebar */}
       <aside className="sidebar w-full md:w-1/4 p-6 flex flex-col border-r border-gray-700">
         <div className="flex items-center mb-6">
@@ -197,7 +184,9 @@ const ChatPage = () => {
             className="w-10 h-10 rounded-full mr-4"
           />
           <div className="flex-1">
-            <h2 className="text-gray-100 font-semibold">{selectedChat.username}</h2>
+            <h2 className="text-gray-100 font-semibold">
+              {selectedChat.username}
+            </h2>
             <p className="text-gray-400 text-sm">
               {selectedChat.status === "online"
                 ? "Active now"
@@ -286,7 +275,9 @@ const ChatPage = () => {
         {confirmDelete !== null && (
           <div className="absolute inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-gray-800 p-6 rounded-lg text-center">
-              <h3 className="text-white text-lg mb-4">Are you sure you want to delete this message?</h3>
+              <h3 className="text-white text-lg mb-4">
+                Are you sure you want to delete this message?
+              </h3>
               <button
                 onClick={confirmDeleteMessage}
                 className="bg-red-600 px-4 py-2 rounded-lg text-white mr-4"

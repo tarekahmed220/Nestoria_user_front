@@ -8,7 +8,11 @@ import InputField from "../components/Input";
 import IntroSection from "../components/IntroSection";
 import { IoIosWarning } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
+import { useUserInfoContext } from "../context/UserProvider";
+import Loader from "../components/Loader";
 function Login() {
+  const { setIsLogin, isLogin, setCurrentUser } = useUserInfoContext();
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -79,10 +83,16 @@ function Login() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
+        setIsLoading(true);
         const { data: user2 } = await userloginApi.createUser(user);
         const token = user2?.token;
         localStorage.setItem("token", token);
         localStorage.setItem("role", user2?.data?.user?.role);
+        console.log("user2", user2.data.user);
+        setCurrentUser(user2.data.user);
+        setIsLogin(true);
+        console.log(isLogin);
+
         navigate("/");
       } catch (error) {
         if (
@@ -100,6 +110,8 @@ function Login() {
           setServerErr("Something went wrong. Please try again later.");
           console.log("Something went wrong. Please try again later.");
         }
+      } finally {
+        setIsLoading(false);
       }
     } else {
       setServerErr("Please fix the errors in the form.");
@@ -109,6 +121,7 @@ function Login() {
 
   return (
     <>
+      {isLoading && <Loader />}
       <IntroSection pageName="Signin" pageTitle="Signin" />
       <div
         className="flex justify-center items-center min-h-screen "

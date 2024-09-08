@@ -13,14 +13,30 @@ import { IoMdLogOut } from "react-icons/io";
 import { IoIosMan } from "react-icons/io";
 import styles from "../css modules/nab2.module.css";
 import { useUserInfoContext } from "../context/UserProvider";
+import axiosInstance from "../apis/axiosConfig";
 
 function Navbar2() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const divRef = useRef(null);
+  const { currentUser, isLogin, setIsLogin } = useUserInfoContext();
+  const [loginStatus, setLoginStatus] = useState(isLogin);
 
-  const { currentUser } = useUserInfoContext();
-  console.log("home", currentUser.fullName);
+  useEffect(() => {
+    setLoginStatus(isLogin);
+  }, [isLogin]);
+
+  useEffect(() => {
+    // هذا التأثير يتم تنفيذه عند تغيير isLogin
+    if (isLogin) {
+      // تحديث واجهة المستخدم عند تسجيل الدخول
+      console.log("User logged in:", currentUser);
+    } else {
+      // يمكن القيام بشيء عند تسجيل الخروج
+      console.log("User logged out");
+    }
+  }, [isLogin, currentUser]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (divRef.current && !divRef.current.contains(event.target)) {
@@ -36,6 +52,17 @@ function Navbar2() {
   }, []);
   const navigate = useNavigate();
   const handleLogout = () => {
+    axiosInstance("/api/v1/fur/profile/logout")
+      .then((res) => {
+        setIsLogin(false);
+
+        console.log("Logged out:", res);
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/login");
+      })
+      .catch((err) => console.log(err));
+
     localStorage.removeItem("token");
     localStorage.removeItem("role");
     navigate("/login");
@@ -84,43 +111,56 @@ function Navbar2() {
           <Link to="/cart">
             <LiaCartPlusSolid className="cursor-pointer text-lg  lg:text-3xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200" />
           </Link>
-          <div
-            ref={divRef}
-            className="relative z-50"
-            onClick={() => {
-              setShowProfile((prev) => !prev);
-            }}
-          >
-            <div className="flex text-white gap-2">
-              <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
-              <p>{currentUser.fullName}</p>
-            </div>
+          {/* FIXME: */}
 
-            {showProfile && (
-              <div
-                className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] left-[-53px] z-10`}
-              >
-                <p
-                  className="flex items-center gap-2 justify-center  cursor-pointer text-white hover:bg-[--mainColor] py-2 px-4 text-center rounded-lg"
-                  value="profile"
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                >
-                  <span>Profile</span>
-                  <IoIosMan />
-                </p>
-                <p
-                  className="flex items-center gap-2 justify-center cursor-pointer text-white hover:bg-[--mainColor] py-2 px-2 text-center rounded-lg"
-                  value="logout"
-                  onClick={() => handleLogout()}
-                >
-                  <span> Logout</span>
-                  <IoMdLogOut className="inline-block" />
-                </p>
+          {isLogin && currentUser ? (
+            <div
+              ref={divRef}
+              className="relative z-50"
+              onClick={() => {
+                setShowProfile((prev) => !prev);
+              }}
+            >
+              <div className="flex text-white gap-2">
+                <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
+                <>{currentUser ? currentUser.fullName : "Guest"}</>
               </div>
-            )}
-          </div>
+
+              {showProfile && (
+                <div
+                  className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] left-[-41px] z-10`}
+                >
+                  <p
+                    className="flex items-center gap-2 justify-center  cursor-pointer text-white hover:bg-[--mainColor] py-2 px-4 text-center rounded-lg"
+                    value="profile"
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  >
+                    <span>Profile</span>
+                    <IoIosMan />
+                  </p>
+                  <p
+                    className="flex items-center gap-2 justify-center cursor-pointer text-white hover:bg-[--mainColor] py-2 px-2 text-center rounded-lg"
+                    value="logout"
+                    onClick={() => handleLogout()}
+                  >
+                    <span> Logout</span>
+                    <IoMdLogOut className="inline-block" />
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div
+              className="text-white cursor-pointer hover:text-[--mainColor] transition-all duration-200"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              Login/Register
+            </div>
+          )}
           {showSearch && <SearchContainer setShowSearch={setShowSearch} />}
         </div>
       </div>

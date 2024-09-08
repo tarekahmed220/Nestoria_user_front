@@ -3,22 +3,25 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faShoppingCart, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import axiosInstance from "../apis/axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
 
 function WishlistPage() {
   const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
 
+  // Fetch wishlist from API on component mount
   useEffect(() => {
-    // Fetch wishlist from API
-    axios.get('http://localhost:5000/api/v1/fur/favorites')
-      .then(response => {
-        setWishlist(response.data);
-      })
-      .catch(error => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await axiosInstance.get('/api/v1/fur/favorites');
+        setWishlist(response.data.data.favorites);
+      } catch (error) {
         console.error("Error fetching wishlist:", error);
-      });
+      }
+    };
+
+    fetchWishlist();
   }, []);
 
   const handleRemove = (id) => {
@@ -29,20 +32,19 @@ function WishlistPage() {
           <div>
             <button
               className="btn btn-danger"
-              onClick={() => {
-                axios.delete(`http://localhost:5000/api/v1/fur/favorites/${id}`)
-                  .then(() => {
-                    setWishlist(wishlist.filter((item) => item._id !== id));
-                    toast.success("Item removed from wishlist!", {
-                      position: "top-center",
-                      autoClose: 3000,
-                    });
-                    closeToast();
-                  })
-                  .catch(error => {
-                    toast.error("Error removing item from wishlist.");
-                    console.error(error);
+              onClick={async () => {
+                try {
+                  await axiosInstance.delete(`/api/v1/fur/favorites/${id}`);
+                  setWishlist(wishlist.filter((item) => item.product._id !== id));
+                  toast.success("Item removed from wishlist!", {
+                    position: "top-center",
+                    autoClose: 3000,
                   });
+                } catch (error) {
+                  toast.error("Error removing item from wishlist.");
+                  console.error(error);
+                }
+                closeToast();
               }}
               style={{ marginRight: "10px" }}
             >
@@ -63,18 +65,13 @@ function WishlistPage() {
     );
   };
 
-  const addToCart = (id) => {
-    axios.patch(`http://localhost:5000/api/v1/fur/users/add/${id}`)
-      .then(() => {
-        toast.success("Item added to cart!", {
-          position: "top-center",
-          autoClose: 3000,
-        });
-      })
-      .catch(error => {
-        toast.error("Error adding item to cart.");
-        console.error(error);
-      });
+  const addToCart = async (quantity, productId, color) => {
+    try {
+      await axiosInstance.post("/addToCart", { quantity, productId, color });
+      toast.success("Product added to cart!", { position: "top-center", autoClose: 3000 });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -120,8 +117,8 @@ function WishlistPage() {
           {wishlist.length === 0 ? (
             <div className="bg-gray-800 text-center py-16 px-8 rounded-lg mx-auto max-w-3xl">
               <h2 className="text-2xl font-bold mb-6 text-white">Your Wishlist is currently empty</h2>
-              <Link to="/">
-                <button className="bg-[--mainColor] text-white px-6 py-3 rounded-md hover:bg-orange-600 transition duration-300 border-2 border-[--mainColor]">
+              <Link to="shop">
+                <button className="bg-transparent text-[--mainColor] px-6 py-3 rounded-full hover:bg-[--mainColor] hover:text-white transition duration-300 border-2 border-[--mainColor]">
                   Return To Shop
                 </button>
               </Link>
@@ -130,32 +127,38 @@ function WishlistPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {wishlist.map((item) => (
                 <div
-                  key={item._id}
-                  className="bg-gray-800 p-6 rounded-lg shadow-md flex items-center space-x-4"
+                  key={item.product._id}
+                  className="bg-gray-800 p-6 rounded-lg shadow-md cursor-pointer"
+                  onClick={() => navigate(`/product-details/${item.product._id}`)}
                 >
+                  <h3 className="text-lg md:text-xl font-semibold mb-2 text-center">{item.product.name}</h3>
                   <img
-                    src={item.images[0]}
-                    alt={item.name}
-                    className="w-16 h-16 object-cover rounded-md cursor-pointer"
-                    onClick={() => navigate(`/product-details/${item._id}`)}
+                    src={item.product.images[0]}
+                    alt={item.product.name}
+                    className="w-full h-48 object-cover rounded-md mb-4"
                   />
-                  <div className="flex-grow">
-                    <h3 className="text-lg md:text-xl font-semibold mb-2">{item.name}</h3>
-                    <p className="text-[#dfddddd2] mb-2">{item.price} $</p>
-                  </div>
-                  <div className="flex space-x-2">
-                    <button
-                      className="bg-[--mainColor] text-white px-3 py-2 rounded-md hover:bg-orange-600 transition duration-300 border border-[--mainColor]"
-                      onClick={() => addToCart(item._id)}
-                    >
-                      <FontAwesomeIcon icon={faShoppingCart} />
-                    </button>
-                    <button
-                      className="bg-red-600 text-white px-3 py-2 rounded-md hover:bg-red-700 transition duration-300 border border-red-600"
-                      onClick={() => handleRemove(item._id)}
-                    >
-                      <FontAwesomeIcon icon={faTrash} />
-                    </button>
+                  <div className="text-center">
+                    <p className="text-[#dfddddd2] mb-4">{item.product.price} $</p>
+                    <div className="flex space-x-2 justify-center">
+                      <button
+                        className="flex items-center bg-transparent text-[--mainColor] px-4 py-2 rounded-full hover:bg-[--mainColor] hover:text-white transition duration-300 border-2 border-[--mainColor] focus:outline-none"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent navigation on button click
+                          handleRemove(item.product._id);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrash} className="mr-2" /> Remove
+                      </button>
+                      <button
+                        className="flex items-center bg-transparent text-[--mainColor] px-4 py-2 rounded-full hover:bg-[--mainColor] hover:text-white transition duration-300 border-2 border-[--mainColor] focus:outline-none"
+                        onClick={(e) => {
+                          e.stopPropagation(); // Prevent navigation on button click
+                          addToCart(item.product.quantity, item.product._id, item.product.details.color);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faShoppingCart} className="mr-2" /> Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

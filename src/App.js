@@ -8,12 +8,15 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
+import ChatPage from "./components/chatPage/Chat";
+
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import ConfirmEmail from "./pages/ConfirmEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Shop from "./pages/shop";
+import Checkout from "./pages/Checkout";
 import HeroSection from "./components/workshop/HeroSection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,32 +35,32 @@ function App() {
 
   return (
     <>
-      <UserProvider>
-        <SearchProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="product-details/:id"
-                  element={<ProductDetails />}
-                />
-                <Route path="shop" element={<Shop />} />
-                <Route path="contactus" element={<ContactUs />} />
-                <Route path="aboutus" element={<AboutUs />} />
-                <Route path="wishlist" element={<WishList />} />
-                <Route path="workshop" element={<HeroSection />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="cart" element={<Cart />} />
-                <Route path="profile" element={<ProfileUser />} />
-              </Route>
-              <Route path="/resetpassword" element={<ResetPassword />} />
-              <Route path="/confirmemail" element={<ConfirmEmail />} />
-              <Route path="*" element={<NotfountPage />} />
-            </Routes>
-          </Router>
+     <UserProvider>     
+      <SearchProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="product-details/:id" element={<ProductDetails />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="contactus" element={<ContactUs />} />
+              <Route path="aboutus" element={<AboutUs />} />
+              <Route path="wishlist" element={<WishList />} />
+              <Route path="workshop" element={<HeroSection />} />
+              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/forgotpassword" element={<ForgotPassword />} />
+              <Route path="cart" element={<Cart />} />
+              <Route path="profile" element={<ProfileUser />} />
+              <Route path="checkout" element={<Checkout />} />
+              
+            </Route>
+            <Route path="/resetpassword" element={<ResetPassword />} />
+            <Route path="/confirmemail" element={<ConfirmEmail />} />
+            <Route path="*" element={<NotfountPage />} />
+          </Routes>
+        </Router>
 
           <ToastContainer
             position="top-right"

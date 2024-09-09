@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function ProductDetails() {
   const params = useParams();
@@ -26,11 +27,10 @@ function ProductDetails() {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
-        console.log(res.data.data.product);
         setproduct(res.data.data.product);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err)
       })
       .finally(() => {
         setIsLoading(false);
@@ -65,15 +65,15 @@ function ProductDetails() {
         productId,
         color,
       });
-      console.log("product added");
+      toast.success("Product added")
     } catch (err) {
-      console.log(err);
+      toast.error(err)
     }
   };
 
   const handleAddToCart = () => {
     if (colorSelect === "") {
-      return console.log("select color");
+      return toast.error("Select color");
     }
     addToCart(quantity, product._id, colorSelect);
   };
@@ -93,7 +93,6 @@ function ProductDetails() {
   };
   const handleWorkshop = (id) => {
     navigate(`/workShopProfile/${id}`);
-    console.log(id)
   };
   if (isLoading) {
     return <Loader />;

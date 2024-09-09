@@ -1,7 +1,7 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig.js";
 import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
@@ -162,15 +162,15 @@ function Cart() {
     }
   };
 
+  const navigate = useNavigate();
   const handleCheckoutBtn = async () => {    
     const dataToLocal = {
       "products": products,
       "subTotal": subTotal,
       "total": totalAfterCoupon,
     }
-
-    console.log(dataToLocal);
-    localStorage.setItem("ordersLocal",dataToLocal);
+    localStorage.setItem("ordersLocal", JSON.stringify(dataToLocal));
+    navigate("/checkout");
   }
 
   return (

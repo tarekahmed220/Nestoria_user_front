@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
-import ChatPage from "./components/chatPage/Chat";
 
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
@@ -27,6 +26,7 @@ import ProfileUser from "./pages/ProfileUser";
 
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
+import ChatComponent from "./components/chatPage/Chat";
 
 function App() {
   useEffect(() => {
@@ -47,7 +47,7 @@ function App() {
               <Route path="aboutus" element={<AboutUs />} />
               <Route path="wishlist" element={<WishList />} />
               <Route path="workshop" element={<HeroSection />} />
-              <Route path="/chat" element={<ChatPage />} />
+              <Route path="/chat" element={<ChatComponent />} />
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgotpassword" element={<ForgotPassword />} />

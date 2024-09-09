@@ -6,6 +6,9 @@ import Pagination from "../components/Pagination.js";
 import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 
+
+import { toast } from "react-toastify";
+
 import { FaHome } from "react-icons/fa";
 import { useSearchContext } from "../context/SearchContext.jsx";
 
@@ -47,11 +50,10 @@ const Shop = () => {
     axiosInstance
       .get("/api/v1/fur/favorites")
       .then((res) => {
-        console.log("fav", res.data.data.favorites);
         setFavorites(res.data.data.favorites); // افترض أن البيانات هي قائمة بالمنتجات المفضلة
       })
       .catch((err) => {
-        console.error("Failed to fetch favorites:", err);
+        toast("Failed to fetch favorites:", err);
       });
   }, []);
 
@@ -68,7 +70,7 @@ const Shop = () => {
       )
 
       .then((res) => {
-        console.log("fav", res.data.products);
+        // console.log("fav", res.data.products);
         const productsWithFavorites = res.data.products.map((product) => ({
           ...product,
           isFavorite: favorites.some((fav) => fav.id === product.id),
@@ -78,7 +80,7 @@ const Shop = () => {
         setMaxPrice(Math.max(...res.data.products.map((p) => p.price)));
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err)
       })
       .finally(() => {
         setIsLoading(false);
@@ -119,21 +121,21 @@ const Shop = () => {
       axiosInstance
         .post(`/api/v1/fur/favorites/${productId}`)
         .then((res) => {
-          console.log("Product added to favorites:", res.data);
+          toast.success("Product added to favorites")
           setFavorites([...favorites, { id: productId }]);
         })
         .catch((err) => {
-          console.error("Failed to add to favorites:", err);
+          toast.error("Failed to add to favorites:", err);
         });
     } else {
       axiosInstance
         .delete(`/api/v1/fur/favorites/${productId}`)
         .then((res) => {
-          console.log("Product removed from favorites:", res.data);
+          toast.success("Product removed from favorites");
           setFavorites(favorites.filter((fav) => fav.id !== productId));
         })
         .catch((err) => {
-          console.error("Failed to remove from favorites:", err);
+          toast.error("Failed to remove from favorites:", err);
         });
     }
   };

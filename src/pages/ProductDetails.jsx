@@ -28,6 +28,7 @@ function ProductDetails() {
       .then((res) => {
         console.log(res.data.data.product);
         setproduct(res.data.data.product);
+        console.log("products", product);
       })
       .catch((err) => {
         console.log(err);
@@ -92,14 +93,14 @@ function ProductDetails() {
     setActiveTab(tab);
   };
   const handleWorkshop = (id) => {
-    navigate(`/workShopProfile/${id}`);
-    console.log(id)
+    navigate(`/workshopprofile/${id}`);
+    console.log(id);
   };
   if (isLoading) {
     return <Loader />;
   }
   return (
-    <div className="bg-[#030303] text-white  p-8">
+    <div className="bg-[#030303] text-white  p-8 mt-[100px]">
       {/*  section 1111111111111 */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -208,11 +209,19 @@ function ProductDetails() {
           </div>
 
           <button
-            onClick={() => handleWorkshop(product["workshop_id"])}
-            className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3 "
+            onClick={() => {
+              if (product.workshop_id) {
+                handleWorkshop(product.workshop_id._id);
+              }
+            }}
+            className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3"
           >
-            see more about workShop
-            {product["Workshop-Name"]}
+            See more about workShop
+            <span className="ml-1">
+              {product.workshop_id
+                ? product.workshop_id.name
+                : "Workshop Name Unavailable"}
+            </span>
           </button>
 
           {/* معلومات إضافية */}

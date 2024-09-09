@@ -27,7 +27,6 @@ import ProfileUser from "./pages/ProfileUser";
 
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
-import { BillingAddress } from "./components/Profile components/BillingAddress";
 
 function App() {
   useEffect(() => {
@@ -36,33 +35,38 @@ function App() {
 
   return (
     <>
-     <UserProvider>     
-      <SearchProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route path="/" element={<Home />} />
-              <Route path="product-details/:id" element={<ProductDetails />} />
-              <Route path="shop" element={<Shop />} />
-              <Route path="contactus" element={<ContactUs />} />
-              <Route path="aboutus" element={<AboutUs />} />
-              <Route path="wishlist" element={<WishList />} />
-              <Route path="workshop" element={<HeroSection />} />
-              <Route path="/chat" element={<ChatPage />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/forgotpassword" element={<ForgotPassword />} />
-              <Route path="cart" element={<Cart />} />
-              <Route path="profile" element={<ProfileUser />} />
-              <Route path="checkout" element={<Checkout />} />
-              <Route path="billingAddress" element={<BillingAddress/>} />
-
-            </Route>
-            <Route path="/resetpassword" element={<ResetPassword />} />
-            <Route path="/confirmemail" element={<ConfirmEmail />} />
-            <Route path="*" element={<NotfountPage />} />
-          </Routes>
-        </Router>
+      <UserProvider>
+        <SearchProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route path="/" element={<Home />} />
+                <Route
+                  path="product-details/:id"
+                  element={<ProductDetails />}
+                />
+                <Route path="shop" element={<Shop />} />
+                <Route path="contactus" element={<ContactUs />} />
+                <Route path="aboutus" element={<AboutUs />} />
+                <Route path="wishlist" element={<WishList />} />
+                <Route path="workshop" element={<HeroSection />} />
+                <Route path="/chat" element={<ChatPage />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="profile" element={<ProfileUser />} />
+                <Route path="checkout" element={<Checkout />} />
+                <Route
+                  path="workshopprofile/:workshopId"
+                  element={<HeroSection />}
+                />
+              </Route>
+              <Route path="/resetpassword" element={<ResetPassword />} />
+              <Route path="/confirmemail" element={<ConfirmEmail />} />
+              <Route path="*" element={<NotfountPage />} />
+            </Routes>
+          </Router>
 
           <ToastContainer
             position="top-right"

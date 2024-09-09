@@ -2,13 +2,22 @@ import { CiSearch } from "react-icons/ci";
 import { IoIosSearch } from "react-icons/io";
 import { useSearchContext } from "../context/SearchContext";
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function SearchContainer({ setShowSearch }) {
   const [isClosed, setIsClosed] = useState(false);
-  const { search, setSearch } = useSearchContext();
-
+  const { search, setSearch, setProducts } = useSearchContext();
+  const navigate = useNavigate();
   const handleSearchQuery = () => {
-    setShowSearch(false);
+    axios
+      .get(`http://localhost:5000/api/v1/fur/products?keyword=${search}`)
+      .then((res) => {
+        setProducts(res.data.products);
+        navigate("/shop");
+        setShowSearch(false);
+        // setSearch("");
+      });
   };
   return (
     <div>

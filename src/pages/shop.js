@@ -7,10 +7,12 @@ import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 
 import { FaHome } from "react-icons/fa";
-
+import { useSearchContext } from "../context/SearchContext.jsx";
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+  const { search, products, setProducts } = useSearchContext();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [categories, setCategories] = useState([
@@ -54,7 +56,9 @@ const Shop = () => {
   }, []);
 
   // جلب المنتجات من السيرفر مع التصفية
+
   const fetchProducts = (page = 1, category = "All", maxPrice = 2499) => {
+    // if (!search) {
     setIsLoading(true);
     axios
       .get(
@@ -79,6 +83,7 @@ const Shop = () => {
       .finally(() => {
         setIsLoading(false);
       });
+    // }
   };
 
   // تحديث المنتجات عند تغيير الصفحة أو الفئة أو رفع الضغط عن الفلتر
@@ -141,7 +146,7 @@ const Shop = () => {
     <>
       {/* قسم الهيدر مع خلفية الصورة */}
       <div
-        className="relative h-[400px] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        className="relative h-[400px] flex items-center justify-center bg-cover bg-center bg-no-repeat "
         style={{ backgroundImage: "url('/home-hotspot-img-1.jpg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
@@ -154,13 +159,13 @@ const Shop = () => {
       <div className="bg-[#030303] p-5">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* قسم الفئات مع الخط الفاصل */}
-          <div className="col-span-1 relative">
+          <div className="col-span-1 relative ml-4">
             <h2 className="text-white mb-4">Collection</h2>
             <ul className="text-white space-y-2">
               {categories.map((category) => (
                 <li
                   key={category}
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer hover:text-[--mainColor] transition-all duration-200 ${
                     selectedCategory === category
                       ? "text-orange-500 font-bold"
                       : ""

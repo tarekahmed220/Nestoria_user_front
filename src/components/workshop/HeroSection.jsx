@@ -4,7 +4,7 @@ import "../../css modules/heroSection.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import ProductCarousel from "./ProductSection";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../Loader";
 
 
@@ -13,6 +13,9 @@ const HeroSection = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { workshopId } = useParams();
+  console.log("workshopId ", workshopId);
+
   // Moved useNavigate to the top, before any early return
   const navigate = useNavigate();
 
@@ -20,7 +23,9 @@ const HeroSection = () => {
     const fetchWorkshop = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/fur/workshops/66d87cbeb4d55d64579e20cc"
+
+          `http://localhost:5000/api/v1/fur/workshops/${workshopId}?page=2`
+
         );
         const workShopDetails = response.data.products[0].workshop_id;
         setWorkshop(workShopDetails);
@@ -109,7 +114,10 @@ const HeroSection = () => {
                 <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
                 <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
                 <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                <FontAwesomeIcon icon={faStarHalfAlt} className="text-yellow-400" />
+                <FontAwesomeIcon
+                  icon={faStarHalfAlt}
+                  className="text-yellow-400"
+                />
               </div>
             </div>
 

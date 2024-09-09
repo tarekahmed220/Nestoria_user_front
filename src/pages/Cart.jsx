@@ -1,7 +1,7 @@
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig.js";
 import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
@@ -162,24 +162,15 @@ function Cart() {
     }
   };
 
-  const handleCheckoutBtn = async () => {
-    console.log(products);
-    console.log(subTotal);
-    console.log(totalAfterCoupon);
-    try {
-      const response = await axiosInstance.post("/api/v1/fur/orders/addOrders", {
-        products,
-        subTotal,
-        total
-      });
-      if (response.status === 200) {
-        console.log("Order successfully added");
-      } else {
-        console.error("Failed to add order");
-      }
-    } catch (err) {
-      console.log(err);
+  const navigate = useNavigate();
+  const handleCheckoutBtn = async () => {    
+    const dataToLocal = {
+      "products": products,
+      "subTotal": subTotal,
+      "total": totalAfterCoupon,
     }
+    localStorage.setItem("ordersLocal", JSON.stringify(dataToLocal));
+    navigate("/checkout");
   }
 
   return (

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-
-import './Chat.css';
+import "./Chat.css";
 
 import {
   FaPaperPlane,
@@ -101,7 +100,7 @@ const ChatPage = () => {
   );
 
   return (
-    <div className="flex flex-col md:flex-row h-screen chat-body">
+    <div className="flex flex-col md:flex-row h-[80vh] chat-body mt-[80px]">
       {/* Sidebar */}
       <aside className="sidebar w-full md:w-1/4 p-6 flex flex-col border-r border-gray-700">
         <div className="flex items-center mb-6">

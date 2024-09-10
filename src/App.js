@@ -27,6 +27,14 @@ import ProfileUser from "./pages/ProfileUser";
 
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "./payment/CheckoutForm";
+
+// Load Stripe outside of a component to avoid re-creating it on every render
+const stripePromise = loadStripe(
+  "pk_test_51PoWjlG63yy5fRrkIeVefe6uAFjzUZ7n71C3TSrwWmGEjp79bWlOm8z62eiQCBP83CiM3jhfr3VgDlcuYbCRk5nj00tRXbd1il"
+);
 
 function App() {
   useEffect(() => {
@@ -37,50 +45,54 @@ function App() {
     <>
       <UserProvider>
         <SearchProvider>
-          <Router>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route path="/" element={<Home />} />
-                <Route
-                  path="product-details/:id"
-                  element={<ProductDetails />}
-                />
-                <Route path="shop" element={<Shop />} />
-                <Route path="contactus" element={<ContactUs />} />
-                <Route path="aboutus" element={<AboutUs />} />
-                <Route path="wishlist" element={<WishList />} />
-                <Route path="workshop" element={<HeroSection />} />
-                <Route path="/chat" element={<ChatPage />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/forgotpassword" element={<ForgotPassword />} />
-                <Route path="cart" element={<Cart />} />
-                <Route path="profile" element={<ProfileUser />} />
-                <Route path="checkout" element={<Checkout />} />
-                <Route
-                  path="workshopprofile/:workshopId"
-                  element={<HeroSection />}
-                />
-              </Route>
-              <Route path="/resetpassword" element={<ResetPassword />} />
-              <Route path="/confirmemail" element={<ConfirmEmail />} />
-              <Route path="*" element={<NotfountPage />} />
-            </Routes>
-          </Router>
+          <Elements stripe={stripePromise}>
+            <Router>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route path="/" element={<Home />} />
+                  <Route
+                    path="product-details/:id"
+                    element={<ProductDetails />}
+                  />
+                  <Route path="shop" element={<Shop />} />
+                  <Route path="contactus" element={<ContactUs />} />
+                  <Route path="aboutus" element={<AboutUs />} />
+                  <Route path="wishlist" element={<WishList />} />
+                  <Route path="workshop" element={<HeroSection />} />
+                  <Route path="/chat" element={<ChatPage />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/forgotpassword" element={<ForgotPassword />} />
+                  <Route path="cart" element={<Cart />} />
+                  <Route path="profile" element={<ProfileUser />} />
+                  <Route path="checkout" element={<Checkout />} />
+                  <Route
+                    path="workshopprofile/:workshopId"
+                    element={<HeroSection />}
+                  />
+                </Route>
+                <Route path="/resetpassword" element={<ResetPassword />} />
+                <Route path="/confirmemail" element={<ConfirmEmail />} />
+                <Route path="checkoutForm" element={<CheckoutForm />} />
 
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-            //transition= {Bounce}
-          />
+                <Route path="*" element={<NotfountPage />} />
+              </Routes>
+            </Router>
+
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+              //transition= {Bounce}
+            />
+          </Elements>
         </SearchProvider>
       </UserProvider>
     </>

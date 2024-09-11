@@ -39,7 +39,6 @@ const stripePromise = loadStripe(
   "pk_test_51PoWjlG63yy5fRrkIeVefe6uAFjzUZ7n71C3TSrwWmGEjp79bWlOm8z62eiQCBP83CiM3jhfr3VgDlcuYbCRk5nj00tRXbd1il"
 );
 
-
 function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -64,7 +63,7 @@ function App() {
                   <Route path="wishlist" element={<WishList />} />
                   <Route path="workshop" element={<HeroSection />} />
                   <Route path="/chat" element={<ChatComponent />} />
-                  <Route path="/chat" element={<ChatPage />} />
+                  {/* <Route path="/chat" element={<ChatPage />} /> */}
                   <Route path="/register" element={<Register />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/forgotpassword" element={<ForgotPassword />} />
@@ -85,7 +84,6 @@ function App() {
                 <Route path="*" element={<NotfountPage />} />
               </Routes>
             </Router>
-
 
             <ToastContainer
               position="top-right"

@@ -30,6 +30,8 @@ import { UserProvider } from "./context/UserProvider";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentFailure";
 
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(
@@ -74,6 +76,8 @@ function App() {
                 <Route path="/resetpassword" element={<ResetPassword />} />
                 <Route path="/confirmemail" element={<ConfirmEmail />} />
                 <Route path="checkoutForm" element={<CheckoutForm />} />
+                <Route path="paymentsuccess" element={<PaymentSuccess />} />
+                <Route path="paymentfailure" element={<PaymentFailure />} />
 
                 <Route path="*" element={<NotfountPage />} />
               </Routes>

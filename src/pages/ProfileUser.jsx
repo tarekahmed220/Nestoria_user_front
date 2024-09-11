@@ -5,9 +5,10 @@ import { AccountDetails } from "../components/Profile components/AccountDetails"
 import { BillingAddress } from "../components/Profile components/BillingAddress";
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserInfoContext } from "../context/UserProvider";
 import Loader from "../components/Loader";
+import axiosInstance from "../apis/axiosConfig";
 
 function ProfileUser() {
   const itemsSlide = [
@@ -21,7 +22,7 @@ function ProfileUser() {
 
   const [itemSelected, setItemSelected] = useState("Dashboard");
   const [typeAddress, setTypeAddress] = useState("");
-  const { currentUser } = useUserInfoContext();
+  const { currentUser, isLogin, setIsLogin } = useUserInfoContext();
 
   const handleTypeAddress = (action) => {
     if (action === "Add") {
@@ -29,6 +30,24 @@ function ProfileUser() {
     } else if (action === "Edit") {
       setTypeAddress(action);
     }
+  };
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    axiosInstance("/api/v1/fur/profile/logout")
+      .then((res) => {
+        setIsLogin(false);
+
+        console.log("Logged out:", res);
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        navigate("/login");
+      })
+      .catch((err) => console.log(err));
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login");
   };
 
   return (
@@ -60,7 +79,7 @@ function ProfileUser() {
               >
                 {item === "Wishlist" ? (
                   <Link to="/wishlist">{item}</Link>
-                ) : (
+                ) : item === "Log out" ? <span onClick={(() => handleLogout())}>{item}</span> : (
                   <span>{item}</span>
                 )}
               </li>

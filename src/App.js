@@ -64,6 +64,8 @@ function App() {
                   <Route path="workshop" element={<HeroSection />} />
                   <Route path="/chat" element={<ChatComponent />} />
                   {/* <Route path="/chat" element={<ChatPage />} /> */}
+                  <Route path="/seller" element={<SellerPage />} />
+                  <Route path="/thanks" element={<ThankYou />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/forgotpassword" element={<ForgotPassword />} />

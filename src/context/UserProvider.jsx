@@ -13,7 +13,6 @@ function UserProvider({ children }) {
         const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
         setCurrentUser(res);
         setIsLogin(res.isLoggedin);
-        console.log(res.isLoggedin);
       } catch (err) {
         console.log(err);
       }

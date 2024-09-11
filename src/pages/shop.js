@@ -6,11 +6,15 @@ import Pagination from "../components/Pagination.js";
 import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 
-import { FaHome } from "react-icons/fa";
+import { toast } from "react-toastify";
 
+import { FaHome } from "react-icons/fa";
+import { useSearchContext } from "../context/SearchContext.jsx";
 
 const Shop = () => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
+  const { search, products, setProducts } = useSearchContext();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [categories, setCategories] = useState([
@@ -45,16 +49,17 @@ const Shop = () => {
     axiosInstance
       .get("/api/v1/fur/favorites")
       .then((res) => {
-        console.log("fav", res.data.data.favorites);
         setFavorites(res.data.data.favorites); // افترض أن البيانات هي قائمة بالمنتجات المفضلة
       })
       .catch((err) => {
-        console.error("Failed to fetch favorites:", err);
+        toast("Failed to fetch favorites:", err);
       });
   }, []);
 
   // جلب المنتجات من السيرفر مع التصفية
+
   const fetchProducts = (page = 1, category = "All", maxPrice = 2499) => {
+    // if (!search) {
     setIsLoading(true);
     axios
       .get(
@@ -64,7 +69,7 @@ const Shop = () => {
       )
 
       .then((res) => {
-        console.log("fav", res.data.products);
+        // console.log("fav", res.data.products);
         const productsWithFavorites = res.data.products.map((product) => ({
           ...product,
           isFavorite: favorites.some((fav) => fav.id === product.id),
@@ -74,11 +79,12 @@ const Shop = () => {
         setMaxPrice(Math.max(...res.data.products.map((p) => p.price)));
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err);
       })
       .finally(() => {
         setIsLoading(false);
       });
+    // }
   };
 
   // تحديث المنتجات عند تغيير الصفحة أو الفئة أو رفع الضغط عن الفلتر
@@ -114,21 +120,21 @@ const Shop = () => {
       axiosInstance
         .post(`/api/v1/fur/favorites/${productId}`)
         .then((res) => {
-          console.log("Product added to favorites:", res.data);
+          toast.success("Product added to favorites");
           setFavorites([...favorites, { id: productId }]);
         })
         .catch((err) => {
-          console.error("Failed to add to favorites:", err);
+          toast.error("Failed to add to favorites:", err);
         });
     } else {
       axiosInstance
         .delete(`/api/v1/fur/favorites/${productId}`)
         .then((res) => {
-          console.log("Product removed from favorites:", res.data);
+          toast.success("Product removed from favorites");
           setFavorites(favorites.filter((fav) => fav.id !== productId));
         })
         .catch((err) => {
-          console.error("Failed to remove from favorites:", err);
+          toast.error("Failed to remove from favorites:", err);
         });
     }
   };
@@ -141,7 +147,7 @@ const Shop = () => {
     <>
       {/* قسم الهيدر مع خلفية الصورة */}
       <div
-        className="relative h-[400px] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        className="relative h-[400px] flex items-center justify-center bg-cover bg-center bg-no-repeat "
         style={{ backgroundImage: "url('/home-hotspot-img-1.jpg')" }}
       >
         <div className="absolute inset-0 bg-black bg-opacity-60"></div>
@@ -154,13 +160,13 @@ const Shop = () => {
       <div className="bg-[#030303] p-5">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* قسم الفئات مع الخط الفاصل */}
-          <div className="col-span-1 relative">
+          <div className="col-span-1 relative ml-4">
             <h2 className="text-white mb-4">Collection</h2>
             <ul className="text-white space-y-2">
               {categories.map((category) => (
                 <li
                   key={category}
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer hover:text-[--mainColor] transition-all duration-200 ${
                     selectedCategory === category
                       ? "text-orange-500 font-bold"
                       : ""

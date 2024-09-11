@@ -1,3 +1,4 @@
+
 // import React, { useState, useEffect, useRef } from 'react';
 // import { FaSearch, FaUserCircle, FaPaperclip, FaPaperPlane, FaCheck, FaCheckDouble, FaTrashAlt } from 'react-icons/fa';
 // const ChatComponent = () => {
@@ -22,6 +23,7 @@
 //       status: 'offline',
 //     },
 //   ]);
+
 
 //   const fileInputRef = useRef(null);
 //   const messageEndRef = useRef(null);
@@ -292,7 +294,9 @@ const ChatComponent = () => {
   }, [searchQuery, chats]);
 
   return (
+
     <div className="flex flex-col lg:flex-row h-screen bg-black text-[#929292] p-5 lg:p-6 ">
+
       {/* Sidebar */}
       <aside className="w-full lg:w-1/4 p-4 lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292]">
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />

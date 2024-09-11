@@ -1,20 +1,18 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { HeaderPages } from "../components/HeaderPages";
 import { Orders } from "../components/Profile components/Orders";
-import { Addresses } from "../components/Profile components/Addresses";
 import { AccountDetails } from "../components/Profile components/AccountDetails";
 import { BillingAddress } from "../components/Profile components/BillingAddress";
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
 
 import { Link } from "react-router-dom";
-import axiosInstance from "../apis/axiosConfig";
+import { useUserInfoContext } from "../context/UserProvider";
+import Loader from "../components/Loader";
 
 function ProfileUser() {
   const itemsSlide = [
     "Dashboard",
     "Orders",
-    "Gift Cards",
-    "Downloads",
     "Addresses",
     "Account details",
     "Wishlist",
@@ -23,29 +21,15 @@ function ProfileUser() {
 
   const [itemSelected, setItemSelected] = useState("Dashboard");
   const [typeAddress, setTypeAddress] = useState("");
-  const [currentUser, setCurrentUser] = useState("");
-  
-  useEffect(() => {
-    const fetchUser = async () =>{
-      try{
-        const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
-        setCurrentUser(res);
-        console.log(res);
-      }catch (err){
-        console.log(err);
-      }
-    };
-
-    fetchUser();
-  }, [])
+  const { currentUser } = useUserInfoContext();
 
   const handleTypeAddress = (action) => {
-    if(action === "Add"){
+    if (action === "Add") {
       setTypeAddress(action);
-    }else if(action === "Edit"){
+    } else if (action === "Edit") {
       setTypeAddress(action);
     }
-  }
+  };
 
   return (
     <div>
@@ -86,7 +70,13 @@ function ProfileUser() {
             {/* Dashboard */}
             {itemSelected === "Dashboard" && (
               <div>
-                <h3 className="text-lg text-[#A9A9A9]">Hello {currentUser.fullName}</h3>
+                {!currentUser ? (
+                  <Loader />
+                ) : (
+                  <h3 className="text-lg text-[#A9A9A9]">
+                    Hello {currentUser.fullName}
+                  </h3>
+                )}
                 <p className="text-[#A9A9A9] mt-4">
                   From your account dashboard you can view your recent orders,
                   manage your shipping and billing addresses, and edit your
@@ -114,7 +104,10 @@ function ProfileUser() {
                     <div className="flex flex-col p-5 border-2 border-[#393939] border-dashed">
                       <div className="flex justify-between">
                         <h3 className="text-xl text-white">Billing Address</h3>
-                        <Link onClick={() => handleTypeAddress("Edit")} className="text-[#A2A2A2] cursor-pointer hover:text-[#C26510] duration-500">
+                        <Link
+                          onClick={() => handleTypeAddress("Edit")}
+                          className="text-[#A2A2A2] cursor-pointer hover:text-[#C26510] duration-500"
+                        >
                           Edit
                         </Link>
                       </div>
@@ -128,7 +121,10 @@ function ProfileUser() {
                     <div className="flex flex-col p-5 border-2 border-[#393939] border-dashed">
                       <div className="flex justify-between">
                         <h3 className="text-xl text-white">Shipping address</h3>
-                        <Link onClick={() => handleTypeAddress("Add")} className="text-[#A2A2A2] cursor-pointer hover:text-[#C26510] duration-500">
+                        <Link
+                          onClick={() => handleTypeAddress("Add")}
+                          className="text-[#A2A2A2] cursor-pointer hover:text-[#C26510] duration-500"
+                        >
                           Add
                         </Link>
                       </div>

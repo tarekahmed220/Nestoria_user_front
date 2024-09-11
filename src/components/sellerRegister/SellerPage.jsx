@@ -182,7 +182,7 @@ const SellerPage = () => {
     
     >
       <div className="bg-[#000] p-8 rounded-3xl shadow-md">
-        <h2 className="text-3xl text-[#C26510] mb-6 text-center">Seller Registration</h2>
+        <h2 className="text-3xl text-[#C26510] mb-6 text-center py-10">Seller Registration</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 text-white w-full">
           {/* Workshop Name */}
           <div className="flex flex-col">

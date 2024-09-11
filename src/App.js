@@ -33,6 +33,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
+import SellerPage from "./components/sellerRegister/SellerPage";
+import ThankYou from "./components/sellerRegister/WaitingPage";
 
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(

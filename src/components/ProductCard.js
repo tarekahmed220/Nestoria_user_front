@@ -7,11 +7,11 @@ const ProductCard = ({
   onFavoriteClick,
   isFavorite,
 }) => {
-  // حالة لتحديد ما إذا كان المنتج مضافًا إلى المفضلة
+  console.log("products", product);
   const [isFavoriteState, setIsFavoriteState] = useState(isFavorite || false);
 
   const handleFavoriteClick = (e) => {
-    e.stopPropagation(); // لمنع تفعيل onClick للأب عند الضغط على القلب
+    e.stopPropagation();
     const newIsFavorite = !isFavoriteState;
     setIsFavoriteState(newIsFavorite); // تبديل الحالة عند الضغط
     onFavoriteClick(product.id, newIsFavorite); // تمرير حالة المفضلة الجديدة للـ Shop
@@ -23,13 +23,13 @@ const ProductCard = ({
       <div className="overflow-hidden relative h-80">
         {/* زيادة طول الصورة */}
         <img
-          src={product.images[0]}
+          src={product.images ? product.images[0] : product.photos[0]}
           alt={product.name}
           className="w-11/12 h-full object-cover absolute inset-0 transition-opacity duration-1000 ease-in-out"
         />
         {/* صورة Hover */}
         <img
-          src={product.images[1]}
+          src={product.images ? product.images[1] : product.photos[1]}
           alt={product.name}
           className="absolute inset-0 w-11/12 h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
         />

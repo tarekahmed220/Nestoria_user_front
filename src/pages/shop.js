@@ -6,7 +6,6 @@ import Pagination from "../components/Pagination.js";
 import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 
-
 import { toast } from "react-toastify";
 
 import { FaHome } from "react-icons/fa";
@@ -80,7 +79,7 @@ const Shop = () => {
         setMaxPrice(Math.max(...res.data.products.map((p) => p.price)));
       })
       .catch((err) => {
-        toast.error(err)
+        toast.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -121,7 +120,7 @@ const Shop = () => {
       axiosInstance
         .post(`/api/v1/fur/favorites/${productId}`)
         .then((res) => {
-          toast.success("Product added to favorites")
+          toast.success("Product added to favorites");
           setFavorites([...favorites, { id: productId }]);
         })
         .catch((err) => {

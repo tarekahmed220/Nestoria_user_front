@@ -130,7 +130,13 @@ function Register() {
         const { data: user2 } = await userApi.createUser(user);
         localStorage.setItem("token", user2.token);
         setSuccess("Check your email to verify your account.");
-        navigate("/login");
+        console.log(user.role);
+        if (user.role === "workshop") {
+          navigate("/workshopregister");
+        } else {
+          navigate("/login");
+        }
+        toast.success("Check your email to verify your account");
       } catch (error) {
         if (
           error.response &&
@@ -344,9 +350,7 @@ function Register() {
                     </span>
                   )}
                   <span
-                    className={`absolute text-[white] top-${
-                      errors.address ? "[22%]" : "[33%]"
-                    } text-xl right-5`}
+                    className={`absolute text-[white] top-[18px] text-xl right-5`}
                   >
                     <IoIosArrowDropdown />
                   </span>

@@ -8,7 +8,6 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
-
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import ConfirmEmail from "./pages/ConfirmEmail";
@@ -19,15 +18,11 @@ import Checkout from "./pages/Checkout";
 import HeroSection from "./components/workshop/HeroSection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { useEffect } from "react";
-
 import ProfileUser from "./pages/ProfileUser";
-
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
 import ChatComponent from "./components/chatPage/Chat";
-
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";

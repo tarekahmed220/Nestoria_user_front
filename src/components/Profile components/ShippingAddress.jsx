@@ -1,15 +1,119 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "../../apis/axiosConfig";
 import { useUserInfoContext } from "../../context/UserProvider";
+import { toast } from "react-toastify";
 
 export function ShippingAddress() {
   const { currentUser } = useUserInfoContext();
   const countries = ["Egypt", "Palestine", "Yemen", "Sudan", "Syria"];
-
   const [selectedCountry, setSelectedCountry] = useState(currentUser.address);
+  const [userShipping, setUserShipping] = useState({
+    company: "",
+    houseNumber: "",
+    apartment: "",
+    city: "",
+    state: "",
+    PINCode: "",
+  });
+  const [errors, setErrors] = useState({
+    companyError: "",
+    houseNumberError: "",
+    apartmentError: "",
+    cityError: "",
+    stateError: "",
+    PINCodeError: "",
+  });
+
+  const regexPINCode = /^\d{5}$/;
+
+  useEffect(() => {
+    const fetchShippingAddress = () => {};
+  }, []);
 
   const handleChange = (e) => {
     setSelectedCountry(e.target.value);
+  };
+
+  const handleChangeAddress = (e) => {
+    if (e.target.name === "company") {
+      setUserShipping({
+        ...userShipping,
+        company: e.target.value,
+      });
+    }
+
+    if (e.target.name === "houseNumber") {
+      setUserShipping({
+        ...userShipping,
+        houseNumber: e.target.value,
+      });
+    }
+
+    if (e.target.name === "apartment") {
+      setUserShipping({
+        ...userShipping,
+        apartment: e.target.value,
+      });
+    }
+    if (e.target.name === "city") {
+      setUserShipping({
+        ...userShipping,
+        city: e.target.value,
+      });
+    }
+    if (e.target.name === "state") {
+      setUserShipping({
+        ...userShipping,
+        state: e.target.value,
+      });
+    }
+    if (e.target.name === "PINCode") {
+      setUserShipping({
+        ...userShipping,
+        PINCode: e.target.value,
+      });
+      setErrors({
+        ...errors,
+        PINCodeError:
+          e.target.value.length === 0
+            ? "Enter PIN Code"
+            : !regexPINCode.test(e.target.value) &&
+              "Enter valid PIN code 5 numbers",
+      });
+    }
+  };
+
+  const handleShippingAddress = async (e) => {
+    e.preventDefault();
+    console.log(userShipping);
+    if (
+      !userShipping.houseNumber ||
+      !userShipping.city ||
+      !userShipping.PINCode
+    ) {
+      return toast.error("Enter data");
+    } else if (errors.PINCodeError) {
+      return toast.error("Fixed errors");
+    } else {
+      try {
+        const res = await axiosInstance.post(
+          "/api/v1/fur/shippingAddress/addShippingAddress",
+          {
+            company: userShipping.company,
+            streetAddress: {
+              houseNumber: userShipping.houseNumber,
+              apartment: userShipping.apartment,
+            },
+            city: userShipping.city,
+            state: userShipping.state,
+            PINCode: userShipping.PINCode,
+          }
+        );
+        toast.success("address added");
+      } catch (error) {
+        toast.error(error);
+      }
+    }
   };
 
   return (
@@ -22,6 +126,7 @@ export function ShippingAddress() {
           type="text"
           name=""
           value={currentUser.fullName}
+          readOnly
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -30,8 +135,9 @@ export function ShippingAddress() {
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="text"
-            name=""
-            placeholder=""
+            name="company"
+            onChange={(e) => handleChangeAddress(e)}
+            value={userShipping.company}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -69,14 +175,18 @@ export function ShippingAddress() {
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
-          name=""
+          name="houseNumber"
           placeholder="House number and street name"
+          onChange={(e) => handleChangeAddress(e)}
+          value={userShipping.houseNumber}
         />
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
-          name=""
+          name="apartment"
           placeholder="Apartment, suite, unit, etc, (optional)"
+          onChange={(e) => handleChangeAddress(e)}
+          value={userShipping.apartment}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -84,9 +194,10 @@ export function ShippingAddress() {
           <label>Town/city</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
-            type="text"
-            name=""
-            placeholder=""
+            type="citytext"
+            name="city"
+            onChange={(e) => handleChangeAddress(e)}
+            value={userShipping.city}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -94,23 +205,32 @@ export function ShippingAddress() {
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="text"
-            name=""
-            placeholder=""
+            name="state"
+            onChange={(e) => handleChangeAddress(e)}
+            value={userShipping.state}
           />
         </div>
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>PIN Code</label>
         <input
-          className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
+          className={`bg-transparent py-4 px-8 rounded-full border border-[#929292] ${
+            !errors.PINCodeError && "focus:border-[#C26510]"
+          } ${
+            errors.PINCodeError && "border-red-500"
+          } focus:outline-none duration-500`}
           type="text"
-          name=""
-          placeholder=""
+          name="PINCode"
+          onChange={(e) => handleChangeAddress(e)}
+          value={userShipping.PINCode}
         />
+        <span className="text-red-500 text-sm font-semibold">
+          {errors.PINCodeError}
+        </span>
       </div>
       <div>
         <button
-          type="submit"
+          onClick={(e) => handleShippingAddress(e)}
           className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
         >
           Save Address

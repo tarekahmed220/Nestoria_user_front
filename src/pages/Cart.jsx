@@ -53,7 +53,6 @@ function Cart() {
         productId,
         color,
       });
-      toast.success("Quantity updated");
     } catch (error) {
       toast.error(error);
     }
@@ -141,11 +140,9 @@ function Cart() {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, remove it!",
     });
-
     if (!confirmed.isConfirmed) {
       return;
     }
-
     try {
       const removeProduct = await axiosInstance.delete(
         `/removeFromCart/${productCartId}`

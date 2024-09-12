@@ -314,11 +314,11 @@ function Register() {
                     <option value="" disabled>
                       Address*
                     </option>
-                    <option value="England">England</option>
                     <option value="Egypt">Egypt</option>
-                    <option value="United States">United States</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
+                    <option value="Palestine">Palestine</option>
+                    <option value="Yemen">Yemen</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Syria">Syria</option>
                   </select>
                   {errors.address ? (
                     <span

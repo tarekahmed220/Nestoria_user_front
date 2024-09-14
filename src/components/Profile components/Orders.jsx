@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../apis/axiosConfig";
 
 export function Orders() {
-  const [orders, setOrders] = useState(null);
+  const [orders, setOrders] = useState("");
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -19,10 +19,10 @@ export function Orders() {
     };
     fetchOrders();
   }, []);
-  
+
   return (
     <div>
-      {!orders ? (
+      {!orders.length ? (
         <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
           <span className="absolute bg-[#019ED5] w-full h-[2px] block"></span>
           <div className="p-6 text-[#FBFBFB] flex justify-between">

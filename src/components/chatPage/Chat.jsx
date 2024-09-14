@@ -14,14 +14,14 @@ const ChatComponent = () => {
   const [filteredChats, setFilteredChats] = useState([]);
   const [chats] = useState([
     {
-      username: 'John Doe',
+      username: 'yussef makhlouf',
       avatarUrl: 'https://via.placeholder.com/40',
       lastMessage: 'Hey, how are you?',
       timestamp: Date.now(),
       status: 'online',
     },
     {
-      username: 'Jane Smith',
+      username: 'Tarek Ahmed',
       avatarUrl: 'https://via.placeholder.com/40',
       lastMessage: 'See you later!',
       timestamp: Date.now(),
@@ -81,7 +81,7 @@ const ChatComponent = () => {
     >
 
       {/* Sidebar */}
-      <aside className="w-full lg:w-1/4 p-4 lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] border border-[#A5A5A5] rounded-3xl overflow-hidden ">
+      <aside className="w-full lg:w-1/4 p-4 lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] border border-[#A5A5A5] rounded-3xl overflow-hidden px-4 ">
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <div className="mb-6">
           <h3 className="text-[#929292] mb-3">Recent Chats</h3>

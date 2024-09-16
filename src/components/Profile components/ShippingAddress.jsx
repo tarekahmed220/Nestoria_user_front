@@ -15,6 +15,14 @@ export function ShippingAddress() {
     state: "",
     PINCode: "",
   });
+  const [currentUserShipping, setCurrentUserShipping] = useState({
+    company: "",
+    houseNumber: "",
+    apartment: "",
+    city: "",
+    state: "",
+    PINCode: "",
+  });
   const [errors, setErrors] = useState({
     companyError: "",
     houseNumberError: "",
@@ -24,10 +32,42 @@ export function ShippingAddress() {
     PINCodeError: "",
   });
 
+  const [isFoundedAddress, setIsFoundedAddress] = useState(false);
+  const [isEditAddress, setIsEditAddress] = useState(false);
+
   const regexPINCode = /^\d{5}$/;
 
   useEffect(() => {
-    const fetchShippingAddress = () => {};
+    const fetchShippingAddress = async () => {
+      try {
+        const res = await axiosInstance.get(
+          "/api/v1/fur/shippingAddress/getShippingAddress"
+        );
+        console.log(userShipping);
+        if (res.data) {
+          setIsFoundedAddress(true);
+          setUserShipping({
+            company: res.data.company,
+            houseNumber: res.data.streetAddress.houseNumber,
+            apartment: res.data.streetAddress.apartment,
+            city: res.data.city,
+            state: res.data.state,
+            PINCode: res.data.PINCode,
+          });
+          setCurrentUserShipping({
+            company: res.data.company,
+            houseNumber: res.data.streetAddress.houseNumber,
+            apartment: res.data.streetAddress.apartment,
+            city: res.data.city,
+            state: res.data.state,
+            PINCode: res.data.PINCode,
+          });
+        }
+      } catch (error) {
+        toast.error(error);
+      }
+    };
+    fetchShippingAddress();
   }, []);
 
   const handleChange = (e) => {
@@ -115,6 +155,53 @@ export function ShippingAddress() {
       }
     }
   };
+
+  const handleEditAddress = (e) => {
+    e.preventDefault();
+    setIsEditAddress(true);
+  };
+
+  const handleUpdateShippingAddress = async (e) => {
+    e.preventDefault();
+    if (
+      userShipping.company === currentUserShipping.company &&
+      userShipping.city === currentUserShipping.city &&
+      userShipping.apartment === currentUserShipping.apartment &&
+      userShipping.houseNumber === currentUserShipping.houseNumber &&
+      userShipping.PINCode === currentUserShipping.PINCode &&
+      userShipping.state === currentUserShipping.state
+    ) {
+      return toast.error("No modification");
+    } else if (errors.PINCodeError) {
+      return toast.error("Fixed errors");
+    } else {
+      try {
+        const res = await axiosInstance.put(
+          "/api/v1/fur/shippingAddress/updateShippingAddress",
+          {
+            company: userShipping.company,
+            streetAddress: {
+              houseNumber: userShipping.houseNumber,
+              apartment: userShipping.apartment,
+            },
+            city: userShipping.city,
+            state: userShipping.state,
+            PINCode: userShipping.PINCode,
+          }
+        );
+        toast.success("address updated");
+      } catch (error) {
+        toast.error(error);
+      }
+    }
+  };
+
+  const handleCancelAddress = (e) => {
+    e.preventDefault();
+    setUserShipping(currentUserShipping);
+    setErrors("")
+    setIsEditAddress(false);
+  }
 
   return (
     <form className="flex flex-col gap-6">
@@ -229,12 +316,39 @@ export function ShippingAddress() {
         </span>
       </div>
       <div>
-        <button
-          onClick={(e) => handleShippingAddress(e)}
-          className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
-        >
-          Save Address
-        </button>
+        {!isFoundedAddress && (
+          <button
+            onClick={(e) => handleShippingAddress(e)}
+            className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
+          >
+            Save Address
+          </button>
+        )}
+        {isFoundedAddress && !isEditAddress && (
+          <button
+            onClick={(e) => handleEditAddress(e)}
+            className="bg-[#C26510] text-[17px] text-white py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-transparent hover:text-[#C26510] duration-500"
+          >
+            Edit Address
+          </button>
+        )}
+        {isEditAddress && (
+          <div className="flex justify-between">
+            <button
+              onClick={(e) => handleUpdateShippingAddress(e)}
+              className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
+            >
+              Update Address
+            </button>
+
+            <button
+              onClick={(e) => handleCancelAddress(e)}
+              className="bg-[#C26510] text-[17px] text-white py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-transparent hover:text-[#C26510] duration-500"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );

@@ -44,7 +44,7 @@ const ProductCard = ({
       {/* اسم المنتج والسعر */}
       <div className="mt-3 mb-3 text-center">
         <p className="text-lg text-white font-semibold">{product.name}</p>
-        <p className="text-sm pb-2 text-gray-500">{product.price} ₹</p>
+        <p className="text-sm pb-2 text-white">{product.price} ₹</p>
       </div>
 
       {/* الأيقونات */}

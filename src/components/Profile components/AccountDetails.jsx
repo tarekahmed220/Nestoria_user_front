@@ -159,10 +159,16 @@ export function AccountDetails() {
 
   const [isClickIconEdit, setIsClickIconEdit] = useState(false);
   const handleEditIcon = () => {
-    setIsClickIconEdit(!isClickIconEdit)
-    setUserInfo({...userInfo, fullName: currentUser.fullName, currentPassword: "", newPassword: "", confirmNewPassword: ""});
-    setErrors("")
-  }
+    setIsClickIconEdit(!isClickIconEdit);
+    setUserInfo({
+      ...userInfo,
+      fullName: currentUser.fullName,
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    });
+    setErrors("");
+  };
 
   return (
     <form
@@ -184,7 +190,7 @@ export function AccountDetails() {
           name="fullName"
           onChange={(e) => handleInfoUser(e)}
           value={userInfo.fullName}
-          readOnly= {!isClickIconEdit ? true : undefined}
+          readOnly={!isClickIconEdit ? true : undefined}
         />
         <span className="text-red-500 text-sm font-semibold">
           {errors.fullNameError}
@@ -216,16 +222,18 @@ export function AccountDetails() {
       <div className="flex flex-col gap-6">
         <h3 className="text-2xl text-white">Password change</h3>
         <div className=" relative flex flex-col gap-4 text-[#929292]">
-          <label>Current password (leave blank to leave unchanged)</label>
+          <div className="flex items-center">
+            <label>Current password (leave blank to leave unchanged)</label>
+            {isClickIconEdit && <IoMdStar className="text-red-700 ms-2" />}
+          </div>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type={showPassword.currentPassword ? "text" : "password"}
             name="currentPassword"
             onChange={(e) => handleInfoUser(e)}
             value={userInfo.currentPassword}
-            readOnly= {!isClickIconEdit ? true : undefined}
+            readOnly={!isClickIconEdit ? true : undefined}
           />
-          <IoMdStar />
           <button
             type="button"
             className="absolute top-[60px] right-4 flex items-center text-gray-500 hover:text-white"
@@ -254,7 +262,7 @@ export function AccountDetails() {
             name="newPassword"
             onChange={(e) => handleInfoUser(e)}
             value={userInfo.newPassword}
-            readOnly= {!isClickIconEdit ? true : undefined}
+            readOnly={!isClickIconEdit ? true : undefined}
           />
           <button
             type="button"
@@ -284,7 +292,7 @@ export function AccountDetails() {
             name="confirmNewPassword"
             onChange={(e) => handleInfoUser(e)}
             value={userInfo.confirmNewPassword}
-            readOnly= {!isClickIconEdit ? true : undefined}
+            readOnly={!isClickIconEdit ? true : undefined}
           />
           <button
             type="button"

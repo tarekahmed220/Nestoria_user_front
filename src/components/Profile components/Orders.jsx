@@ -4,10 +4,24 @@ import { toast } from "react-toastify";
 import axiosInstance from "../../apis/axiosConfig";
 import { GoCheckCircle } from "react-icons/go";
 import Swal from "sweetalert2";
+import { useUserInfoContext } from "../../context/UserProvider";
 
 export function Orders() {
   const [orders, setOrders] = useState("");
   const [isDelivered, setIsDelivered] = useState({});
+  const { currentUser } = useUserInfoContext();
+  // const [isFoundedAddress, setIsFoundedAddress] = useState(false);
+  const [userShipping, setUserShipping] = useState({
+    company: "",
+    houseNumber: "",
+    apartment: "",
+    city: "",
+    state: "",
+    PINCode: "",
+  });
+
+  console.log(currentUser);
+  
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -22,6 +36,30 @@ export function Orders() {
       }
     };
     fetchOrders();
+  }, []);
+
+  useEffect(() => {
+    const fetchShippingAddress = async () => {
+      try {
+        const res = await axiosInstance.get(
+          "/api/v1/fur/shippingAddress/getShippingAddress"
+        );
+        if (res.data) {
+          // setIsFoundedAddress(true);
+          setUserShipping({
+            company: res.data.company,
+            houseNumber: res.data.streetAddress.houseNumber,
+            apartment: res.data.streetAddress.apartment,
+            city: res.data.city,
+            state: res.data.state,
+            PINCode: res.data.PINCode,
+          });
+        }
+      } catch (error) {
+        toast.error(error);
+      }
+    };
+    fetchShippingAddress();
   }, []);
 
   const handleClickDelivered = async (e, orderId, productId,color) => {
@@ -50,7 +88,9 @@ export function Orders() {
           color,
         }
       );
-      toast.success("Product receipt confirmed");
+      if(res){
+        toast.success("Product receipt confirmed");
+      }
     } catch (error) {
       toast.error(error);
     }
@@ -120,16 +160,16 @@ export function Orders() {
                             <div className="font-semibold mb-2">
                               Shipping address
                             </div>
-                            <div>Floyd Miles</div>
-                            <div>7363 Cynthia Pass</div>
-                            <div>Toronto, ON N3Y 4H8</div>
+                            <div>{currentUser.address}</div>
+                            <div>{userShipping.city}</div>
+                            <div>{userShipping.houseNumber} {userShipping.apartment}</div>
                           </div>
                           <div className="col-span-3">
                             <div className="font-semibold mb-2">
                               Shipping updates
                             </div>
-                            <div>f•••@example.com</div>
-                            <div>1•••••••40</div>
+                            <div>{currentUser.email}</div>
+                            <div>{currentUser.phone}</div>
                             <Link
                               href="#"
                               className="text-blue-500 hover:underline"
@@ -208,7 +248,7 @@ export function Orders() {
                                 ) ||
                                   isDelivered[productKey]) &&
                                 "text-blue-600"
-                              }`}
+                              },`}
                             >
                               Delivered
                             </div>

@@ -43,7 +43,6 @@ export function ShippingAddress() {
         const res = await axiosInstance.get(
           "/api/v1/fur/shippingAddress/getShippingAddress"
         );
-        console.log(userShipping);
         if (res.data) {
           setIsFoundedAddress(true);
           setUserShipping({
@@ -149,7 +148,9 @@ export function ShippingAddress() {
             PINCode: userShipping.PINCode,
           }
         );
-        toast.success("address added");
+        if(res){
+          toast.success("address added");
+        }
       } catch (error) {
         toast.error(error);
       }
@@ -189,7 +190,9 @@ export function ShippingAddress() {
             PINCode: userShipping.PINCode,
           }
         );
-        toast.success("address updated");
+        if(res){
+          toast.success("address updated");
+        }
       } catch (error) {
         toast.error(error);
       }
@@ -225,6 +228,7 @@ export function ShippingAddress() {
             name="company"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.company}
+            readOnly = {!isEditAddress}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -259,6 +263,7 @@ export function ShippingAddress() {
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Street address</label>
+        <label>House number and street name</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -266,7 +271,9 @@ export function ShippingAddress() {
           placeholder="House number and street name"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.houseNumber}
+          readOnly = {!isEditAddress}
         />
+        <label>Apartment, suite, unit, etc, (optional)</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -274,6 +281,7 @@ export function ShippingAddress() {
           placeholder="Apartment, suite, unit, etc, (optional)"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.apartment}
+          readOnly = {!isEditAddress}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -285,6 +293,7 @@ export function ShippingAddress() {
             name="city"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.city}
+            readOnly = {!isEditAddress}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -295,6 +304,7 @@ export function ShippingAddress() {
             name="state"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.state}
+            readOnly = {!isEditAddress}
           />
         </div>
       </div>
@@ -310,6 +320,7 @@ export function ShippingAddress() {
           name="PINCode"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.PINCode}
+          readOnly = {!isEditAddress}
         />
         <span className="text-red-500 text-sm font-semibold">
           {errors.PINCodeError}

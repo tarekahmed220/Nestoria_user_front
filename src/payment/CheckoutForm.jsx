@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 import { useNavigate } from "react-router-dom";
 
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [orderData, setOrderData] = useState(null);
   const [prices, setPrices] = useState({
@@ -44,6 +44,9 @@ const CheckoutForm = () => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if(!props.sendAdderss){
+      return toast.error("Confirm shipping address");
+    }
     if (!stripe || !elements) {
       return;
     }
@@ -105,6 +108,12 @@ const CheckoutForm = () => {
         total: total,
         paymentIntentId: paymentIntentId,
         status: "paid",
+        shippingAddress: {
+          houseNumber: props.sendAdderss.houseNumber,
+          apartment: props.sendAdderss.apartment,
+          city: props.sendAdderss.city,
+          state: props.sendAdderss.state,
+        },
       });
 
       setPaymentStatus("Payment successfully");

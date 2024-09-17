@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { FaHeart, FaArrowsAltH, FaExpand } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({
   product,
@@ -7,7 +8,7 @@ const ProductCard = ({
   onFavoriteClick,
   isFavorite,
 }) => {
-  console.log("products", product);
+  // console.log("products", product);
   const [isFavoriteState, setIsFavoriteState] = useState(isFavorite || false);
 
   const handleFavoriteClick = (e) => {
@@ -18,26 +19,26 @@ const ProductCard = ({
   };
 
   return (
-    <div className="relative group cursor-pointer p-4" onClick={onProductClick}>
+    <div className="relative group cursor-pointer me-4" onClick={onProductClick}>
       {/* صورة المنتج */}
-      <div className="overflow-hidden relative h-80">
+      <div className="overflow-hidden relative h-80 w-full">
         {/* زيادة طول الصورة */}
         <img
           src={product.images ? product.images[0] : product.photos[0]}
           alt={product.name}
-          className="w-11/12 h-full object-cover absolute inset-0 transition-opacity duration-1000 ease-in-out"
+          className="w-full h-full absolute inset-0 transition-opacity duration-1000 ease-in-out"
         />
         {/* صورة Hover */}
         <img
           src={product.images ? product.images[1] : product.photos[1]}
           alt={product.name}
-          className="absolute inset-0 w-11/12 h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
+          className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out"
         />
         {/* زر Select Options في أسفل الصورة */}
         <div className="absolute bottom-0 left-0 right-0 flex justify-center bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out z-10">
-          <a href="#" className="text-white text-lg font-semibold p-4">
+          <Link to="#" className="text-white text-lg font-semibold p-4">
             Select Options
-          </a>
+          </Link>
         </div>
       </div>
 

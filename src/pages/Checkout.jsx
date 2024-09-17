@@ -6,6 +6,8 @@ import CheckoutForm from "../payment/CheckoutForm";
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
 
 function Checkout() {
+  const isOkAddress = false;
+  const [userAddress, setUserAdderss] = useState("");
   const [orderData, setOrderData] = useState(null);
   const [prices, setPrices] = useState({
     subTotal: "",
@@ -25,6 +27,10 @@ function Checkout() {
       });
     }
   }, []);
+
+  const userShippingAdderss = (data) => {
+    setUserAdderss(data);
+  }
 
   return (
     <div>
@@ -59,7 +65,7 @@ function Checkout() {
         </div>
 
         <div className="container lg:w-[1440px]  mx-auto text-center md:text-start mt-14 mb-14 px-12 py-10 border border-[#5E5E5E] rounded-2xl">
-        <ShippingAddress></ShippingAddress>
+        <ShippingAddress check={isOkAddress} sendAddressToCheckout={userShippingAdderss}></ShippingAddress>
         </div>
 
         {/* Your order */}
@@ -141,7 +147,7 @@ function Checkout() {
                 privacy policy
               </Link>
             </span>
-            <CheckoutForm />
+            <CheckoutForm sendAdderss = {userAddress} />
           </div>
         </div>
       </section>

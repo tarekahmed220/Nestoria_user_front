@@ -28,7 +28,7 @@ function ProductDetails() {
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
         setproduct(res.data.data.product);
-        console.log("products", product);
+        // console.log("products", product);
       })
       .catch((err) => {
         toast.error(err)

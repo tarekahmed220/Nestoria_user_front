@@ -30,6 +30,8 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
 import SellerPage from "./components/sellerRegister/SellerPage";
 import ThankYou from "./components/sellerRegister/WaitingPage";
+import Admin from "./pages/Admin";
+import UnauthorizedPage from "./pages/UnauthorizedPage ";
 
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(
@@ -79,7 +81,8 @@ function App() {
                 <Route path="checkoutForm" element={<CheckoutForm />} />
                 <Route path="paymentsuccess" element={<PaymentSuccess />} />
                 <Route path="paymentfailure" element={<PaymentFailure />} />
-
+                <Route path="admin" element={<Admin />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="*" element={<NotfountPage />} />
               </Routes>
             </Router>

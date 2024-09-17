@@ -130,12 +130,7 @@ function Register() {
         const { data: user2 } = await userApi.createUser(user);
         localStorage.setItem("token", user2.token);
         setSuccess("Check your email to verify your account.");
-        console.log(user.role);
-        if (user.role === "workshop") {
-          navigate("/workshopregister");
-        } else {
-          navigate("/login");
-        }
+        navigate("/login");
         toast.success("Check your email to verify your account");
       } catch (error) {
         if (
@@ -164,7 +159,7 @@ function Register() {
       <IntroSection pageTitle="Register" pageName="Register" />
 
       <div
-        className="flex justify-center items-center min-h-screen pt-5 relative"
+        className="flex justify-center items-center min-h-[80vh] pt-5 relative"
         style={{
           backgroundImage: "url('/body-bg.png')",
           backgroundPosition: "left top",

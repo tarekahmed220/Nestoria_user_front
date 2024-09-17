@@ -11,8 +11,10 @@ function UserProvider({ children }) {
     const fetchUser = async () => {
       try {
         const res = (await axiosInstance.get("/api/v1/fur/profile")).data.user;
-        setCurrentUser(res);
-        setIsLogin(res.isLoggedin);
+        if (res.role !== "workshop" && res.role !== "admin") {
+          setCurrentUser(res);
+          setIsLogin(res.isLoggedin);
+        }
       } catch (err) {
         console.log(err);
       }

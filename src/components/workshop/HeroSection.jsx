@@ -6,8 +6,9 @@ import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import ProductCarousel from "./ProductSection";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../Loader";
-
-
+import axiosInstance from "../../apis/axiosConfig";
+import { toast } from "react-toastify";
+import ChatProvider,{ChatState} from "../../context/ChatProvidor"
 const HeroSection = () => {
   const [workshop, setWorkshop] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -15,19 +16,29 @@ const HeroSection = () => {
 
   const { workshopId } = useParams();
   console.log("workshopId ", workshopId);
-
+  // const {
+  //   setSelectedChat,
+  //   user,
+  //   notification,
+  //   setNotification,
+  //   chats,
+  //   setChats,
+  // } = ChatState();
+  const token=localStorage.getItem("token")
+  const userInfo=localStorage.getItem("user")
   // Moved useNavigate to the top, before any early return
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWorkshop = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
 
-          `http://localhost:5000/api/v1/fur/workshops/${workshopId}?page=2`
+          `/api/v1/fur/users/${workshopId}`
 
         );
-        const workShopDetails = response.data.products[0].workshop_id;
+        console.log("workshop ", response.data.user);
+        const workShopDetails = response.data.user;
         setWorkshop(workShopDetails);
         setLoading(false);
       } catch (err) {
@@ -51,11 +62,29 @@ const HeroSection = () => {
     return <div className="text-white text-center">Error: {error}</div>;
   }
 
-  const handleChatSelect = () => {
-    navigate("/chat");
+  const handleChatSelect = async(userId) => {
+
+    console.log("id ", userId);
+    try{
+   const {data }= await axiosInstance.post("/api/v1/fur/chat", {
+      userId
+    });
+    
+    // if (!chats.find((c) => c._id === data._id)) {setChats([data, ...chats])};
+    //  setSelectedChat(data);
+    // setChats([data, ...chats]);
+    console.log("chat", data);
+    // console.log("chats", chats);
+    // setSelectedChat(chat);
+    navigate("/chat " );
+  }
+    catch(err){ 
+      toast.error(err)
+    }
   };
 
   return (
+    // <ChatProvider>
     <div className="min-h-screen text-white font-serif pb-16">
       {/* Main Content */}
       <div className="flex justify-center items-center h-80 bg-black relative text-center text-white overflow-hidden hero_section">
@@ -70,7 +99,7 @@ const HeroSection = () => {
           <div className="absolute inset-0 flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 lg:px-24">
             <div className="m-auto w-full max-w-4xl text-center text-white">
               <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                {workshop.name}
+                {workshop.fullName}
               </h3>
               <div className="text-center my-4">
                 <Link to="/">
@@ -80,7 +109,7 @@ const HeroSection = () => {
                 </Link>
                 <span className="text-[#A5A5A5] mx-2"> / </span>
                 <span className="text-[#A5A5A5] text-base sm:text-lg md:text-xl lg:text-2xl">
-                  {workshop.name}
+                  {workshop.fullName}
                 </span>
               </div>
             </div>
@@ -92,7 +121,7 @@ const HeroSection = () => {
       <section className="py-16 px-8 md:px-16 lg:px-32">
         <div className="flex justify-center items-start space-x-8">
           <div className="w-1/2 pr-8">
-            <h2 className="text-3xl font-semibold mb-4">{workshop.name}</h2>
+            <h2 className="text-3xl font-semibold mb-4">{workshop.fullName}</h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-4">
               Location: {workshop.location}
             </p>
@@ -123,7 +152,7 @@ const HeroSection = () => {
 
             <button
               className="bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded w-full"
-              onClick={handleChatSelect}
+              onClick={() => handleChatSelect(workshop._id)}
             >
               Message me!
             </button>
@@ -133,6 +162,7 @@ const HeroSection = () => {
 
       <ProductCarousel />
     </div>
+   // {/* </ChatProvider> */}
   );
 };
 

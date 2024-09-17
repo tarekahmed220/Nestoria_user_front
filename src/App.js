@@ -30,7 +30,8 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
 import SellerPage from "./components/sellerRegister/SellerPage";
 import ThankYou from "./components/sellerRegister/WaitingPage";
-
+import Chat from "./pages/Chat";
+import ChatProvider from "./context/ChatProvidor";
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(
   "pk_test_51PoWjlG63yy5fRrkIeVefe6uAFjzUZ7n71C3TSrwWmGEjp79bWlOm8z62eiQCBP83CiM3jhfr3VgDlcuYbCRk5nj00tRXbd1il"
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <>
+      
       <UserProvider>
         <SearchProvider>
           <Elements stripe={stripePromise}>
@@ -58,9 +60,9 @@ function App() {
                   <Route path="contactus" element={<ContactUs />} />
                   <Route path="aboutus" element={<AboutUs />} />
                   <Route path="wishlist" element={<WishList />} />
-                  <Route path="workshop" element={<HeroSection />} />
-                  <Route path="/chat" element={<ChatComponent />} />
-                  {/* <Route path="/chat" element={<ChatPage />} /> */}
+                  <Route path="workshop" element={<HeroSection/>} />
+                  {/* <Route path="/chat" element={<ChatComponent />} /> */}
+                  <Route path="/chat" element={<ChatProvider><Chat/></ChatProvider> }/> 
                   <Route path="/seller" element={<SellerPage />} />
                   <Route path="/thanks" element={<ThankYou />} />
                   <Route path="/register" element={<Register />} />
@@ -100,6 +102,7 @@ function App() {
           </Elements>
         </SearchProvider>
       </UserProvider>
+     
     </>
   );
 }

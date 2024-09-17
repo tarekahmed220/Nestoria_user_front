@@ -2,12 +2,22 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../apis/axiosConfig";
 import { useUserInfoContext } from "../../context/UserProvider";
 import { toast } from "react-toastify";
+import { IoMdStar } from "react-icons/io";
 
-export function ShippingAddress() {
+export function ShippingAddress(props) {
   const { currentUser } = useUserInfoContext();
+  const [isOkAddress, setIsOkAddress] = useState(props.check);
   const countries = ["Egypt", "Palestine", "Yemen", "Sudan", "Syria"];
   const [selectedCountry, setSelectedCountry] = useState(currentUser.address);
   const [userShipping, setUserShipping] = useState({
+    company: "",
+    houseNumber: "",
+    apartment: "",
+    city: "",
+    state: "",
+    PINCode: "",
+  });
+  const [currentUserShipping, setCurrentUserShipping] = useState({
     company: "",
     houseNumber: "",
     apartment: "",
@@ -24,10 +34,41 @@ export function ShippingAddress() {
     PINCodeError: "",
   });
 
+  const [isFoundedAddress, setIsFoundedAddress] = useState(false);
+  const [isEditAddress, setIsEditAddress] = useState(false);
+
   const regexPINCode = /^\d{5}$/;
 
   useEffect(() => {
-    const fetchShippingAddress = () => {};
+    const fetchShippingAddress = async () => {
+      try {
+        const res = await axiosInstance.get(
+          "/api/v1/fur/shippingAddress/getShippingAddress"
+        );
+        if (res.data) {
+          setIsFoundedAddress(true);
+          setUserShipping({
+            company: res.data.company,
+            houseNumber: res.data.streetAddress.houseNumber,
+            apartment: res.data.streetAddress.apartment,
+            city: res.data.city,
+            state: res.data.state,
+            PINCode: res.data.PINCode,
+          });
+          setCurrentUserShipping({
+            company: res.data.company,
+            houseNumber: res.data.streetAddress.houseNumber,
+            apartment: res.data.streetAddress.apartment,
+            city: res.data.city,
+            state: res.data.state,
+            PINCode: res.data.PINCode,
+          });
+        }
+      } catch (error) {
+        toast.error(error);
+      }
+    };
+    fetchShippingAddress();
   }, []);
 
   const handleChange = (e) => {
@@ -109,10 +150,78 @@ export function ShippingAddress() {
             PINCode: userShipping.PINCode,
           }
         );
-        toast.success("address added");
+        if (res) {
+          toast.success("address added");
+        }
       } catch (error) {
         toast.error(error);
       }
+    }
+  };
+
+  const handleEditAddress = (e) => {
+    e.preventDefault();
+    setIsEditAddress(true);
+  };
+
+  const handleUpdateShippingAddress = async (e) => {
+    e.preventDefault();
+    if (
+      userShipping.company === currentUserShipping.company &&
+      userShipping.city === currentUserShipping.city &&
+      userShipping.apartment === currentUserShipping.apartment &&
+      userShipping.houseNumber === currentUserShipping.houseNumber &&
+      userShipping.PINCode === currentUserShipping.PINCode &&
+      userShipping.state === currentUserShipping.state
+    ) {
+      return toast.error("No modification");
+    } else if (errors.PINCodeError) {
+      return toast.error("Fixed errors");
+    } else {
+      if(!isOkAddress && isOkAddress !== undefined){
+        return confirmAddress();
+      }
+      try {
+        const res = await axiosInstance.put(
+          "/api/v1/fur/shippingAddress/updateShippingAddress",
+          {
+            company: userShipping.company,
+            streetAddress: {
+              houseNumber: userShipping.houseNumber,
+              apartment: userShipping.apartment,
+            },
+            city: userShipping.city,
+            state: userShipping.state,
+            PINCode: userShipping.PINCode,
+          }
+        );
+        if (res) {
+          toast.success("address updated");
+          if (props.sendAddressToCheckout) {
+            props.sendAddressToCheckout(userShipping);
+          }
+        }
+      } catch (error) {
+        toast.error(error);
+      }
+    }
+  };
+
+  const handleCancelAddress = (e) => {
+    e.preventDefault();
+    setUserShipping(currentUserShipping);
+    setErrors("");
+    setIsEditAddress(false);
+  };
+
+  const confirmAddress = (e) => {
+    if(e){
+      e.preventDefault();
+    }
+    setIsOkAddress(true);
+    toast.success("Shipping address confirmed");
+    if (props.sendAddressToCheckout) {
+      props.sendAddressToCheckout(userShipping);
     }
   };
 
@@ -138,6 +247,7 @@ export function ShippingAddress() {
             name="company"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.company}
+            readOnly={!isEditAddress}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -172,6 +282,7 @@ export function ShippingAddress() {
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Street address</label>
+        <label className="flex items-center">House number and street name {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -179,7 +290,9 @@ export function ShippingAddress() {
           placeholder="House number and street name"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.houseNumber}
+          readOnly={!isEditAddress}
         />
+        <label>Apartment, suite, unit, etc, (optional)</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -187,27 +300,30 @@ export function ShippingAddress() {
           placeholder="Apartment, suite, unit, etc, (optional)"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.apartment}
+          readOnly={!isEditAddress}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label>Town/city</label>
+          <label className="flex items-center">Town/city {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="citytext"
             name="city"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.city}
+            readOnly={!isEditAddress}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label>State</label>
+          <label className="flex items-center">State</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="text"
             name="state"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.state}
+            readOnly={!isEditAddress}
           />
         </div>
       </div>
@@ -223,18 +339,56 @@ export function ShippingAddress() {
           name="PINCode"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.PINCode}
+          readOnly={!isEditAddress}
         />
         <span className="text-red-500 text-sm font-semibold">
           {errors.PINCodeError}
         </span>
       </div>
       <div>
-        <button
-          onClick={(e) => handleShippingAddress(e)}
-          className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
-        >
-          Save Address
-        </button>
+        {!isFoundedAddress && (
+          <button
+            onClick={(e) => handleShippingAddress(e)}
+            className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
+          >
+            Save Address
+          </button>
+        )}
+        {isFoundedAddress && !isEditAddress && (
+          <div className="flex justify-between">
+            {!isOkAddress && isOkAddress !== undefined && (
+              <button
+                onClick={(e) => confirmAddress(e)}
+                className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
+              >
+                Confirm Address
+              </button>
+            )}
+            <button
+              onClick={(e) => handleEditAddress(e)}
+              className="bg-[#C26510] text-[17px] text-white py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-transparent hover:text-[#C26510] duration-500"
+            >
+              Edit Address
+            </button>
+          </div>
+        )}
+        {isEditAddress && (
+          <div className="flex justify-between">
+            <button
+              onClick={(e) => handleUpdateShippingAddress(e)}
+              className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
+            >
+              Update Address
+            </button>
+
+            <button
+              onClick={(e) => handleCancelAddress(e)}
+              className="bg-[#C26510] text-[17px] text-white py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-transparent hover:text-[#C26510] duration-500"
+            >
+              Cancel
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );

@@ -37,8 +37,6 @@ function ProfileUser() {
     axiosInstance("/api/v1/fur/profile/logout")
       .then((res) => {
         setIsLogin(false);
-
-        console.log("Logged out:", res);
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         navigate("/login");

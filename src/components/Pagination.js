@@ -4,7 +4,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       {Array.from({ length: totalPages }, (_, index) => (
         <button
           key={index}
-          className={`mx-2 p-2 rounded-full ${
+          className={`mx-2 py-2 px-4 rounded-full hover:bg-orange-500 ${
             index + 1 === currentPage ? "bg-orange-500" : "bg-gray-700"
           } text-white`}
           onClick={() => onPageChange(index + 1)}

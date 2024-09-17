@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import { HeaderPages } from "../components/HeaderPages";
-import { AccountDetails } from "../components/Profile components/AccountDetails";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckoutForm from "../payment/CheckoutForm";
+import { ShippingAddress } from "../components/Profile components/ShippingAddress";
 
 function Checkout() {
+  const isOkAddress = false;
+  const [userAddress, setUserAdderss] = useState("");
   const [orderData, setOrderData] = useState(null);
   const [prices, setPrices] = useState({
     subTotal: "",
     total: "",
   });
   const { subTotal, total } = prices;
-  const navigate = useNavigate();
   useEffect(() => {
     const data = localStorage.getItem("ordersLocal");
     console.log("data", JSON.parse(data));
@@ -26,6 +27,10 @@ function Checkout() {
       });
     }
   }, []);
+
+  const userShippingAdderss = (data) => {
+    setUserAdderss(data);
+  }
 
   return (
     <div>
@@ -57,6 +62,10 @@ function Checkout() {
               Use it here!
             </Link>
           </div>
+        </div>
+
+        <div className="container lg:w-[1440px]  mx-auto text-center md:text-start mt-14 mb-14 px-12 py-10 border border-[#5E5E5E] rounded-2xl">
+        <ShippingAddress check={isOkAddress} sendAddressToCheckout={userShippingAdderss}></ShippingAddress>
         </div>
 
         {/* Your order */}
@@ -138,7 +147,7 @@ function Checkout() {
                 privacy policy
               </Link>
             </span>
-            <CheckoutForm />
+            <CheckoutForm sendAdderss = {userAddress} />
           </div>
         </div>
       </section>

@@ -7,15 +7,75 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { HeaderPages } from "../components/HeaderPages";
+import { toast } from "react-toastify";
+import axiosInstance from "../apis/axiosConfig";
+import { useState } from "react";
 
 function ContactUs() {
+  const [problemDetails, setProblemDetails] = useState({
+    userName: "",
+    userMobile: "",
+    userEmail: "",
+    userProblem: "",
+  });
+  const [errors, setErrors] = useState({
+    userNameError: "",
+    userMobileError: "",
+    UserEmailError: "",
+    userProblemError: "",
+  })
+
+  const handleProblemDetails = (e) => {
+    if(e.target.name === "name"){
+      setProblemDetails({
+        ...problemDetails,
+        userName: e.target.value,
+      });
+    }
+    if(e.target.name === "phone"){
+      setProblemDetails({
+        ...problemDetails,
+        userMobile: e.target.value,
+      });
+    }
+    if(e.target.name === "email"){
+      setProblemDetails({
+        ...problemDetails,
+        userEmail: e.target.value,
+      });
+    }
+    if(e.target.name === "problem"){
+      setProblemDetails({
+        ...problemDetails,
+        userProblem: e.target.value,
+      });
+    }
+  }
+
+  const handleSendProblem = async (e) => {
+    e.preventDefault();
+    console.log(problemDetails);
+    try{
+      if(!problemDetails.userName || !problemDetails.userMobile || !problemDetails.userEmail || !problemDetails.userProblem){
+        return toast.error("Enter full data");
+      }
+      const res = await axiosInstance.post("/api/v1/fur/problems/addProblem",{
+        userName: problemDetails.userName,
+        userMobile: problemDetails.userMobile,
+        userEmail: problemDetails.userEmail,
+        userProblem: problemDetails.userProblem,
+      });
+      if(res){
+        toast.success("The problem has been sent.");
+      }
+    }catch(error){
+      toast.error(error);
+    }
+  }
   return (
     <div>
       {/* section header */}
-
       <HeaderPages namePage="Contact Us"></HeaderPages>
-
-
       {/* section drop up */}
       <section
         style={{
@@ -41,17 +101,23 @@ function ContactUs() {
         </div>
 
         <div className="bg-[#101010] my-14 p-14 rounded-3xl w-full lg:w-2/3 mx-auto shadow-lg">
-          <form>
+          <form onSubmit={(e) => handleSendProblem(e)}>
             {/* Name and Mobile Number */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <input
                 type="text"
                 placeholder="Name"
+                name="name"
+                value={problemDetails.userName}
+                onChange={(e) => handleProblemDetails(e)}
                 className="w-full bg-[#101010] text-white py-4 px-8 rounded-3xl border border-[#5E5E5E] focus:outline-none focus:border-orange-500 duration-500"
               />
               <input
                 type="text"
                 placeholder="Mobile Number"
+                name="phone"
+                value={problemDetails.userMobile}
+                onChange={(e) => handleProblemDetails(e)}
                 className="w-full bg-[#101010] border border-[#5E5E5E] text-white py-4 px-8 rounded-3xl focus:outline-none focus:border-orange-500 duration-500"
               />
             </div>
@@ -61,6 +127,9 @@ function ContactUs() {
               <input
                 type="email"
                 placeholder="Mail ID"
+                name="email"
+                value={problemDetails.userEmail}
+                onChange={(e) => handleProblemDetails(e)}
                 className="w-full bg-[#101010] border border-[#5E5E5E] my-3 text-white py-4 px-8 rounded-3xl focus:outline-none focus:border-orange-500 duration-500"
               />
             </div>
@@ -69,6 +138,9 @@ function ContactUs() {
             <div className="mb-6">
               <textarea
                 placeholder="Additional Information"
+                name="problem"
+                value={problemDetails.userProblem}
+                onChange={(e) => handleProblemDetails(e)}
                 rows="9"
                 className="w-full bg-[#101010] border border-[#5E5E5E] my-3 text-white py-4 px-8 rounded-3xl focus:outline-none focus:border-orange-500 duration-500"
               ></textarea>

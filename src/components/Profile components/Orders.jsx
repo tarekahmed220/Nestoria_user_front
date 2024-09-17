@@ -11,17 +11,10 @@ export function Orders() {
   const [isDelivered, setIsDelivered] = useState({});
   const { currentUser } = useUserInfoContext();
   // const [isFoundedAddress, setIsFoundedAddress] = useState(false);
-  const [userShipping, setUserShipping] = useState({
-    company: "",
-    houseNumber: "",
-    apartment: "",
-    city: "",
-    state: "",
-    PINCode: "",
-  });
+  const [userShipping, setUserShipping] = useState([]);
 
   console.log(currentUser);
-  
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -29,7 +22,18 @@ export function Orders() {
           await axiosInstance.get("/api/v1/fur/orders/getordersproducts")
         ).data;
         if (res) {
+          console.log(res);
           setOrders(res);
+          const shippingDetails = res.map((order) => ({
+            orderId: order._id,
+            company: order.shippingAddress.company || "",
+            houseNumber: order.shippingAddress.houseNumber || "",
+            apartment: order.shippingAddress.apartment || "",
+            city: order.shippingAddress.city || "",
+            PINCode: order.shippingAddress.PINCode || "",
+            state: order.shippingAddress.state || "",
+          }));
+          setUserShipping(shippingDetails);
         }
       } catch (err) {
         toast.error(err);
@@ -38,31 +42,31 @@ export function Orders() {
     fetchOrders();
   }, []);
 
-  useEffect(() => {
-    const fetchShippingAddress = async () => {
-      try {
-        const res = await axiosInstance.get(
-          "/api/v1/fur/shippingAddress/getShippingAddress"
-        );
-        if (res.data) {
-          // setIsFoundedAddress(true);
-          setUserShipping({
-            company: res.data.company,
-            houseNumber: res.data.streetAddress.houseNumber,
-            apartment: res.data.streetAddress.apartment,
-            city: res.data.city,
-            state: res.data.state,
-            PINCode: res.data.PINCode,
-          });
-        }
-      } catch (error) {
-        toast.error(error);
-      }
-    };
-    fetchShippingAddress();
-  }, []);
+  // useEffect(() => {
+  //   const fetchShippingAddress = async () => {
+  //     try {
+  //       const res = await axiosInstance.get(
+  //         "/api/v1/fur/shippingAddress/getShippingAddress"
+  //       );
+  //       if (res.data) {
+  //         // setIsFoundedAddress(true);
+  //         setUserShipping({
+  //           company: res.data.company,
+  //           houseNumber: res.data.streetAddress.houseNumber,
+  //           apartment: res.data.streetAddress.apartment,
+  //           city: res.data.city,
+  //           state: res.data.state,
+  //           PINCode: res.data.PINCode,
+  //         });
+  //       }
+  //     } catch (error) {
+  //       toast.error(error);
+  //     }
+  //   };
+  //   fetchShippingAddress();
+  // }, []);
 
-  const handleClickDelivered = async (e, orderId, productId,color) => {
+  const handleClickDelivered = async (e, orderId, productId, color) => {
     const confirmed = await Swal.fire({
       title: "Are you sure?",
       text: "Did you receive the product?",
@@ -88,7 +92,7 @@ export function Orders() {
           color,
         }
       );
-      if(res){
+      if (res) {
         toast.success("Product receipt confirmed");
       }
     } catch (error) {
@@ -113,8 +117,8 @@ export function Orders() {
           {/* products */}
           <div className="bg-transparent border border-[#C26510] rounded-lg p-6">
             {orders &&
-              orders.map((order, index) => (
-                <div key={`${order.userId} - ${index}`}>
+              orders.map((order, indexOrder) => (
+                <div key={`${order.userId} - ${indexOrder}`}>
                   {/* Order Header */}
                   <div className="flex justify-between items-center mb-4 text-white">
                     <div className="text-2xl font-semibold">
@@ -161,8 +165,11 @@ export function Orders() {
                               Shipping address
                             </div>
                             <div>{currentUser.address}</div>
-                            <div>{userShipping.city}</div>
-                            <div>{userShipping.houseNumber} {userShipping.apartment}</div>
+                            <div>{userShipping[indexOrder]?.city}</div>
+                            <div>
+                              {userShipping[indexOrder]?.houseNumber}{" "}
+                              {userShipping[indexOrder]?.apartment}
+                            </div>
                           </div>
                           <div className="col-span-3">
                             <div className="font-semibold mb-2">
@@ -193,7 +200,7 @@ export function Orders() {
                                       e,
                                       order._id,
                                       product.productId._id,
-                                      product.color,
+                                      product.color
                                     );
                                 }}
                                 className={`text-2xl ${
@@ -259,7 +266,7 @@ export function Orders() {
                   })}
                   <span
                     className={`w-full h-[1px] my-5 bg-[#C26510] ${
-                      index !== orders.length - 1 && "block"
+                      indexOrder !== orders.length - 1 && "block"
                     }`}
                   ></span>
                 </div>

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../apis/axiosConfig";
 import { useUserInfoContext } from "../../context/UserProvider";
 import { toast } from "react-toastify";
+import { IoMdStar } from "react-icons/io";
 
-export function ShippingAddress() {
+export function ShippingAddress(props) {
   const { currentUser } = useUserInfoContext();
+  const [isOkAddress, setIsOkAddress] = useState(props.check);
   const countries = ["Egypt", "Palestine", "Yemen", "Sudan", "Syria"];
   const [selectedCountry, setSelectedCountry] = useState(currentUser.address);
   const [userShipping, setUserShipping] = useState({
@@ -148,7 +150,7 @@ export function ShippingAddress() {
             PINCode: userShipping.PINCode,
           }
         );
-        if(res){
+        if (res) {
           toast.success("address added");
         }
       } catch (error) {
@@ -176,6 +178,9 @@ export function ShippingAddress() {
     } else if (errors.PINCodeError) {
       return toast.error("Fixed errors");
     } else {
+      if(!isOkAddress && isOkAddress !== undefined){
+        return confirmAddress();
+      }
       try {
         const res = await axiosInstance.put(
           "/api/v1/fur/shippingAddress/updateShippingAddress",
@@ -190,8 +195,11 @@ export function ShippingAddress() {
             PINCode: userShipping.PINCode,
           }
         );
-        if(res){
+        if (res) {
           toast.success("address updated");
+          if (props.sendAddressToCheckout) {
+            props.sendAddressToCheckout(userShipping);
+          }
         }
       } catch (error) {
         toast.error(error);
@@ -202,9 +210,20 @@ export function ShippingAddress() {
   const handleCancelAddress = (e) => {
     e.preventDefault();
     setUserShipping(currentUserShipping);
-    setErrors("")
+    setErrors("");
     setIsEditAddress(false);
-  }
+  };
+
+  const confirmAddress = (e) => {
+    if(e){
+      e.preventDefault();
+    }
+    setIsOkAddress(true);
+    toast.success("Shipping address confirmed");
+    if (props.sendAddressToCheckout) {
+      props.sendAddressToCheckout(userShipping);
+    }
+  };
 
   return (
     <form className="flex flex-col gap-6">
@@ -228,7 +247,7 @@ export function ShippingAddress() {
             name="company"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.company}
-            readOnly = {!isEditAddress}
+            readOnly={!isEditAddress}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -263,7 +282,7 @@ export function ShippingAddress() {
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Street address</label>
-        <label>House number and street name</label>
+        <label className="flex items-center">House number and street name {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}</label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -271,7 +290,7 @@ export function ShippingAddress() {
           placeholder="House number and street name"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.houseNumber}
-          readOnly = {!isEditAddress}
+          readOnly={!isEditAddress}
         />
         <label>Apartment, suite, unit, etc, (optional)</label>
         <input
@@ -281,30 +300,30 @@ export function ShippingAddress() {
           placeholder="Apartment, suite, unit, etc, (optional)"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.apartment}
-          readOnly = {!isEditAddress}
+          readOnly={!isEditAddress}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label>Town/city</label>
+          <label className="flex items-center">Town/city {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="citytext"
             name="city"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.city}
-            readOnly = {!isEditAddress}
+            readOnly={!isEditAddress}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label>State</label>
+          <label className="flex items-center">State</label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
             type="text"
             name="state"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.state}
-            readOnly = {!isEditAddress}
+            readOnly={!isEditAddress}
           />
         </div>
       </div>
@@ -320,7 +339,7 @@ export function ShippingAddress() {
           name="PINCode"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.PINCode}
-          readOnly = {!isEditAddress}
+          readOnly={!isEditAddress}
         />
         <span className="text-red-500 text-sm font-semibold">
           {errors.PINCodeError}
@@ -336,12 +355,22 @@ export function ShippingAddress() {
           </button>
         )}
         {isFoundedAddress && !isEditAddress && (
-          <button
-            onClick={(e) => handleEditAddress(e)}
-            className="bg-[#C26510] text-[17px] text-white py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-transparent hover:text-[#C26510] duration-500"
-          >
-            Edit Address
-          </button>
+          <div className="flex justify-between">
+            {!isOkAddress && isOkAddress !== undefined && (
+              <button
+                onClick={(e) => confirmAddress(e)}
+                className="bg-transparent text-[#C26510] text-[17px] py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-[#C26510] hover:text-white duration-500"
+              >
+                Confirm Address
+              </button>
+            )}
+            <button
+              onClick={(e) => handleEditAddress(e)}
+              className="bg-[#C26510] text-[17px] text-white py-3 px-8 border border-[#C26510] rounded-3xl hover:bg-transparent hover:text-[#C26510] duration-500"
+            >
+              Edit Address
+            </button>
+          </div>
         )}
         {isEditAddress && (
           <div className="flex justify-between">

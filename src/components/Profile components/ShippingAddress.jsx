@@ -152,6 +152,8 @@ export function ShippingAddress(props) {
         );
         if (res) {
           toast.success("address added");
+          confirmAddress();
+          setIsFoundedAddress(true);
         }
       } catch (error) {
         toast.error(error);
@@ -178,7 +180,7 @@ export function ShippingAddress(props) {
     } else if (errors.PINCodeError) {
       return toast.error("Fixed errors");
     } else {
-      if(!isOkAddress && isOkAddress !== undefined){
+      if (!isOkAddress && isOkAddress !== undefined) {
         return confirmAddress();
       }
       try {
@@ -215,7 +217,7 @@ export function ShippingAddress(props) {
   };
 
   const confirmAddress = (e) => {
-    if(e){
+    if (e) {
       e.preventDefault();
     }
     setIsOkAddress(true);
@@ -223,6 +225,10 @@ export function ShippingAddress(props) {
     if (props.sendAddressToCheckout) {
       props.sendAddressToCheckout(userShipping);
     }
+  };
+
+  const isUserShippingEmpty = () => {
+    return Object.values(currentUserShipping).every((value) => value === "");
   };
 
   return (
@@ -247,7 +253,7 @@ export function ShippingAddress(props) {
             name="company"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.company}
-            readOnly={!isEditAddress}
+            readOnly={!isEditAddress && !isUserShippingEmpty()}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -282,7 +288,10 @@ export function ShippingAddress(props) {
       </div>
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Street address</label>
-        <label className="flex items-center">House number and street name {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}</label>
+        <label className="flex items-center">
+          House number and street name{" "}
+          {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}
+        </label>
         <input
           className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
@@ -290,7 +299,7 @@ export function ShippingAddress(props) {
           placeholder="House number and street name"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.houseNumber}
-          readOnly={!isEditAddress}
+          readOnly={!isEditAddress && !isUserShippingEmpty()}
         />
         <label>Apartment, suite, unit, etc, (optional)</label>
         <input
@@ -300,19 +309,22 @@ export function ShippingAddress(props) {
           placeholder="Apartment, suite, unit, etc, (optional)"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.apartment}
-          readOnly={!isEditAddress}
+          readOnly={!isEditAddress && !isUserShippingEmpty()}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <div className="flex flex-col gap-4 text-[#929292]">
-          <label className="flex items-center">Town/city {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}</label>
+          <label className="flex items-center">
+            Town/city{" "}
+            {isEditAddress && <IoMdStar className="text-red-700 ms-2" />}
+          </label>
           <input
             className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
-            type="citytext"
+            type="text"
             name="city"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.city}
-            readOnly={!isEditAddress}
+            readOnly={!isEditAddress && !isUserShippingEmpty()}
           />
         </div>
         <div className="flex flex-col gap-4 text-[#929292]">
@@ -323,7 +335,7 @@ export function ShippingAddress(props) {
             name="state"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.state}
-            readOnly={!isEditAddress}
+            readOnly={!isEditAddress && !isUserShippingEmpty()}
           />
         </div>
       </div>
@@ -339,7 +351,7 @@ export function ShippingAddress(props) {
           name="PINCode"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.PINCode}
-          readOnly={!isEditAddress}
+          readOnly={!isEditAddress && !isUserShippingEmpty()}
         />
         <span className="text-red-500 text-sm font-semibold">
           {errors.PINCodeError}

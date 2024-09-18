@@ -8,8 +8,6 @@ import Home from "./pages/Home";
 import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
-import ChatPage from "./components/chatPage/Chat";
-
 import WishList from "./pages/WishList";
 import Cart from "./pages/Cart";
 import ConfirmEmail from "./pages/ConfirmEmail";
@@ -20,17 +18,20 @@ import Checkout from "./pages/Checkout";
 import HeroSection from "./components/workshop/HeroSection";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { useEffect } from "react";
-
 import ProfileUser from "./pages/ProfileUser";
-
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
+// import ChatComponent from "./components/chatPage/Chat";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
-
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentFailure from "./pages/PaymentFailure";
+import SellerPage from "./components/sellerRegister/SellerPage";
+import ThankYou from "./components/sellerRegister/WaitingPage";
+import Chat from "./pages/Chat";
+import ChatProvider from "./context/ChatProvidor";
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(
   "pk_test_51PoWjlG63yy5fRrkIeVefe6uAFjzUZ7n71C3TSrwWmGEjp79bWlOm8z62eiQCBP83CiM3jhfr3VgDlcuYbCRk5nj00tRXbd1il"
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <>
+      
       <UserProvider>
         <SearchProvider>
           <Elements stripe={stripePromise}>
@@ -58,8 +60,11 @@ function App() {
                   <Route path="contactus" element={<ContactUs />} />
                   <Route path="aboutus" element={<AboutUs />} />
                   <Route path="wishlist" element={<WishList />} />
-                  <Route path="workshop" element={<HeroSection />} />
-                  <Route path="/chat" element={<ChatPage />} />
+                  <Route path="workshop" element={<HeroSection/>} />
+                  {/* <Route path="/chat" element={<ChatComponent />} /> */}
+                  <Route path="/chat" element={<ChatProvider><Chat/></ChatProvider> }/> 
+                  <Route path="/seller" element={<SellerPage />} />
+                  <Route path="/thanks" element={<ThankYou />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/forgotpassword" element={<ForgotPassword />} />
@@ -74,6 +79,8 @@ function App() {
                 <Route path="/resetpassword" element={<ResetPassword />} />
                 <Route path="/confirmemail" element={<ConfirmEmail />} />
                 <Route path="checkoutForm" element={<CheckoutForm />} />
+                <Route path="paymentsuccess" element={<PaymentSuccess />} />
+                <Route path="paymentfailure" element={<PaymentFailure />} />
 
                 <Route path="*" element={<NotfountPage />} />
               </Routes>
@@ -95,6 +102,7 @@ function App() {
           </Elements>
         </SearchProvider>
       </UserProvider>
+     
     </>
   );
 }

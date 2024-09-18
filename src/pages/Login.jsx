@@ -88,6 +88,7 @@ function Login() {
         const token = user2?.token;
         localStorage.setItem("token", token);
         localStorage.setItem("role", user2?.data?.user?.role);
+        localStorage.setItem("user", JSON.stringify(user2?.data?.user));
         console.log("user2", user2.data.user);
         setCurrentUser(user2.data.user);
         setIsLogin(true);

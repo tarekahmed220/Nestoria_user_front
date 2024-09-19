@@ -45,7 +45,7 @@
 //         }
 //         return null; // Return null if there's no token
 //       }, [token])
-    
+
 //       // Ensure socket is defined before calling methods on it
 //       if (socket) {
 //         socket.on("connection", () => {
@@ -54,40 +54,38 @@
 //       }
 //       const fetchMessages = async () => {
 //         if (!selectedChat) return;
-    
+
 //         try {
-        
-    
+
 //           setLoading(true);
-    
+
 //           const { data } = await axiosInstance.get(
 //             `/api/v1/fur/message/${selectedChat._id}`
 //           );
 //           console.log(data);
 //           setMessages(data);
 //           setLoading(false);
-    
+
 //            socket.emit("join chat", selectedChat._id);
 //         } catch (error) {
 //           toast("Failed to Load the Messages");
 //         }
 //       };
 
-   
 //       const sendMessage = async (event) => {
 //         if (!selectedChat || !selectedChat._id) {
 //             console.error("selectedChat is null or doesn't have an ID");
 //             toast("No chat selected or invalid chat ID");
 //             return;
 //         }
-//         console.log("Selected Chat:", selectedChat); // 
-//         console.log("New Message:", newMessage); // 
+//         console.log("Selected Chat:", selectedChat); //
+//         console.log("New Message:", newMessage); //
 //         if ((event.key === "Enter" || event.type === "click" )&& newMessage) {
 //             // { console.log("No message");
 //             // return;}
 //           //  socket.emit("stop typing", selectedChat._id);
 //           try {
-           
+
 //             setNewMessage("");
 //             const { data } = await axiosInstance.post(
 //               "/api/v1/fur/message",
@@ -108,7 +106,7 @@
 
 //       }
 //       useEffect(() => {
-        
+
 //         socket.emit("setup", user);
 //         socket.on("connected", () => setSocketConnected(true));
 //         socket.on("typing", () => setIsTyping(true));
@@ -125,7 +123,7 @@
 //             selectedChatCompare._id !== newMessageRecieved.chat._id
 //           ) {
 //             if (!notification.includes(newMessageRecieved)) {
-//               setNotification([newMessageRecieved, ...notification]);   
+//               setNotification([newMessageRecieved, ...notification]);
 //               setFetchAgain(!fetchAgain);
 //             }
 //           } else {
@@ -137,7 +135,7 @@
 //         setNewMessage(e.target.value);
 
 //          if (!socketConnected) return;
-    
+
 //         if (!typing) {
 //           setTyping(true);
 //            socket.emit("typing", selectedChat._id);
@@ -166,20 +164,18 @@
 //                   <Lottie
 //                   options={defaultOptions}
 //                   width={70}
-                
+
 //                   style={{ marginBottom: 0, marginRight: 0,color:"black" ,zIndex:"10", position:"absolute"}}
 //                 />
 //                 <span className='text-black bg-gray-500 p-3 rounded-full'>typing</span></div>
 //               )}
-
 
 //               <div>
 //                 {/* all messages */}
 
 //                 {selectedChat.chat?.users[0]?.fullName===userInfo?.fullName ?(
 //                   selectedChat.chat?.users[1]?.fullName
-                    
-                  
+
 //                 ):(
 //                   selectedChat.chat?.users[0]?.fullName
 //                 )}
@@ -217,7 +213,7 @@
 //               value={newMessage}
 //               onChange={typingHandler}
 //                onKeyDown={sendMessage}
-              
+
 //             />
 //             <button type="button" className="text-gray-300 hover:text-orange-500"    onClick={sendMessage}>
 //               {/* <Send size={28} /> */}   <FaPaperPlane />
@@ -235,8 +231,7 @@
 //                     </div>
 //                     {/* <p>Add Image</p> */}
 //                   </label>
-                
-                
+
 //                   <input
 //                     type="file"
 //                     id="uploadImage"
@@ -253,23 +248,22 @@
 //                   {/* <input
 //                type="text"
 //                placeholder="Type here message.."
-//                className="py-1 px-4 outline-none w-full h-12 rounded-lg bg-[#344047] text-white bottom-0 right-0 left-0" 
+//                className="py-1 px-4 outline-none w-full h-12 rounded-lg bg-[#344047] text-white bottom-0 right-0 left-0"
 //               value={newMessage}
 //              onChange={typingHandler}
 //               onKeyDown={sendMessage}
 //             /> */}
 //              {/* <button type="button"
-//               className="text-gray-300 hover:text-orange-500" 
+//               className="text-gray-300 hover:text-orange-500"
 //                  onClick={sendMessage}
 //                 >
 //               <FaPaperPlane />
 //              </button> */}
-           
-    
+
 //           {/* </div>  */}
 //             </div>
 //         </div>
-      
+
 //       ):
 //       <div className="flex justify-center items-center h-full">
 //       <span className="text-lg font-semibold">
@@ -282,17 +276,16 @@
 // }
 
 // export default SingleChat
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from "react";
 import io from "socket.io-client";
-import { ChatState } from '../context/ChatProvidor';
-import Lottie from "react-lottie";
+import { ChatState } from "../context/ChatProvidor";
 import animationData from "../animations/typing.json";
 import { FaPaperPlane, FaPaperclip } from "react-icons/fa";
-import { toast } from 'react-toastify';
-import axiosInstance from '../apis/axiosConfig';
-import UpdateGroupChatModal from '../components/chatPage/UpdateGroupChatModal';
-import ScrollableChat from './chatPage/ScrollableChat';
-import Loader from './Loader';
+import { toast } from "react-toastify";
+import axiosInstance from "../apis/axiosConfig";
+import UpdateGroupChatModal from "../components/chatPage/UpdateGroupChatModal";
+import ScrollableChat from "./chatPage/ScrollableChat";
+import Loader from "./Loader";
 const ENDPOINT = "http://localhost:5000"; // Adjust the endpoint for deployment
 
 function SingleChat({ fetchAgain, setFetchAgain }) {
@@ -308,7 +301,10 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
 
   const socket = useMemo(() => {
     if (token) {
-      return io(ENDPOINT, { auth: { token }, transports: ["websocket", "polling"] });
+      return io(ENDPOINT, {
+        auth: { token },
+        transports: ["websocket", "polling"],
+      });
     }
     return null;
   }, [token]);
@@ -326,7 +322,9 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
     if (!selectedChat) return;
     try {
       setLoading(true);
-      const { data } = await axiosInstance.get(`/api/v1/fur/message/${selectedChat._id}`);
+      const { data } = await axiosInstance.get(
+        `/api/v1/fur/message/${selectedChat._id}`
+      );
       setMessages(data);
       setLoading(false);
       socket.emit("join chat", selectedChat._id);
@@ -355,22 +353,32 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   }, [selectedChat]);
 
   if (loading) {
-    return <Loader/>
-  };
+    return <Loader />;
+  }
 
   return (
-    <div className="w-full h-full" style={{scrollbarWidth: 'none'}} >
-      <div className="flex justify-between items-center " >
+    <div className="w-full h-full" style={{ scrollbarWidth: "none" }}>
+      <div className="flex justify-between items-center ">
         <span className="text-xl ">
           {selectedChat?.chat?.users[0]?.fullName === userInfo?.fullName
             ? selectedChat?.chat?.users[1]?.fullName
             : selectedChat?.chat?.users[0]?.fullName}
         </span>
-        <UpdateGroupChatModal fetchMessages={fetchMessages} fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        <UpdateGroupChatModal
+          fetchMessages={fetchMessages}
+          fetchAgain={fetchAgain}
+          setFetchAgain={setFetchAgain}
+        />
       </div>
-      
-      <div style={{scrollbarWidth: 'none'}} className="flex-1 overflow-y-auto overflow-x-hidden  p-4 bg-black rounded-lg h-full ">
-        <ScrollableChat messages={messages} style={{scrollbarWidth: 'none'}} />
+
+      <div
+        style={{ scrollbarWidth: "none" }}
+        className="flex-1 overflow-y-auto overflow-x-hidden  p-4 bg-black rounded-lg h-full "
+      >
+        <ScrollableChat
+          messages={messages}
+          style={{ scrollbarWidth: "none" }}
+        />
       </div>
 
       <div className="flex items-center p-4 ">
@@ -383,7 +391,10 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={sendMessage}
         />
-        <FaPaperPlane className="ml-4 text-xl cursor-pointer" onClick={sendMessage} />
+        <FaPaperPlane
+          className="ml-4 text-xl cursor-pointer"
+          onClick={sendMessage}
+        />
       </div>
     </div>
   );

@@ -253,6 +253,7 @@ export function ShippingAddress(props) {
             name="company"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.company}
+
             readOnly={!isEditAddress && !isUserShippingEmpty()}
           />
         </div>
@@ -299,6 +300,7 @@ export function ShippingAddress(props) {
           placeholder="House number and street name"
           onChange={(e) => handleChangeAddress(e)}
           value={userShipping.houseNumber}
+
           readOnly={!isEditAddress && !isUserShippingEmpty()}
         />
         <label>Apartment, suite, unit, etc, (optional)</label>
@@ -324,6 +326,7 @@ export function ShippingAddress(props) {
             name="city"
             onChange={(e) => handleChangeAddress(e)}
             value={userShipping.city}
+
             readOnly={!isEditAddress && !isUserShippingEmpty()}
           />
         </div>

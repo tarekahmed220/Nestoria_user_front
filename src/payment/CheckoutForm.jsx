@@ -44,7 +44,7 @@ const CheckoutForm = (props) => {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if(!props.sendAdderss){
+    if (!props.sendAdderss) {
       return toast.error("Confirm shipping address");
     }
     if (!stripe || !elements) {
@@ -52,76 +52,67 @@ const CheckoutForm = (props) => {
     }
 
     const card = elements.getElement(CardElement);
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card,
-    });
+    const { error: paymentMethodError, paymentMethod } =
+      await stripe.createPaymentMethod({
+        type: "card",
+        card,
+      });
 
-    if (error) {
+    if (paymentMethodError) {
       setPaymentStatus("Payment failed");
       return;
     }
 
     setIsLoading(true);
-    // Send payment information to server
-    const intentResponse = await axiosInstance.post(
-      "/api/payment/create-payment-intent",
-      {
-        amount: 50,
-      }
-    );
-    const { clientSecret, paymentIntentId } = intentResponse.data;
-    const response = await axiosInstance.post(
-      "/api/payment/create-payment-intent",
-      { amount: total },
-      {
-        headers: { "Content-Type": "application/json" },
-      }
-    );
 
-    const { error: confirmError } = await stripe.confirmCardPayment(
-      clientSecret,
-      {
-        payment_method: paymentMethod.id,
-      }
-    );
+    try {
+      // Send payment information to server
+      const response = await axiosInstance.post(
+        "/api/payment/create-payment-intent",
+        { amount: total }
+      );
+      const { clientSecret, paymentIntentId } = response.data;
 
-    if (confirmError) {
-      setPaymentStatus("Payment failed");
-      navigate("/paymentfailure");
-      setIsLoading(false);
-      toast.error("sorry, payment failed");
-    } else {
-      const products = orderData.products.map((order) => {
-        return {
+      const { error: confirmError } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: paymentMethod.id,
+        }
+      );
+
+      if (confirmError) {
+        setPaymentStatus("Payment failed");
+        navigate("/paymentfailure");
+        toast.error("Sorry, payment failed");
+      } else {
+        // Handle successful payment
+        const products = orderData.products.map((order) => ({
           productId: order.productId._id,
-          //   FIXME: CHECK WORKSHOP_ID
           workshopId: order.productId.workshop_id,
           quantity: order.quantity,
           price: order.subTotal,
           color: order.color,
-        };
-      });
+        }));
 
-      const req = await axiosInstance.post("/api/v1/fur/orders/addneworders", {
-        products: products,
-        total: total,
-        paymentIntentId: paymentIntentId,
-        status: "paid",
-        shippingAddress: {
-          houseNumber: props.sendAdderss.houseNumber,
-          apartment: props.sendAdderss.apartment,
-          city: props.sendAdderss.city,
-          state: props.sendAdderss.state,
-        },
-      });
+        await axiosInstance.post("/api/v1/fur/orders/addneworders", {
+          products,
+          total,
+          paymentIntentId,
+          status: "paid",
+          shippingAddress: props.sendAdderss,
+        });
 
-      setPaymentStatus("Payment successfully");
-      navigate("/paymentsuccess");
-      localStorage.removeItem("ordersLocal");
+        setPaymentStatus("Payment successful");
+        navigate("/paymentsuccess");
+        localStorage.removeItem("ordersLocal");
+        toast.success("Great, payment successful 🎉");
+      }
+    } catch (error) {
+      console.error("Error handling payment:", error);
+      setPaymentStatus("Payment failed");
+      toast.error("Sorry, payment failed");
+    } finally {
       setIsLoading(false);
-      toast.success("Great, payment successfully🎉");
-      console.log("successfully payment");
     }
   };
 

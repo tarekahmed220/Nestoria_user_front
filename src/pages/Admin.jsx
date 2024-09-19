@@ -26,6 +26,7 @@ function Admin() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("workshop Requests");
   const navigate = useNavigate();
+
   useEffect(() => {
     async function verifyRole() {
       try {

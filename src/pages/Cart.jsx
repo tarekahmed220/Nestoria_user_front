@@ -15,9 +15,9 @@ function Cart() {
   const [products, setProducts] = useState([]);
   const [isUsedCupon, setIsUsedCoupon] = useState(false);
   const [totalAfterCoupon, setAfterCoupon] = useState(0);
+  const navigate = useNavigate();
 
   const { currentUser } = useUserInfoContext();
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,19 +27,24 @@ function Cart() {
           ...product,
           subTotal: (product.quantity * product.productId.price).toFixed(2),
         }));
+        console.log(productsWithSubTotal);
         setProducts(productsWithSubTotal);
       } catch (error) {
-        toast.error("Error fetching data:", error);
+        if(currentUser){
+          toast.error("Error fetching data:", error);
+        }
       }
     };
     fetchData();
   }, []);
 
   useEffect(() => {
-    let subTotal = products.reduce(
-      (acc, product) => acc + product.quantity * product.productId.price,
-      0
-    ).toFixed(2);
+    let subTotal = products
+      .reduce(
+        (acc, product) => acc + product.quantity * product.productId.price,
+        0
+      )
+      .toFixed(2);
     setSubTotal(subTotal);
     setTotal(subTotal);
     setAfterCoupon(subTotal);
@@ -52,7 +57,6 @@ function Cart() {
         productId,
         color,
       });
-      toast.success("Quantity updated")
     } catch (error) {
       toast.error(error);
     }
@@ -69,15 +73,15 @@ function Cart() {
   const handleQuantityChange = (action, product) => {
     let newQuantity = product.quantity;
     if (action === "increase") {
-      if(newQuantity < product.productId.quantity){
+      if (newQuantity < product.productId.quantity) {
         newQuantity += 1;
-      }else{
+      } else {
         toast.error("This is the maximum.");
       }
     } else if (action === "decrease") {
-      if(newQuantity > 1){
+      if (newQuantity > 1) {
         newQuantity -= 1;
-      }else{
+      } else {
         toast.error("This is the minimum.");
       }
     }
@@ -109,42 +113,40 @@ function Cart() {
     }
     switch (coupon) {
       case "A12H34":
-        setAfterCoupon(total - total*0.4);
+        setAfterCoupon(total - total * 0.4);
         setIsUsedCoupon(true);
         toast.success("Coupon done");
         break;
       case "ahmed":
-        setAfterCoupon(total - total*0.2);
+        setAfterCoupon(total - total * 0.2);
         setIsUsedCoupon(true);
         toast.success("Coupon done");
         break;
       case "tarek":
-        setAfterCoupon(total - total*0.1);
+        setAfterCoupon(total - total * 0.1);
         setIsUsedCoupon(true);
         toast.success("Coupon done");
         break;
       default:
         setAfterCoupon(total);
-        toast.error("Invalid Coupon")
+        toast.error("Invalid Coupon");
         break;
     }
   };
 
   const handleRemoveProduct = async (productCartId) => {
     const confirmed = await Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "Do you want to remove this product?",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, remove it!',
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, remove it!",
     });
-  
     if (!confirmed.isConfirmed) {
       return;
     }
-
     try {
       const removeProduct = await axiosInstance.delete(
         `/removeFromCart/${productCartId}`
@@ -162,16 +164,15 @@ function Cart() {
     }
   };
 
-  const navigate = useNavigate();
-  const handleCheckoutBtn = async () => {    
+  const handleCheckoutBtn = async () => {
     const dataToLocal = {
-      "products": products,
-      "subTotal": subTotal,
-      "total": totalAfterCoupon,
-    }
+      products: products,
+      subTotal: Number(Number(subTotal).toFixed(2)),
+      total: Number(Number(totalAfterCoupon).toFixed(2)),
+    };
     localStorage.setItem("ordersLocal", JSON.stringify(dataToLocal));
     navigate("/checkout");
-  }
+  };
 
   return (
     <div>
@@ -336,10 +337,15 @@ function Cart() {
                   <div className="md:text-end">
                     <div className="flex flex-col my-3">
                       <span className="text-white mb-1">Shipping to</span>
-                      <span className="text-white font-bold">{currentUser.address}</span>
+                      <span className="text-white font-bold">
+                        {currentUser.address && currentUser.address}
+                      </span>
                     </div>
                     <div>
-                      <Link to="/billingAddress" className="text-white underline cursor-pointer hover:text-[#C26510] duration-500">
+                      <Link
+                        to="/billingAddress"
+                        className="text-white underline cursor-pointer hover:text-[#C26510] duration-500"
+                      >
                         Change Address
                       </Link>
                     </div>
@@ -348,13 +354,22 @@ function Cart() {
                 <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
                 <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between text-white">
                   <span>Total</span>
-                  <span className={`${isUsedCupon && "line-through duration-500"}`}>EGP {total}</span>
+                  <span
+                    className={`${isUsedCupon && "line-through duration-500"}`}
+                  >
+                    EGP {total}
+                  </span>
                 </div>
-                {
-                  isUsedCupon && (<span className="text-white flex justify-center md:justify-end mt-2 duration-500">EGP {totalAfterCoupon}</span>)
-                }
+                {isUsedCupon && (
+                  <span className="text-white flex justify-center md:justify-end mt-2 duration-500">
+                    EGP {Number(totalAfterCoupon).toFixed(2)}
+                  </span>
+                )}
                 <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
-                <button onClick={() => handleCheckoutBtn()} className="w-full md:w-fit mt-5 px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
+                <button
+                  onClick={() => handleCheckoutBtn()}
+                  className="w-full md:w-fit mt-5 px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500"
+                >
                   Proceed To Checkout
                 </button>
               </div>

@@ -131,6 +131,7 @@ function Register() {
         localStorage.setItem("token", user2.token);
         setSuccess("Check your email to verify your account.");
         navigate("/login");
+        toast.success("Check your email to verify your account");
       } catch (error) {
         if (
           error.response &&
@@ -158,7 +159,7 @@ function Register() {
       <IntroSection pageTitle="Register" pageName="Register" />
 
       <div
-        className="flex justify-center items-center min-h-screen pt-5 relative"
+        className="flex justify-center items-center min-h-[80vh] pt-5 relative"
         style={{
           backgroundImage: "url('/body-bg.png')",
           backgroundPosition: "left top",
@@ -314,11 +315,11 @@ function Register() {
                     <option value="" disabled>
                       Address*
                     </option>
-                    <option value="England">England</option>
                     <option value="Egypt">Egypt</option>
-                    <option value="United States">United States</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Australia">Australia</option>
+                    <option value="Palestine">Palestine</option>
+                    <option value="Yemen">Yemen</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Syria">Syria</option>
                   </select>
                   {errors.address ? (
                     <span
@@ -344,9 +345,7 @@ function Register() {
                     </span>
                   )}
                   <span
-                    className={`absolute text-[white] top-${
-                      errors.address ? "[22%]" : "[33%]"
-                    } text-xl right-5`}
+                    className={`absolute text-[white] top-[18px] text-xl right-5`}
                   >
                     <IoIosArrowDropdown />
                   </span>

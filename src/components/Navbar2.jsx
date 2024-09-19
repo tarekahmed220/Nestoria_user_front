@@ -39,17 +39,6 @@ function Navbar2() {
   }, [isLogin]);
 
   useEffect(() => {
-    // هذا التأثير يتم تنفيذه عند تغيير isLogin
-    if (isLogin) {
-      // تحديث واجهة المستخدم عند تسجيل الدخول
-      console.log("User logged in:", currentUser);
-    } else {
-      // يمكن القيام بشيء عند تسجيل الخروج
-      console.log("User logged out");
-    }
-  }, [isLogin, currentUser]);
-
-  useEffect(() => {
     const handleClickOutside = (event) => {
       if (divRef.current && !divRef.current.contains(event.target)) {
         setShowProfile(false);

@@ -22,7 +22,7 @@ import { useEffect } from "react";
 import ProfileUser from "./pages/ProfileUser";
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
-// import ChatComponent from "./components/chatPage/Chat";
+
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
@@ -32,6 +32,9 @@ import SellerPage from "./components/sellerRegister/SellerPage";
 import ThankYou from "./components/sellerRegister/WaitingPage";
 import Chat from "./pages/Chat";
 import ChatProvider from "./context/ChatProvidor";
+import Admin from "./pages/Admin";
+import UnauthorizedPage from "./pages/UnauthorizedPage ";
+
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(
   "pk_test_51PoWjlG63yy5fRrkIeVefe6uAFjzUZ7n71C3TSrwWmGEjp79bWlOm8z62eiQCBP83CiM3jhfr3VgDlcuYbCRk5nj00tRXbd1il"
@@ -63,6 +66,9 @@ function App() {
                   <Route path="workshop" element={<HeroSection/>} />
                   {/* <Route path="/chat" element={<ChatComponent />} /> */}
                   <Route path="/chat" element={<ChatProvider><Chat/></ChatProvider> }/> 
+                  <Route path="workshop" element={<HeroSection />} />
+                  
+                
                   <Route path="/seller" element={<SellerPage />} />
                   <Route path="/thanks" element={<ThankYou />} />
                   <Route path="/register" element={<Register />} />
@@ -81,7 +87,8 @@ function App() {
                 <Route path="checkoutForm" element={<CheckoutForm />} />
                 <Route path="paymentsuccess" element={<PaymentSuccess />} />
                 <Route path="paymentfailure" element={<PaymentFailure />} />
-
+                <Route path="admin" element={<Admin />} />
+                <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="*" element={<NotfountPage />} />
               </Routes>
             </Router>

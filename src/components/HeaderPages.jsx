@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export function HeaderPages({namePage}) {
+export function HeaderPages({ namePage }) {
   return (
     <section className="relative flex w-full h-[300px] md:h-[450px]">
       <div
@@ -17,7 +17,7 @@ export function HeaderPages({namePage}) {
       <div className="relative m-auto w-fit">
         <h3 className="text-5xl text-white">{namePage}</h3>
         <div className="text-center my-4">
-          <Link href="">
+          <Link to="/">
             <span className="text-white hover:text-orange-500 duration-500">
               Home
             </span>

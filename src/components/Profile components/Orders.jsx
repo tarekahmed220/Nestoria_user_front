@@ -133,7 +133,7 @@ export function Orders() {
                     return (
                       <div
                         key={`${order._id}-${product.productId._id}-${index}`}
-                        className="bg-white rounded-lg shadow-lg p-6 mb-4"
+                        className="relative bg-white rounded-lg shadow-lg p-6 mb-4"
                       >
                         <div className="grid grid-cols-12 gap-4 mb-2">
                           {/* Order Item Details */}
@@ -169,6 +169,7 @@ export function Orders() {
                             <div>
                               {userShipping[indexOrder]?.houseNumber}{" "}
                               {userShipping[indexOrder]?.apartment}
+                              {/* <div>{product.productId.workshop_id}</div> */}
                             </div>
                           </div>
                           <div className="col-span-3">
@@ -177,90 +178,100 @@ export function Orders() {
                             </div>
                             <div>{currentUser.email}</div>
                             <div>{currentUser.phone}</div>
-                            <Link
+                            {/* <Link
                               href="#"
                               className="text-blue-500 hover:underline"
                             >
                               Edit
-                            </Link>
+                            </Link> */}
                           </div>
                         </div>
 
-                        {/* Progress Bar */}
-                        <div className="border-t pt-3">
-                          <div className="flex justify-between items-center">
-                            <div className="text-gray-600 mb-2">
-                              Preparing to ship on September 24, 2024
+                        {product.deliveryStatus !== "Cancelled" ? (
+                          <>
+                            {" "}
+                            {/* Progress Bar */}
+                            <div className="border-t pt-3">
+                              <div className="flex justify-between items-center">
+                                <div className="text-gray-600 mb-2">
+                                  Preparing to ship on September 24, 2024
+                                </div>
+                                {product.deliveryStatus === "Shipped" && (
+                                  <GoCheckCircle
+                                    onClick={(e) => {
+                                      if (!isDelivered[productKey])
+                                        handleClickDelivered(
+                                          e,
+                                          order._id,
+                                          product.productId._id,
+                                          product.color
+                                        );
+                                    }}
+                                    className={`text-2xl ${
+                                      isDelivered[productKey]
+                                        ? "text-white bg-blue-500"
+                                        : "text-blue-500 hover:bg-blue-500 hover:text-white"
+                                    } cursor-pointer rounded-full`}
+                                  />
+                                )}
+                              </div>
+                              <div className="relative w-full bg-gray-200 h-2 rounded-full">
+                                <div
+                                  className="absolute bg-blue-500 h-2 rounded-full duration-500"
+                                  style={{
+                                    width: isDelivered[productKey]
+                                      ? "100%"
+                                      : product.deliveryStatus === "Processing"
+                                      ? "35%"
+                                      : product.deliveryStatus === "Shipped"
+                                      ? "65%"
+                                      : product.deliveryStatus ===
+                                          "Delivered" && "100%",
+                                  }}
+                                ></div>
+                              </div>
+                              <div className="flex justify-between text-sm text-gray-600 mt-2">
+                                <div className={`font-semibold text-blue-600`}>
+                                  Order placed
+                                </div>
+                                <div
+                                  className={`font-semibold ${
+                                    [
+                                      "Processing",
+                                      "Shipped",
+                                      "Delivered",
+                                    ].includes(product.deliveryStatus) &&
+                                    "text-blue-600"
+                                  }`}
+                                >
+                                  Processing
+                                </div>
+                                <div
+                                  className={`font-semibold ${
+                                    ["Shipped", "Delivered"].includes(
+                                      product.deliveryStatus
+                                    ) && "text-blue-600"
+                                  }`}
+                                >
+                                  Shipped
+                                </div>
+                                <div
+                                  className={`font-semibold ${
+                                    (["Delivered"].includes(
+                                      product.deliveryStatus
+                                    ) ||
+                                      isDelivered[productKey]) &&
+                                    "text-blue-600"
+                                  },`}
+                                >
+                                  Delivered
+                                </div>
+                              </div>
                             </div>
-                            {product.deliveryStatus === "Shipped" && (
-                              <GoCheckCircle
-                                onClick={(e) => {
-                                  if (!isDelivered[productKey])
-                                    handleClickDelivered(
-                                      e,
-                                      order._id,
-                                      product.productId._id,
-                                      product.color
-                                    );
-                                }}
-                                className={`text-2xl ${
-                                  isDelivered[productKey]
-                                    ? "text-white bg-blue-500"
-                                    : "text-blue-500 hover:bg-blue-500 hover:text-white"
-                                } cursor-pointer rounded-full`}
-                              />
-                            )}
-                          </div>
-                          <div className="relative w-full bg-gray-200 h-2 rounded-full">
-                            <div
-                              className="absolute bg-blue-500 h-2 rounded-full duration-500"
-                              style={{
-                                width: isDelivered[productKey]
-                                  ? "100%"
-                                  : product.deliveryStatus === "Processing"
-                                  ? "35%"
-                                  : product.deliveryStatus === "Shipped"
-                                  ? "65%"
-                                  : product.deliveryStatus === "Delivered" &&
-                                    "100%",
-                              }}
-                            ></div>
-                          </div>
-                          <div className="flex justify-between text-sm text-gray-600 mt-2">
-                            <div className={`font-semibold text-blue-600`}>
-                              Order placed
-                            </div>
-                            <div
-                              className={`font-semibold ${
-                                ["Processing", "Shipped", "Delivered"].includes(
-                                  product.deliveryStatus
-                                ) && "text-blue-600"
-                              }`}
-                            >
-                              Processing
-                            </div>
-                            <div
-                              className={`font-semibold ${
-                                ["Shipped", "Delivered"].includes(
-                                  product.deliveryStatus
-                                ) && "text-blue-600"
-                              }`}
-                            >
-                              Shipped
-                            </div>
-                            <div
-                              className={`font-semibold ${
-                                (["Delivered"].includes(
-                                  product.deliveryStatus
-                                ) ||
-                                  isDelivered[productKey]) &&
-                                "text-blue-600"
-                              },`}
-                            >
-                              Delivered
-                            </div>
-                          </div>
-                        </div>
+                          </>
+                        ): (<div className="absolute border-4 border-red-500 rounded-lg p-1 top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 transform -rotate-12 text-red-500 text-5xl">
+                          Cancelled
+                        </div>)}
                       </div>
                     );
                   })}

@@ -15,6 +15,7 @@ function Cart() {
   const [products, setProducts] = useState([]);
   const [isUsedCupon, setIsUsedCoupon] = useState(false);
   const [totalAfterCoupon, setAfterCoupon] = useState(0);
+  const navigate = useNavigate();
 
   const { currentUser } = useUserInfoContext();
 
@@ -26,9 +27,12 @@ function Cart() {
           ...product,
           subTotal: (product.quantity * product.productId.price).toFixed(2),
         }));
+        console.log(productsWithSubTotal);
         setProducts(productsWithSubTotal);
       } catch (error) {
-        toast.error("Error fetching data:", error);
+        if(currentUser){
+          toast.error("Error fetching data:", error);
+        }
       }
     };
     fetchData();
@@ -160,7 +164,6 @@ function Cart() {
     }
   };
 
-  const navigate = useNavigate();
   const handleCheckoutBtn = async () => {
     const dataToLocal = {
       products: products,
@@ -335,7 +338,7 @@ function Cart() {
                     <div className="flex flex-col my-3">
                       <span className="text-white mb-1">Shipping to</span>
                       <span className="text-white font-bold">
-                        {currentUser.address}
+                        {currentUser.address && currentUser.address}
                       </span>
                     </div>
                     <div>

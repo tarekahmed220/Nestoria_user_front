@@ -16,9 +16,7 @@ import { useUserInfoContext } from "../context/UserProvider";
 import axiosInstance from "../apis/axiosConfig";
 import { BiSolidBellRing } from "react-icons/bi";
 import { getSender } from "./chatPage/ChatLogic";
-import NotificationBadge from "react-notification-badge";
-import { Effect } from "react-notification-badge";
-import ChatProvider,{ChatState}from "../context/ChatProvidor"
+import ChatProvider, { ChatState } from "../context/ChatProvidor";
 import { GoBell } from "react-icons/go";
 function Navbar2() {
   const [showSearch, setShowSearch] = useState(false);
@@ -71,129 +69,129 @@ function Navbar2() {
 
   return (
     <ChatProvider>
-    <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50">
-      <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
-        <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif ">
-          {/* <Link to="/">
+      <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50">
+        <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
+          <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif ">
+            {/* <Link to="/">
             <img
               className="w-[230px]"
               src="https://res.cloudinary.com/delh2nrhf/image/upload/v1725672603/ajsz6xaqtvynhmnliwi3.png"
               alt=""
             />
           </Link> */}
-          <Link to="/">Nestoria</Link>
-        </div>
-        <ul className="hidden lg:flex justify-between gap-4 lg:gap-12">
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/">HOME</Link>
-          </li>
-
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/shop">SHOP</Link>
-          </li>
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/wishlist">WISHLIST</Link>
-          </li>
-
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/aboutus">ABOUT US</Link>
-          </li>
-          <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-            <Link to="/contactus">CONTACT US</Link>
-          </li>
-        </ul>
-        <div className="flex gap-2 sm:gap-4 lg:gap-5 justify-center items-center">
-          <FontAwesomeIcon
-            onClick={() => {
-              setShowSearch(true);
-            }}
-            className="cursor-pointer text-lg  lg:text-xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200"
-            icon={faMagnifyingGlass}
-          />
-          
-          <div className="flex items-center">
-          <div className="relative">
-            <button className="p-2">
-              <NotificationBadge count={notification?.length} effect={Effect.SCALE} />
-              <GoBell fontSize="3xl" className="ml-2 text-white" />
-            </button>
-            <div className="absolute right-0 w-48 bg-white border rounded-lg">
-              {!notification?.length ? "" : notification?.map((notif) => (
-                <div
-                  key={notif?._id}
-                  className="p-2 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => {
-                    // setSelectedChat(notif.chat);
-                    // setNotification(notification.filter((n) => n !== notif));
-                    setNotification(notification?.length===0)
-                    navigate('/chat');
-                  }}
-                >
-                 
-                  {/* {notif?.chat && `New Message from ${getSender(user, notif.chat.users)}`} */}
-                </div>
-              ))}
-            </div>
+            <Link to="/">Nestoria</Link>
           </div>
-         </div>
-          <Link to="/cart">
-            <LiaCartPlusSolid className="cursor-pointer text-lg  lg:text-3xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200" />
-          </Link>
-          {/* FIXME: */}
+          <ul className="hidden lg:flex justify-between gap-4 lg:gap-12">
+            <li className="text-white hover:text-[--mainColor] transition-all duration-150">
+              <Link to="/">HOME</Link>
+            </li>
 
-          {isLogin && currentUser ? (
-            <div
-              ref={divRef}
-              className="relative z-50"
+            <li className="text-white hover:text-[--mainColor] transition-all duration-150">
+              <Link to="/shop">SHOP</Link>
+            </li>
+            <li className="text-white hover:text-[--mainColor] transition-all duration-150">
+              <Link to="/wishlist">WISHLIST</Link>
+            </li>
+
+            <li className="text-white hover:text-[--mainColor] transition-all duration-150">
+              <Link to="/aboutus">ABOUT US</Link>
+            </li>
+            <li className="text-white hover:text-[--mainColor] transition-all duration-150">
+              <Link to="/contactus">CONTACT US</Link>
+            </li>
+          </ul>
+          <div className="flex gap-2 sm:gap-4 lg:gap-5 justify-center items-center">
+            <FontAwesomeIcon
               onClick={() => {
-                setShowProfile((prev) => !prev);
+                setShowSearch(true);
               }}
-            >
-              <div className="flex text-white gap-2">
-                <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
-                <>{currentUser ? currentUser.fullName : "Guest"}</>
-              </div>
+              className="cursor-pointer text-lg  lg:text-xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200"
+              icon={faMagnifyingGlass}
+            />
 
-              {showProfile && (
-                <div
-                  className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] left-[-41px] z-10`}
-                >
-                  <p
-                    className="flex items-center gap-2 justify-center  cursor-pointer text-white hover:bg-[--mainColor] py-2 px-4 text-center rounded-lg"
-                    value="profile"
-                    onClick={() => {
-                      navigate("/profile");
-                    }}
-                  >
-                    <span>Profile</span>
-                    <IoIosMan />
-                  </p>
-                  <p
-                    className="flex items-center gap-2 justify-center cursor-pointer text-white hover:bg-[--mainColor] py-2 px-2 text-center rounded-lg"
-                    value="logout"
-                    onClick={() => handleLogout()}
-                  >
-                    <span> Logout</span>
-                    <IoMdLogOut className="inline-block" />
-                  </p>
+            <div className="flex items-center">
+              <div className="relative">
+                <button className="p-2">
+                  <GoBell fontSize="3xl" className="ml-2 text-white" />
+                </button>
+                <div className="absolute right-0 w-48 bg-white border rounded-lg">
+                  {!notification?.length
+                    ? ""
+                    : notification?.map((notif) => (
+                        <div
+                          key={notif?._id}
+                          className="p-2 hover:bg-gray-100 cursor-pointer"
+                          onClick={() => {
+                            // setSelectedChat(notif.chat);
+                            // setNotification(notification.filter((n) => n !== notif));
+                            setNotification(notification?.length === 0);
+                            navigate("/chat");
+                          }}
+                        >
+                          {/* {notif?.chat && `New Message from ${getSender(user, notif.chat.users)}`} */}
+                        </div>
+                      ))}
                 </div>
-              )}
+              </div>
             </div>
-          ) : (
-            <div
-              className="text-white cursor-pointer hover:text-[--mainColor] transition-all duration-200"
-              onClick={() => {
-                navigate("/login");
-              }}
-            >
-              Login/Register
-            </div>
-          )}
-          
-          {showSearch && <SearchContainer setShowSearch={setShowSearch} />}
+            <Link to="/cart">
+              <LiaCartPlusSolid className="cursor-pointer text-lg  lg:text-3xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200" />
+            </Link>
+            {/* FIXME: */}
+
+            {isLogin && currentUser ? (
+              <div
+                ref={divRef}
+                className="relative z-50"
+                onClick={() => {
+                  setShowProfile((prev) => !prev);
+                }}
+              >
+                <div className="flex text-white gap-2">
+                  <CgProfile className="cursor-pointer text-lg  lg:text-2xl text-[#ecececec] hover:text-[--mainColor] transition-all duration-200" />
+                  <>{currentUser ? currentUser.fullName : "Guest"}</>
+                </div>
+
+                {showProfile && (
+                  <div
+                    className={`${styles.profile} bg-black p-1 rounded-lg absolute bottom-[-100px] left-[-41px] z-10`}
+                  >
+                    <p
+                      className="flex items-center gap-2 justify-center  cursor-pointer text-white hover:bg-[--mainColor] py-2 px-4 text-center rounded-lg"
+                      value="profile"
+                      onClick={() => {
+                        navigate("/profile");
+                      }}
+                    >
+                      <span>Profile</span>
+                      <IoIosMan />
+                    </p>
+                    <p
+                      className="flex items-center gap-2 justify-center cursor-pointer text-white hover:bg-[--mainColor] py-2 px-2 text-center rounded-lg"
+                      value="logout"
+                      onClick={() => handleLogout()}
+                    >
+                      <span> Logout</span>
+                      <IoMdLogOut className="inline-block" />
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div
+                className="text-white cursor-pointer hover:text-[--mainColor] transition-all duration-200"
+                onClick={() => {
+                  navigate("/login");
+                }}
+              >
+                Login/Register
+              </div>
+            )}
+
+            {showSearch && <SearchContainer setShowSearch={setShowSearch} />}
+          </div>
         </div>
       </div>
-    </div>
     </ChatProvider>
   );
 }

@@ -22,7 +22,7 @@ import { useEffect } from "react";
 import ProfileUser from "./pages/ProfileUser";
 import { SearchProvider } from "./context/SearchContext";
 import { UserProvider } from "./context/UserProvider";
-import ChatComponent from "./components/chatPage/Chat";
+
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./payment/CheckoutForm";
@@ -30,6 +30,8 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentFailure from "./pages/PaymentFailure";
 import SellerPage from "./components/sellerRegister/SellerPage";
 import ThankYou from "./components/sellerRegister/WaitingPage";
+import Chat from "./pages/Chat";
+import ChatProvider from "./context/ChatProvidor";
 import Admin from "./pages/Admin";
 import UnauthorizedPage from "./pages/UnauthorizedPage ";
 
@@ -45,6 +47,7 @@ function App() {
 
   return (
     <>
+      
       <UserProvider>
         <SearchProvider>
           <Elements stripe={stripePromise}>
@@ -60,9 +63,12 @@ function App() {
                   <Route path="contactus" element={<ContactUs />} />
                   <Route path="aboutus" element={<AboutUs />} />
                   <Route path="wishlist" element={<WishList />} />
+                  <Route path="workshop" element={<HeroSection/>} />
+                  {/* <Route path="/chat" element={<ChatComponent />} /> */}
+                  <Route path="/chat" element={<ChatProvider><Chat/></ChatProvider> }/> 
                   <Route path="workshop" element={<HeroSection />} />
-                  <Route path="/chat" element={<ChatComponent />} />
-                  {/* <Route path="/chat" element={<ChatPage />} /> */}
+                  
+                
                   <Route path="/seller" element={<SellerPage />} />
                   <Route path="/thanks" element={<ThankYou />} />
                   <Route path="/register" element={<Register />} />
@@ -103,6 +109,7 @@ function App() {
           </Elements>
         </SearchProvider>
       </UserProvider>
+     
     </>
   );
 }

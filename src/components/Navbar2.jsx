@@ -150,6 +150,7 @@ function Navbar2() {
               Login/Register
             </div>
           )}
+          
           {showSearch && <SearchContainer setShowSearch={setShowSearch} />}
         </div>
       </div>

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faStarHalfAlt, faStar as faStarOutline } from '@fortawesome/free-solid-svg-icons';
 import "../../css modules/productSection.module.css";
+import axiosInstance from '../../apis/axiosConfig';
 
 const ProductCard = () => {
   const [products, setProducts] = useState([]);
@@ -11,10 +12,10 @@ const ProductCard = () => {
 
   const fetchProducts = async (page = 1) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/v1/fur/workshops/66d87cbeb4d55d64579e20cc?page=${page}&limit=8`);
-      setProducts(response.data.products);
-      console.log("my products :",response.data.products);
-      setTotalPages(Math.ceil(response.data.totalProducts / 8)); // Set total pages based on totalProducts and limit
+      const response = await axiosInstance.get(`/api/v1/fur/users/66d87cbeb4d55d64579e20cc`);
+      setProducts(response.data.user.products);
+      console.log("my products :",response.data.user.products);
+      setTotalPages(Math.ceil(response.data.user.products.length / 8)); // Set total pages based on totalProducts and limit
     } catch (error) {
       console.error('Error fetching products:', error);
     }

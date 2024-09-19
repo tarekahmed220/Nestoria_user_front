@@ -28,7 +28,6 @@ function ProductDetails() {
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
         setproduct(res.data.data.product);
-        // console.log("products", product);
       })
       .catch((err) => {
         toast.error(err)
@@ -210,18 +209,18 @@ function ProductDetails() {
 
           <button
             onClick={() => {
-              if (product.workshop_id) {
-                handleWorkshop(product.workshop_id._id);
+              if (product?.workshop_id) {
+                handleWorkshop(product.workshop_id);
               }
             }}
             className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3"
           >
             See more about workShop
             <span className="ml-1">
-              {product.workshop_id
-                ? product.workshop_id.name
-                : "Workshop Name Unavailable"}
-            </span>
+               {product?.workshop_id?.fullName
+                ? product.workshop_id.fullName
+                : "Workshop Name "}
+            </span> 
           </button>
 
           {/* معلومات إضافية */}

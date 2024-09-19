@@ -14,14 +14,26 @@ import { IoIosMan } from "react-icons/io";
 import styles from "../css modules/nab2.module.css";
 import { useUserInfoContext } from "../context/UserProvider";
 import axiosInstance from "../apis/axiosConfig";
-
+import { BiSolidBellRing } from "react-icons/bi";
+import { getSender } from "./chatPage/ChatLogic";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
+import ChatProvider,{ChatState}from "../context/ChatProvidor"
+import { GoBell } from "react-icons/go";
 function Navbar2() {
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const divRef = useRef(null);
   const { currentUser, isLogin, setIsLogin } = useUserInfoContext();
   const [loginStatus, setLoginStatus] = useState(isLogin);
-
+  const {
+    // setSelectedChat,
+    // user,
+    notification,
+    setNotification,
+    // chats,
+    // setChats,
+  } = ChatState();
   useEffect(() => {
     setLoginStatus(isLogin);
   }, [isLogin]);
@@ -58,6 +70,7 @@ function Navbar2() {
   };
 
   return (
+    <ChatProvider>
     <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50">
       <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
         <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif ">
@@ -97,6 +110,32 @@ function Navbar2() {
             className="cursor-pointer text-lg  lg:text-xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200"
             icon={faMagnifyingGlass}
           />
+          
+          <div className="flex items-center">
+          <div className="relative">
+            <button className="p-2">
+              <NotificationBadge count={notification?.length} effect={Effect.SCALE} />
+              <GoBell fontSize="3xl" className="ml-2 text-white" />
+            </button>
+            <div className="absolute right-0 w-48 bg-white border rounded-lg">
+              {!notification?.length ? "" : notification?.map((notif) => (
+                <div
+                  key={notif?._id}
+                  className="p-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => {
+                    // setSelectedChat(notif.chat);
+                    // setNotification(notification.filter((n) => n !== notif));
+                    setNotification(notification?.length===0)
+                    navigate('/chat');
+                  }}
+                >
+                 
+                  {/* {notif?.chat && `New Message from ${getSender(user, notif.chat.users)}`} */}
+                </div>
+              ))}
+            </div>
+          </div>
+         </div>
           <Link to="/cart">
             <LiaCartPlusSolid className="cursor-pointer text-lg  lg:text-3xl text-[#ecececec]  hover:text-[--mainColor] transition-all duration-200" />
           </Link>
@@ -155,6 +194,7 @@ function Navbar2() {
         </div>
       </div>
     </div>
+    </ChatProvider>
   );
 }
 

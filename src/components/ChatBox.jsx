@@ -1,43 +1,28 @@
+import React, { useEffect, useState } from "react";
+import { ChatState } from "../context/ChatProvidor";
+import SingleChat from "./SingleChat";
 
- import React, { useEffect, useState } from "react";
- import { ChatState } from "../context/ChatProvidor";
- import SingleChat from "./SingleChat";
-import ChatLayout from "./ChatLayout";
- const ChatBox = ({fetchAgain,setFetchAgain}) => {
-   const { selectedChat } = ChatState();
-   const [userFromParams, setUserFromParams] = useState({
-     _id: "",
-     fullName: "",
-     email: "",
-     photo: "",
-     online: true,
-     _id: "",
-     phone: "",
-     messages:  [],
-     role: "",
-     unseenMsg
-     : 
-     0
-   });
-   useEffect(() => {
-     if (selectedChat) {
-       setUserFromParams(selectedChat);
-     }
-   }, [selectedChat]);
-   return (
+const ChatBox = ({ fetchAgain, setFetchAgain }) => {
+  const { selectedChat } = ChatState();
+  const [userFromParams, setUserFromParams] = useState({});
 
-    <div
-      className={`${
-        selectedChat ? "flex" : "hidden"
-      } md:flex justify-center items-start-end h-[90vh] flex-col py-10 bg-black w-full  rounded-lg border border-gray-300 border-b-0 pt-12 scrollbar relative`}
-    >
-    {/* // <h1 className="text-white bg-gray-400">chatBox</h1> <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} md:w-2/3 /> */}
-     <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+  useEffect(() => {
+    if (selectedChat) {
+      setUserFromParams(selectedChat);
+    }
+  }, [selectedChat]);
+
+  return (
+    <div className={`flex justify-center items-start h-full  flex-col  bg-black w-full rounded-lg border border-gray-300  relative`} style={{ height: "calc(100vh - 80px)" }}>
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
 
     </div>
-    
   );
- }
+};
+
+export default ChatBox;
+
+
 
 // import ChatLayout from "./ChatLayout.jsx";
 
@@ -342,4 +327,4 @@ import ChatLayout from "./ChatLayout";
 //   );
 // };
 
- export default ChatBox;
+//  export default ChatBox;

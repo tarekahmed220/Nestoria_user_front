@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 
 function Layout() {
   const location = useLocation();
-  const blackList = ["/register", "/login", "/forgotpassword"];
+  const blackList = ["/register", "/login", "/forgotpassword", "/seller"];
 
   const hideComponents = blackList.includes(location.pathname);
   return (

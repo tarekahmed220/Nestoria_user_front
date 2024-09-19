@@ -84,17 +84,35 @@ function Login() {
     if (Object.keys(newErrors).length === 0) {
       try {
         setIsLoading(true);
+
         const { data: user2 } = await userloginApi.createUser(user);
         const token = user2?.token;
-        localStorage.setItem("token", token);
-        localStorage.setItem("role", user2?.data?.user?.role);
-        localStorage.setItem("user", JSON.stringify(user2?.data?.user));
-        console.log("user2", user2.data.user);
-        setCurrentUser(user2.data.user);
-        setIsLogin(true);
-        console.log(isLogin);
+        console.log("user2", user2);
 
-        navigate("/");
+        if (user2.data.user.role === "client") {
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", user2?.data?.user?.role);
+          localStorage.setItem("user", JSON.stringify(user2?.data?.user));
+          setCurrentUser(user2.data.user);
+          setIsLogin(true);
+          navigate("/");
+        } else if (
+          (user2.data.user.role === "workshop" &&
+            user2.data.user.registerStatus === "notCompleted") ||
+          user2.data.user.registerStatus === "modify" ||
+          user2.data.user.registerStatus === "pending"
+        ) {
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", user2?.data?.user?.role);
+          navigate("/seller ");
+          toast.info("please complete your registration");
+        } else if (user2.data.user.registerStatus === "completed") {
+          window.location.href = `http://localhost:4200/dashboard?token=${token}`;
+        } else {
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", user2?.data?.user?.role);
+          window.location.href = "http://localhost:3000/admin";
+        }
       } catch (error) {
         if (
           error.response &&
@@ -125,7 +143,7 @@ function Login() {
       {isLoading && <Loader />}
       <IntroSection pageName="Signin" pageTitle="Signin" />
       <div
-        className="flex justify-center items-center min-h-screen "
+        className="flex justify-center items-center min-h-[60vh] "
         style={{
           backgroundImage: "url('/body-bg.png')",
           backgroundPosition: "left top",

@@ -61,7 +61,7 @@ const Chat = () => {
 
   return (
     <div
-      className="relative flex flex-col gap-3 lg:flex-row h-screen bg-black text-[#929292] overflow-hidden"
+      className="relative flex flex-col lg:flex-row mx-auto  mt-12 gap-3 lg:flex-row h-screen bg-black text-[#929292] overflow-hidden"
       style={{
         backgroundImage: "url('/body-bg.png')",
         backgroundPosition: "left top",
@@ -73,7 +73,7 @@ const Chat = () => {
     >
       {/* Toggle Button for Sidebar in Small Screens */}
       <button
-        className="lg:hidden p-4 text-white fixed top-4 left-4 z-50 hover:text-[#C96B14] cursor-pointer"
+        className="lg:hidden p-4 text-white absolute top-4 left-4 z-50 hover:text-[#C96B14] cursor-pointer"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         <FaBars size={24} />

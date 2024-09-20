@@ -14,7 +14,8 @@ import { IoIosMan } from "react-icons/io";
 import styles from "../css modules/nab2.module.css";
 import { useUserInfoContext } from "../context/UserProvider";
 import axiosInstance from "../apis/axiosConfig";
-import { BiSolidBellRing } from "react-icons/bi";
+
+import {FiMessageCircle}from "react-icons/fi"
 import { getSender } from "./chatPage/ChatLogic";
 import ChatProvider, { ChatState } from "../context/ChatProvidor";
 import { GoBell } from "react-icons/go";
@@ -111,27 +112,14 @@ function Navbar2() {
 
             <div className="flex items-center">
               <div className="relative">
-                <button className="p-2">
-                  <GoBell fontSize="3xl" className="ml-2 text-white" />
+                
+                <button className="p-0">
+                  {/* <GoBell fontSize="3xl" className="ml-2 text-white" /> */}
+                  <span className="text-red-500  text-xs absolute top-[-5px] right-[-5px] ">{notification?.length !== 0 ? notification?.length : ""}</span>
+                  <FiMessageCircle size={22}  className=" text-white mt-['-10px']" onClick={() => {setNotification(notification?.length === 0); navigate("/chat")}} />
+                   
                 </button>
-                <div className="absolute right-0 w-48 bg-white border rounded-lg">
-                  {!notification?.length
-                    ? ""
-                    : notification?.map((notif) => (
-                        <div
-                          key={notif?._id}
-                          className="p-2 hover:bg-gray-100 cursor-pointer"
-                          onClick={() => {
-                            // setSelectedChat(notif.chat);
-                            // setNotification(notification.filter((n) => n !== notif));
-                            setNotification(notification?.length === 0);
-                            navigate("/chat");
-                          }}
-                        >
-                          {/* {notif?.chat && `New Message from ${getSender(user, notif.chat.users)}`} */}
-                        </div>
-                      ))}
-                </div>
+               
               </div>
             </div>
             <Link to="/cart">

@@ -276,7 +276,7 @@
 // }
 
 // export default SingleChat
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo ,createRef} from "react";
 import io from "socket.io-client";
 import { ChatState } from "../context/ChatProvidor";
 import animationData from "../animations/typing.json";
@@ -286,6 +286,8 @@ import axiosInstance from "../apis/axiosConfig";
 import UpdateGroupChatModal from "../components/chatPage/UpdateGroupChatModal";
 import ScrollableChat from "./chatPage/ScrollableChat";
 import Loader from "./Loader";
+
+
 const ENDPOINT = "http://localhost:5000"; // Adjust the endpoint for deployment
 
 function SingleChat({ fetchAgain, setFetchAgain }) {
@@ -296,6 +298,8 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [toggle, setToggle] = useState(false);
+const fileInput=createRef()
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
@@ -317,7 +321,14 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       socket.on("stop typing", () => setIsTyping(false));
     }
   }, [socket, user]);
-
+const options={
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+}
   const fetchMessages = async () => {
     if (!selectedChat) return;
     try {
@@ -347,6 +358,35 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       }
     }
   };
+ 
+
+  const handleUpload = async (event) => {
+    const file = fileInput.current.files[0]; // Correctly accessing the file from the input ref
+    if (!file) return;
+  
+    const formData = new FormData();
+    formData.append("photo", file); // The 'photo' here should match the name used in `upload.single('photo')`
+    formData.append("chatId", selectedChat._id); // Make sure chatId is included
+  
+    try {
+      const { data } = await axiosInstance.post(
+        "/api/v1/fur/message/photo",
+        formData, // Pass formData directly
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Use "multipart/form-data" for file uploads
+          },
+        }
+      );
+      setMessages([...messages, data]);
+      toast("File uploaded successfully!", { type: "success" });
+      console.log(data); // Server response
+    } catch (error) {
+      toast("Failed to upload the file", { type: "error" });
+      console.error(error);
+    }
+  };
+  
 
   useEffect(() => {
     fetchMessages();
@@ -357,7 +397,9 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   }
 
   return (
-    <div className="w-full h-full" style={{ scrollbarWidth: "none" }}>
+    <>
+       {selectedChat ? 
+    (<div className="w-full h-full" style={{ scrollbarWidth: "none" }}>
       <div className="flex justify-between items-center ">
         <span className="text-xl ">
           {selectedChat?.chat?.users[0]?.fullName === userInfo?.fullName
@@ -382,7 +424,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       </div>
 
       <div className="flex items-center p-4 ">
-        <FaPaperclip className="mr-4 text-xl cursor-pointer" />
+        <FaPaperclip className="mr-4 text-xl hover:text-[#C26510] cursor-pointer" onClick={() => setToggle(!toggle)} />
         <input
           type="text"
           className="flex-grow p-2 border rounded-lg "
@@ -391,13 +433,47 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={sendMessage}
         />
-        <FaPaperPlane
+       <button className="cursor-pointer hover:text-[#C26510]  " type="button" > <FaPaperPlane
           className="ml-4 text-xl cursor-pointer"
           onClick={sendMessage}
-        />
+        /></button>
+        <div>
+                    {toggle && (
+           <div className="bg-gray-600 text-gray-300 shadow rounded absolute bottom-8 left-8 w-36">
+                <form>
+                  <label
+                    htmlFor="photo"
+                    className="flex items-center py-3  px-3 gap-3 hover:bg-gray-600  cursor-pointer"   >
+                    <div className="text-gray-200 ">
+                      {/* <Image size={18} /> */} <p>Add Image</p>
+                    </div>
+                    {/* <p>Add Image</p> */}
+                  </label>
+
+                  <input
+                    type="file"
+                    id="photo"
+                    onChange={handleUpload}
+                    accept="image/*"
+                    
+                    ref={fileInput}
+                    className="hidden hover:bg-gray-600  cursor-pointer"
+                  />
+                </form>
+                  </div>
+                   )} 
+
+        </div>
       </div>
-    </div>
+    </div>) :
+      (<div className="flex justify-center items-center align-center h-full">
+       <span className="text-lg font-semibold">
+         Click on a user to start chatting
+       </span>
+     </div>)}
+    </>
   );
 }
 
 export default SingleChat;
+

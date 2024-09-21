@@ -15,8 +15,7 @@ function ContactUs() {
   const regexName = /^[a-zA-Z][a-zA-Z ]{2,30}$/;
   const regexPhone = /^01[0125][0-9]{8}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  const regexProblem = /^[a-zA-Z][a-zA-Z ]{10,100}$/;
-
+  const regexProblem = /^.{10,1000}$/;
   const [problemDetails, setProblemDetails] = useState({
     userName: "",
     userMobile: "",

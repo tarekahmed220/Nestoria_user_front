@@ -1,10 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { Pagination, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -107,11 +105,12 @@ function AllClients() {
   };
 
   const handleSearch = () => {
-    setKeyword(searchTerm);
+    setKeyword(searchTerm.trim());
     console.log("Searching for:", searchTerm);
   };
   const handleChange2 = (event) => {
     setStatus(event.target.value);
+    setPage(1);
   };
 
   const handleClose2 = () => {

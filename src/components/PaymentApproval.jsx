@@ -39,6 +39,7 @@ function PaymentApproval() {
       try {
         const req = await axiosInstance.get("/api/v1/admin/money-requests");
         // setAdminBalance(req.data.adminBalance);
+        if (!req.data.orders) return;
         setPayments(req.data.orders);
         setMergeRequests((prev) => {
           const mergeRequests = req.data.orders.flatMap((payment) => {

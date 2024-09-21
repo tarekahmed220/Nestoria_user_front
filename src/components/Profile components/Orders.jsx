@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { useUserInfoContext } from "../../context/UserProvider";
 
 export function Orders() {
-  const [orders, setOrders] = useState("");
+  const [orders, setOrders] = useState("");//
   const [isDelivered, setIsDelivered] = useState({});
   const { currentUser } = useUserInfoContext();
   // const [isFoundedAddress, setIsFoundedAddress] = useState(false);

@@ -27,6 +27,7 @@ function ProductDetails() {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
+        console.log("pppp", res.data.data.product);
         setproduct(res.data.data.product);
       })
       .catch((err) => {
@@ -217,10 +218,10 @@ function ProductDetails() {
           >
             See more about workShop
             <span className="ml-1">
-               {product?.workshop_id?.fullName
+              {product?.workshop_id?.fullName
                 ? product.workshop_id.fullName
                 : "Workshop Name "}
-            </span> 
+            </span>
           </button>
 
           {/* معلومات إضافية */}
@@ -282,26 +283,12 @@ function ProductDetails() {
               <div className="flex flex-col lg:flex-row items-center bg-black text-white p-6">
                 <div className="md:w-full w-full">
                   <p className="mb-4 text-sm md:text-base">
-                    Aliquam egestas enim tristique urna luctus aliquet. Vivamus
-                    justo lacus, ultricies nec tincidunt iaculis, luctus ut
-                    neque. Suspendisse nunc nisl, maximus euismod commodo eget,
-                    blandit in enim. Vivamus vel lorem at nunc mattis ultricies
-                    nec at est. In justo purus, varius et placerat eget,
-                    consectetur a sapien. Quisque finibus ipsum eu dui sagittis,
-                    eu aliquet nibh efficitur. Phasellus eu efficitur tellus.
-                    Donec et leo nisi. Donec consequat porta iaculis. Sed
-                    convallis interdum dui sed viverra. Ut hendrerit justo sed
-                    est condimentum feugiat. Integer rutrum, leo in aliquet
-                    cursus, odio felis porttitor est, sit amet fringilla leo
-                    urna ac metus. Phasellus lectus erat, dictum id dolor sit
-                    amet, malesuada feugiat nunc. Quisque semper lorem in augue
-                    gravida, sit amet vestibulum nibh elementum. Duis massa mi,
-                    feugiat sit amet rutrum.
+                    {product.description}
                   </p>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Dignissim convallis aenean et tortor at risus viverra.
+                      quantity : {product.quantity}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />

@@ -31,6 +31,7 @@ function ProductDetails() {
       .then((res) => {
         console.log("pppp", res.data.data.product);
         setproduct(res.data.data.product);
+        console.log(res.data.data.product);
         const convertColors = res.data.data.product.color.map((colorHex) => {
           const colorNames = ColorNamer(colorHex);
           return { hex: colorHex, colorName: colorNames.ntc[0].name };

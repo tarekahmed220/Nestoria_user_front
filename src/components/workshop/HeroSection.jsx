@@ -8,7 +8,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import Loader from "../Loader";
 import axiosInstance from "../../apis/axiosConfig";
 import { toast } from "react-toastify";
-import ChatProvider,{ChatState} from "../../context/ChatProvidor"
+import ChatProvider, { ChatState } from "../../context/ChatProvidor";
 const HeroSection = () => {
   const [workshop, setWorkshop] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,15 +17,15 @@ const HeroSection = () => {
   const { workshopId } = useParams();
   console.log("workshopId ", workshopId);
   // const {
-    
+
   //   user,
   //   notification,
   //   setNotification,
   //   chats,
   //   setChats,
   // } = ChatState()||{};
-  const token=localStorage.getItem("token")
-  const userInfo=localStorage.getItem("user")
+  const token = localStorage.getItem("token");
+  const userInfo = localStorage.getItem("user");
   // Moved useNavigate to the top, before any early return
   const navigate = useNavigate();
 
@@ -33,11 +33,9 @@ const HeroSection = () => {
     const fetchWorkshop = async () => {
       try {
         const response = await axiosInstance.get(
-
           `/api/v1/fur/users/${workshopId}`
-
         );
-        console.log("workshop ", response.data.user);
+        console.log("workshoppp ", response.data.user);
         const workShopDetails = response.data.user;
         setWorkshop(workShopDetails);
         setLoading(false);
@@ -52,9 +50,11 @@ const HeroSection = () => {
 
   // Loading state
   if (loading) {
-    return  <div className=" text-center flex justify-center items-center h-screen bg-black font-serif">
-      <Loader />
-    </div>
+    return (
+      <div className=" text-center flex justify-center items-center h-screen bg-black font-serif">
+        <Loader />
+      </div>
+    );
   }
 
   // Error state
@@ -62,29 +62,26 @@ const HeroSection = () => {
     return <div className="text-white text-center">Error: {error}</div>;
   }
 
-  const handleChatSelect = async(userId) => {
-
+  const handleChatSelect = async (userId) => {
     console.log("id ", userId);
-    try{
-   const {data }= await axiosInstance.post("/api/v1/fur/chat", {
-      userId
-    });
-    
-    // if (!chats.find((c) => c._id === data._id)) {setChats([data, ...chats])};
+    try {
+      const { data } = await axiosInstance.post("/api/v1/fur/chat", {
+        userId,
+      });
+
+      // if (!chats.find((c) => c._id === data._id)) {setChats([data, ...chats])};
       // setSelectedChat(data);
       //  setChats([data, ...chats]);
-    console.log("chat", data);
-    //  console.log("chats", chats);
-    // setSelectedChat(chat);
-    navigate("/chat " );
-  }
-    catch(err){ 
-      toast.error(err)
+      console.log("chat", data);
+      //  console.log("chats", chats);
+      // setSelectedChat(chat);
+      navigate("/chat ");
+    } catch (err) {
+      toast.error(err);
     }
   };
 
   return (
-   
     <div className="min-h-screen text-white font-serif pb-16">
       {/* Main Content */}
       <div className="flex justify-center items-center h-80 bg-black relative text-center text-white overflow-hidden hero_section">
@@ -121,9 +118,9 @@ const HeroSection = () => {
       <section className="py-16 px-8 md:px-16 lg:px-32">
         <div className="flex justify-center items-start space-x-8">
           <div className="w-1/2 pr-8">
-            <h2 className="text-3xl font-semibold mb-4">{workshop.fullName}</h2>
+            <h2 className="text-3xl font-semibold mb-4">{workshop.name}</h2>
             <p className="text-gray-300 text-lg leading-relaxed mb-4">
-              Location: {workshop.location}
+              Location: {workshop.address}
             </p>
             <p className="text-gray-400 mb-4">{workshop.description}</p>
           </div>
@@ -160,14 +157,12 @@ const HeroSection = () => {
         </div>
       </section>
 
-      <ProductCarousel />
+      <ProductCarousel workshopId={workshop._id} />
     </div>
-  
   );
 };
 
 export default HeroSection;
-
 
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";

@@ -15,7 +15,7 @@ import styles from "../css modules/nab2.module.css";
 import { useUserInfoContext } from "../context/UserProvider";
 import axiosInstance from "../apis/axiosConfig";
 
-import {FiMessageCircle}from "react-icons/fi"
+import { FiMessageCircle } from "react-icons/fi";
 import { getSender } from "./chatPage/ChatLogic";
 import ChatProvider, { ChatState } from "../context/ChatProvidor";
 import { GoBell } from "react-icons/go";
@@ -114,14 +114,20 @@ function Navbar2() {
 
             <div className="flex items-center">
               <div className="relative">
-                
                 <button className="p-0">
                   {/* <GoBell fontSize="3xl" className="ml-2 text-white" /> */}
-                  <span className="text-red-500  text-xs absolute top-[-5px] right-[-5px] ">{notification?.length !== 0 ? notification?.length : ""}</span>
-                  <FiMessageCircle size={22}  className=" text-white mt-['-10px']" onClick={() => {setNotification(notification?.length === 0); navigate("/chat")}} />
-                   
+                  <span className="text-red-500  text-xs absolute top-[-5px] right-[-5px] ">
+                    {notification?.length !== 0 ? notification?.length : ""}
+                  </span>
+                  <FiMessageCircle
+                    size={22}
+                    className=" text-white mt-[5px]  hover:text-[--mainColor] transition-all duration-200"
+                    onClick={() => {
+                      setNotification(notification?.length === 0);
+                      navigate("/chat");
+                    }}
+                  />
                 </button>
-               
               </div>
             </div>
             <Link to="/cart">

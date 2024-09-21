@@ -19,7 +19,9 @@ import {FiMessageCircle}from "react-icons/fi"
 import { getSender } from "./chatPage/ChatLogic";
 import ChatProvider, { ChatState } from "../context/ChatProvidor";
 import { GoBell } from "react-icons/go";
+import { useSelector } from "react-redux";
 function Navbar2() {
+  const translate = useSelector((state) => state.language.translation);
   const [showSearch, setShowSearch] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const divRef = useRef(null);
@@ -84,21 +86,21 @@ function Navbar2() {
           </div>
           <ul className="hidden lg:flex justify-between gap-4 lg:gap-12">
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-              <Link to="/">HOME</Link>
+              <Link to="/">{translate.home}</Link>
             </li>
 
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-              <Link to="/shop">SHOP</Link>
+              <Link to="/shop">{translate.shop}</Link>
             </li>
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-              <Link to="/wishlist">WISHLIST</Link>
+              <Link to="/wishlist">{translate.wishlist}</Link>
             </li>
 
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-              <Link to="/aboutus">ABOUT US</Link>
+              <Link to="/aboutus">{translate.about_us}</Link>
             </li>
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
-              <Link to="/contactus">CONTACT US</Link>
+              <Link to="/contactus">{translate.contact_us}</Link>
             </li>
           </ul>
           <div className="flex gap-2 sm:gap-4 lg:gap-5 justify-center items-center">
@@ -151,7 +153,7 @@ function Navbar2() {
                         navigate("/profile");
                       }}
                     >
-                      <span>Profile</span>
+                      <span>{translate.Profile}</span>
                       <IoIosMan />
                     </p>
                     <p
@@ -159,7 +161,7 @@ function Navbar2() {
                       value="logout"
                       onClick={() => handleLogout()}
                     >
-                      <span> Logout</span>
+                      <span> {translate.logout}</span>
                       <IoMdLogOut className="inline-block" />
                     </p>
                   </div>
@@ -172,7 +174,7 @@ function Navbar2() {
                   navigate("/login");
                 }}
               >
-                Login/Register
+                {translate.login}
               </div>
             )}
 

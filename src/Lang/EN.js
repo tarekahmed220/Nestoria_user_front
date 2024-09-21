@@ -1,5 +1,7 @@
 const EN = {
   //////////////////////////navbar////////////////////////////////////////////////////
+  Arabic: "Arabic",
+  English: "English",
   p1: "Join Our Schema And Earn Rewards!",
   p2: "Invite Friends And Earn Rewards!",
   p3: "Free Shipping On Order Over $100!",
@@ -17,6 +19,8 @@ const EN = {
   Number_of_Clients: "Number of Clients",
   Status: "Status",
   None: "None",
+  Confirmed: "Confirmed",
+  Not_Confirmed: "Not Confirmed",
   Name: "Name",
   View: "View",
   Delete: "Delete",

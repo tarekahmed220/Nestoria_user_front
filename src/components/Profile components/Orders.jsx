@@ -116,7 +116,7 @@ export function Orders() {
         <div>
           {/* products */}
           <div className="bg-transparent border border-[#C26510] rounded-lg p-6">
-            {orders &&
+            {orders && orders.products.productId &&
               orders.map((order, indexOrder) => (
                 <div key={`${order.userId} - ${indexOrder}`}>
                   {/* Order Header */}
@@ -128,8 +128,8 @@ export function Orders() {
                       Total: {order.total} EGP
                     </div>
                   </div>
-                  {order.products.map((product, index) => {
-                    const productKey = `${order._id}-${product.productId._id}-${product.color}`;
+                  {order.products?.map((product, index) => {
+                    const productKey = `${order?._id}-${product.productId?._id}-${product.color}`;
                     return (
                       <div
                         key={`${order._id}-${product.productId._id}-${index}`}
@@ -140,21 +140,21 @@ export function Orders() {
                           <div className="flex pb-4 mb-4 col-span-6">
                             <img
                               className="w-20 h-20 object-cover mr-6"
-                              src={product.productId.images[0]}
+                              src={product.productId?.images[0]}
                               alt="Product"
                             />
                             <div className="flex-1">
                               <div className="text-lg font-semibold pr-3">
-                                {product.productId.name}
+                                {product.productId?.name}
                               </div>
                               <div className="text-gray-500">
-                                {product.productId.price} EGP
+                                {product.productId?.price} EGP
                               </div>
                               <div className="text-gray-500">
-                                Color: {product.color}
+                                Color: {product?.color}
                               </div>
                               <div className="text-gray-500">
-                                Quantity: {product.quantity}
+                                Quantity: {product?.quantity}
                               </div>
                             </div>
                           </div>

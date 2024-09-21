@@ -9,6 +9,8 @@ import { IoMdArrowDropup } from "react-icons/io";
 
 import { useState } from "react";
 import { BiArrowFromBottom } from "react-icons/bi";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../Redux/languageSlice";
 
 function Navbar() {
   const [showCurrency, setShowCurrency] = useState(false);
@@ -16,6 +18,17 @@ function Navbar() {
     "INR",
     <LuIndianRupee className="text-white" />
   );
+
+  const dispatch = useDispatch();
+  const switchToEnglish = () => {
+    dispatch(setLanguage("en"));
+  };
+  const switchToArabic = () => {
+    dispatch(setLanguage("ar"));
+  };
+  const translate = useSelector((state) => state.language.translation);
+  const lang = useSelector((lang) => lang.language.myLang);
+
   return (
     <div className="bg-black overflow-hidden min-h-[50px] flex justify-center items-center">
       <div className="container flex justify-between items-center w-[1440px] mx-auto">
@@ -30,9 +43,9 @@ function Navbar() {
           <p
             className={`${styles.headeranimation} z-30 text-white flex items-center gap-10 py-3 `}
           >
-            <span>Join Our Schema And Earn Rewards!</span>
-            <span>Invite Friends And Earn Rewards!</span>
-            <span>Free Shipping On Order Over $100!</span>
+            <span>{translate.p1}</span>
+            <span>{translate.p2}</span>
+            <span>{translate.p3}</span>
           </p>
           <p
             className={`${styles.headeranimation2} z-30 text-white flex items-center gap-10 py-3`}
@@ -43,29 +56,35 @@ function Navbar() {
           </p>
         </div>
         <div
-          className="relative currency text-white flex justify-center items-center cursor-pointer h-ful "
+          className="relative uppercase currency text-white flex justify-center items-center cursor-pointer h-ful "
           onClick={() => {
             setShowCurrency((prev) => !prev);
           }}
         >
-          INR, <LuIndianRupee className="text-sm" />
+          {lang}
           {showCurrency ? (
-            <IoMdArrowDropup className="ml-3" />
+            <IoMdArrowDropup className="ml-1" />
           ) : (
-            <IoMdArrowDropdown className="ml-3" />
+            <IoMdArrowDropdown className="ml-1" />
           )}
-          {/* {showCurrency && ( */}
-          <ul className="absolute bottom-[-95px] right-0 bg-black w-[150px] z-50">
-            <li className="text-white">
-              INR,
-              <LuIndianRupee className="text-sm" />
-            </li>
-            <li>
-              USD,
-              <FaDollarSign className="text-sm" />
-            </li>
-          </ul>
-          {/* )} */}
+          {showCurrency && (
+            <ul className="absolute -top-3 right-8 text-center flex flex-col gap-1 p-1 w-full rounded-md bg-[#101010] z-[200]">
+              <li
+                onClick={switchToArabic}
+                className="text-white hover:bg-[#DD7210] rounded-md"
+              >
+                {translate.Arabic}
+                {/* <LuIndianRupee className="text-sm" /> */}
+              </li>
+              <li
+                onClick={switchToEnglish}
+                className="text-white hover:bg-[#DD7210] rounded-md"
+              >
+                {translate.English}
+                {/* <FaDollarSign className="text-sm" /> */}
+              </li>
+            </ul>
+          )}
         </div>
       </div>
     </div>

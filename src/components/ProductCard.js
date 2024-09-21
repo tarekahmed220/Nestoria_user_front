@@ -49,20 +49,24 @@ const ProductCard = ({
       </div>
 
       {/* الأيقونات */}
-      <div className="absolute top-4 right-11 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out z-20">
+      <div className="absolute top-4 right-2 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out z-20">
         {/* زر القلب لإضافة المنتج إلى المفضلة */}
         <div
-          className={`p-2 rounded-full transition-colors ${
-            isFavoriteState ? "bg-red-500" : "hover:bg-orange-500"
+          className={`p-2 bg-white hover:bg-orange-500 rounded-full transition-colors ${
+            isFavoriteState ? "bg-red-500" : ""
           }`}
           onClick={handleFavoriteClick}
         >
           <FaHeart
-            className={`${isFavoriteState ? "text-black" : "text-black"}`}
+            className={`${isFavoriteState ? "text-red-500" : "text-black"}`}
           />
         </div>
         <div className="p-2 bg-white rounded-full hover:bg-orange-500 transition-colors">
           <FaArrowsAltH className="text-black" />
+          {/* <LiaCartPlusSolid
+            onClick={() => handleAddToCart()}
+            className="text-black"
+          /> */}
         </div>
         <div className="p-2 bg-white rounded-full hover:bg-orange-500 transition-colors">
           <FaExpand className="text-black" />

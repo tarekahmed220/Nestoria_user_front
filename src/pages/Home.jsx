@@ -342,6 +342,7 @@ function Home() {
           {isLoading ? (
             <Loader />
           ) : (
+            // <h2>loader</h2>
             <div className="boxs grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mx-auto px-3">
               {collectionList.map((product) => {
                 return (

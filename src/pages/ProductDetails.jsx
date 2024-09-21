@@ -30,6 +30,7 @@ function ProductDetails() {
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
         setproduct(res.data.data.product);
+        console.log(res.data.data.product);
         const convertColors = res.data.data.product.color.map((colorHex) => {
           const colorNames = ColorNamer(colorHex);
           return { hex: colorHex, colorName: colorNames.ntc[0].name };

@@ -104,7 +104,9 @@ function PaymentApproval() {
     const reqAmount = Number(amount.toString().replaceAll(/,/g, ""));
     const confirmed = await Swal.fire({
       title: "Are you sure?",
-      text: `Do you want to transfer (${amount}) EGP   To:${email}`,
+      text: `Do you want to transfer (${
+        amount - amount * 0.1
+      }) EGP   To:${email}`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -218,8 +220,7 @@ function PaymentApproval() {
                   </p>
                   <p className="text-gray-600">Status: Customer Confirmed</p>
                   <p className="text-gray-600">
-                    created At: {payment?.updatedAt?.split("T")[0]}, Time:{" "}
-                    {payment?.updatedAt?.split("T")[1]?.split(".")[0]}
+                    created At: {payment?.updatedAt?.split("T")[0]}
                   </p>
                 </div>
                 <div className="flex space-x-4">

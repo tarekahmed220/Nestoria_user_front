@@ -11,6 +11,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import axiosInstance from "../apis/axiosConfig";
 import "react-toastify/dist/ReactToastify.css";
+import ColorNamer from "color-namer";
 
 function WishlistPage() {
   const [wishlist, setWishlist] = useState([]);
@@ -61,9 +62,20 @@ function WishlistPage() {
     });
   };
 
-  const addToCart = async (quantity, productId, color) => {
+  const addToCart = async (quantity = 1, productId, colors) => {
+    const colorNames = colors.map((color) => {
+      const colorName = ColorNamer(color);
+      return colorName.ntc[0].name;
+    });
+    console.log("colorName", colorNames[0]);
+    console.log("colorNames", colorNames);
+    const color = colorNames[0];
     try {
-      await axiosInstance.post("/addToCart", { quantity, productId, color });
+      await axiosInstance.post("/addToCart", {
+        quantity,
+        productId,
+        color,
+      });
       Swal.fire({
         title: "Success!",
         text: "Product added to cart!",
@@ -174,11 +186,7 @@ function WishlistPage() {
                           className="px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500"
                           onClick={(e) => {
                             e.stopPropagation();
-                            addToCart(
-                              item.product.quantity,
-                              item.product._id,
-                              item.product.details.color
-                            );
+                            addToCart(1, item.product._id, item.product.color);
                           }}
                         >
                           <FontAwesomeIcon

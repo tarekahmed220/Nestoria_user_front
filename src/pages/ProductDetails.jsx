@@ -15,11 +15,13 @@ import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ColorNamer from "color-namer";
 
 function ProductDetails() {
   const params = useParams();
   const [product, setproduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [newColors, setNewColors] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,9 +31,15 @@ function ProductDetails() {
       .then((res) => {
         console.log("pppp", res.data.data.product);
         setproduct(res.data.data.product);
+        const convertColors = res.data.data.product.color.map((colorHex) => {
+          const colorNames = ColorNamer(colorHex);
+          return { hex: colorHex, colorName: colorNames.ntc[0].name };
+        });
+        setNewColors(convertColors);
+        console.log("convertColors", convertColors);
       })
       .catch((err) => {
-        toast.error(err)
+        toast.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -42,21 +50,11 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
 
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
+
   const [colorSelect, setColorSelect] = useState("");
-  const handleColorSelect = (index) => {
+  const handleColorSelect = (index, colorName) => {
     setSelectedColor(index);
-    switch (index) {
-      case 0:
-        return setColorSelect("Blue");
-      case 1:
-        return setColorSelect("Orange");
-      case 2:
-        return setColorSelect("Pink");
-      case 3:
-        return setColorSelect("Purple");
-      default:
-        return colorSelect;
-    }
+    setColorSelect(colorName);
   };
 
   const addToCart = async (quantity, productId, color) => {
@@ -66,9 +64,9 @@ function ProductDetails() {
         productId,
         color,
       });
-      toast.success("Product added")
+      toast.success("Product added");
     } catch (err) {
-      toast.error(err)
+      toast.error(err);
     }
   };
 
@@ -93,7 +91,6 @@ function ProductDetails() {
     setActiveTab(tab);
   };
   const handleWorkshop = (id) => {
-
     navigate(`/workShopProfile/${id}`);
   };
   if (isLoading) {
@@ -165,19 +162,24 @@ function ProductDetails() {
           <div className="mb-4">
             <span className="mr-2">Colors:</span>
             <div className="flex space-x-2 my-4">
-              {colors.map((color, index) => (
-                <div
-                  key={index}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer ${color} ${
-                    selectedColor === index ? "ring-2 ring-orange-500" : ""
-                  }`}
-                  onClick={() => handleColorSelect(index)}
-                >
-                  {selectedColor === index && (
-                    <FaCheck className="text-white" />
-                  )}
-                </div>
-              ))}
+              {newColors &&
+                newColors.map((color, index) => (
+                  <div
+                    key={index}
+                    style={{ backgroundColor: color.hex }}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer  ${
+                      selectedColor === index ? "ring-2 ring-orange-500" : ""
+                    }`}
+                    onClick={() => {
+                      handleColorSelect(index, color.colorName);
+                      console.log(color.hex);
+                    }}
+                  >
+                    {selectedColor === index && (
+                      <FaCheck className="text-white" />
+                    )}
+                  </div>
+                ))}
             </div>
           </div>
 

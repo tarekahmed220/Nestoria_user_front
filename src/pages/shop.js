@@ -5,7 +5,7 @@ import ProductCard from "../components/ProductCard.js";
 import Pagination from "../components/Pagination.js";
 import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
-
+import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
 
 import { FaHome } from "react-icons/fa";
@@ -152,17 +152,8 @@ const Shop = () => {
 
   return (
     <>
-      {/* قسم الهيدر مع خلفية الصورة */}
-      <div
-        className="relative h-[400px] flex items-center justify-center bg-cover bg-center bg-no-repeat "
-        style={{ backgroundImage: "url('/home-hotspot-img-1.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        <div className="relative z-10 text-center text-white">
-          <h1 className="text-4xl font-semibold">Shop</h1>
-          <div className="flex items-center justify-center gap-2 mt-2 text-sm"></div>
-        </div>
-      </div>
+      
+       <HeaderPages namePage="Shop" />
 
       <div className="bg-[#030303] p-5">
         {/* إضافة أيقونات التحكم بعدد الأعمدة */}

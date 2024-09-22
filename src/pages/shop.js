@@ -318,7 +318,7 @@ const Shop = () => {
                 <ProductCard
                   key={product._id}
                   product={product}
-                  onClick={() => handleProductClick(product._id)}
+                  onProductClick={() => handleProductClick(product._id)}
                   onFavoriteClick={handleFavoriteClick}
                   isSingleColumn={activeGrid === 1} // تمرير الحالة لتحديد عرض بعمود واحد
                 />

@@ -61,7 +61,7 @@ const Chat = () => {
 
   return (
     <div
-      className="relative flex flex-col gap-3 lg:flex-row h-screen bg-black text-[#929292] overflow-hidden"
+      className="relative flex flex-col gap-3 lg:flex-row h-screen bg-black text-[#929292] overflow-hidden pt-12 "
       style={{
         backgroundImage: "url('/body-bg.png')",
         backgroundPosition: "left top",
@@ -73,7 +73,7 @@ const Chat = () => {
     >
       {/* Toggle Button for Sidebar in Small Screens */}
       <button
-        className="lg:hidden p-4 text-white fixed top-4 left-4 z-50 hover:text-[#C96B14] cursor-pointer"
+        className="lg:hidden p-4 text-white  top-4 left-4 z-50 hover:text-[#C96B14] cursor-pointer "
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         <FaBars size={24} />
@@ -81,9 +81,9 @@ const Chat = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static transition-all transform lg:translate-x-0 absolute ${
+        className={` lg:static transition-all transform lg:translate-x-0 absolute ${
           isSidebarOpen ? "translate-x-0 z-index-1 pt-8" : "-translate-x-full"
-        } top-0 left-0 lg:w-1/4 w-3/4 bg-black lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] rounded-3xl z-40`}
+        }  left-0 lg:w-1/4 w-3/4 bg-black lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] rounded-3xl z-40`}
       >
         <div className="mb-6 pt-4 overflow-y-auto overflow-x-hidden" style={{scrollbarWidth: "none"}}>
           <h3 className="text-center text-xl text-[#929292] mb-1">All Chats</h3>

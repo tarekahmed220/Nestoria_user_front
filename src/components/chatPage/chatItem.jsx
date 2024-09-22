@@ -14,8 +14,8 @@ const ChatItem = ({ chat, isSelected, onSelect }) => {
         className="w-8 h-8 lg:w-10 lg:h-10 rounded-full"
       />
       <div className="flex-1">
-        <div className="flex justify-between">
-          <span className="font-semibold">{chat.username}</span>
+        <div className="flex justify-between ">
+          <span className="font-semibold truncate">{chat.username}</span>
           <small className="text-gray-400 text-xs">
             {new Date(chat.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
           </small>

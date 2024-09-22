@@ -21,7 +21,7 @@ const MessageArea = ({ messages, setMessages, messageEndRef }) => {
             />
           )}
           <div
-            className={`p-4 rounded max-w-xs shadow-lg relative ${
+            className={`p-4 rounded max-w-xs shadow-lg relative  ${
               msg.sender === 'currentUser' ? 'bg-[#C26510] text-white' : 'bg-gray-700 text-[#929292]'
             }`}
           >
@@ -30,9 +30,9 @@ const MessageArea = ({ messages, setMessages, messageEndRef }) => {
                 <img src={msg.file} alt="uploaded-file" className="rounded-lg max-w-full h-auto" />
               </a>
             ) : (
-              <p className="font-semibold break-words">{msg.text}</p>
+              <p className="font-semibold break-words ">{msg.text}</p>
             )}
-            <small className="block text-xs mt-2">
+            <small className="block text-xs mt-2 text-slate-950">
               {new Date(msg.updatedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               {msg.sender === 'currentUser' && (
                 <span className="ml-2">

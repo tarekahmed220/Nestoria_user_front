@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../context/ChatProvidor";
 import SingleChat from "./SingleChat";
-
+import "./../css modules/chat.module.css"; 
 const ChatBox = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = ChatState();
   const [userFromParams, setUserFromParams] = useState({});
@@ -13,7 +13,7 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
   }, [selectedChat]);
 
   return (
-    <div className={`flex justify-center items-start h-full  flex-col  bg-black w-full rounded-lg border border-gray-300  relative`} style={{ height: "calc(100vh - 80px)" }}>
+    <div className={`flex justify-center items-start h-full  flex-col  bg-black w-full rounded-lg border border-gray-300  p-2`} style={{ scrollbarWidth: "none", overflow:"hidden" }}>
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
 
     </div>

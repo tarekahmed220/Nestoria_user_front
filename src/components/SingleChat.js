@@ -357,7 +357,7 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
   }
 
   return (
-    <div className="w-full h-full" style={{ scrollbarWidth: "none" }}>
+    <div className="w-full h-full flex flex-col justify-between " style={{ scrollbarWidth: "none" }}>
       <div className="flex justify-between items-center ">
         <span className="text-xl ">
           {selectedChat?.chat?.users[0]?.fullName === userInfo?.fullName
@@ -382,17 +382,17 @@ function SingleChat({ fetchAgain, setFetchAgain }) {
       </div>
 
       <div className="flex items-center p-4 ">
-        <FaPaperclip className="mr-4 text-xl cursor-pointer" />
+        <FaPaperclip className="mr-4 text-xl cursor-pointer text-white" />
         <input
           type="text"
-          className="flex-grow p-2 border rounded-lg "
+          className="flex-grow p-2 border rounded-lg text-black"
           placeholder="Type a message"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={sendMessage}
         />
         <FaPaperPlane
-          className="ml-4 text-xl cursor-pointer"
+          className="ml-4 text-xl cursor-pointer text-white"
           onClick={sendMessage}
         />
       </div>

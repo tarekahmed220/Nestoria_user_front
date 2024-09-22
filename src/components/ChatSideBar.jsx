@@ -237,7 +237,7 @@ const SideBar = ({ fetchAgain }) => {
   }, [fetchAgain]);
 
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-80px)] lg:h-auto overflow-y-auto lg:overflow-y-auto custom-scrollbar">
+    <div className="flex flex-col w-full lg:h-auto overflow-y-auto lg:overflow-y-auto custom-scrollbar border-r border-[#929292]">
       {/* Chat List */}
       {chats ? (
         <div className="space-y-2 overflow-y-auto">

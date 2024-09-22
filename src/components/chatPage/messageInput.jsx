@@ -5,12 +5,12 @@ const MessageInput = ({ message, setMessage, handleSendMessage, handleFileUpload
   const fileInputRef = useRef(null);
 
   return (
-    <footer className="p-4 lg:p-6 border-t border-[#929292] bg-black flex items-center">
+    <footer className="p-4 lg:p-6 border-t border-[#929292] bg-black flex items-center ">
       <input
         type="file"
         onChange={handleFileUpload}
         ref={fileInputRef}
-        className="hidden"
+        className="hidden "
       />
       <button
         onClick={() => fileInputRef.current.click()}
@@ -24,7 +24,7 @@ const MessageInput = ({ message, setMessage, handleSendMessage, handleFileUpload
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-        className="flex-1 py-3 lg:py-4 px-6 lg:px-8 rounded-full bg-transparent text-[#929292] border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
+        className="flex-1 py-3 lg:py-4 px-6 lg:px-8 rounded-full bg-transparent text-black border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
       />
       <button
         onClick={handleSendMessage}

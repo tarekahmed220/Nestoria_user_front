@@ -83,7 +83,7 @@ const Chat = () => {
       <aside
         className={` lg:static transition-all transform lg:translate-x-0 absolute ${
           isSidebarOpen ? "translate-x-0 z-index-1 pt-8" : "-translate-x-full"
-        }  left-0 lg:w-1/4 w-3/4 bg-black lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] rounded-3xl z-40`}
+        }  left-0 lg:w-1/4 w-3/4 bg-black lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] rounded-3xl z-40 lg:h-full overflow-hidden `}
       >
         <div className="mb-6 pt-4 overflow-y-auto overflow-x-hidden" style={{scrollbarWidth: "none"}}>
           <h3 className="text-center text-xl text-[#929292] mb-1">All Chats</h3>

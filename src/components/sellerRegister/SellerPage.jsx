@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -12,6 +13,7 @@ const uploadPreset = "ml_default"; // Replace with your whitelisted unsigned upl
 
 // Regex constants
 const ADDRESS_REGEX = /^[\u0621-\u064A\u0660-\u0669a-zA-Z0-9\s,.-]{3,100}$/;
+const DESCRIPTION_REGEX = /^.{20,300}$/; // Description must be between 20 and 300 characters
 
 const uploadToCloudinary = async (file) => {
   const formData = new FormData();
@@ -34,6 +36,7 @@ const SellerPage = () => {
   const [formData, setFormData] = useState({
     workshopName: "",
     address: "",
+    description: "", // Added Description field
     bankStatement: null,
     taxFile: null,
     frontID: null,
@@ -54,6 +57,7 @@ const SellerPage = () => {
         const state = req.data.state;
         console.log(req.data.state);
         if (state === "pending") {
+          // Handle pending state if needed
         }
       } catch (error) {
         console.log(error);
@@ -95,7 +99,11 @@ const SellerPage = () => {
     } else if (name === "address") {
       newErrors.address = ADDRESS_REGEX.test(value)
         ? null
-        : "Address must be at least 10 characters long";
+        : "Address must be between 3 and 100 characters long";
+    } else if (name === "description") {
+      newErrors.description = DESCRIPTION_REGEX.test(value)
+        ? null
+        : "Description must be between 20 and 300 characters long";
     }
 
     setErrors(newErrors);
@@ -109,7 +117,11 @@ const SellerPage = () => {
     }
     if (!ADDRESS_REGEX.test(formData.address)) {
       newErrors.address =
-        "Address is required and should be at least 10 characters long";
+        "Address is required and should be between 3 and 100 characters long";
+    }
+    if (!DESCRIPTION_REGEX.test(formData.description)) {
+      newErrors.description =
+        "Description must be between 20 and 300 characters long";
     }
     if (!formData.bankStatement)
       newErrors.bankStatement = "Bank Statement is required";
@@ -242,7 +254,7 @@ const SellerPage = () => {
         >
           {/* Workshop Name */}
           <div className="flex flex-col">
-            <label htmlFor="workshopName" className="mb-2 ">
+            <label htmlFor="workshopName" className="mb-2">
               Workshop Name
             </label>
             <input
@@ -260,7 +272,7 @@ const SellerPage = () => {
 
           {/* Address */}
           <div className="flex flex-col">
-            <label htmlFor="address" className=" mb-2 ">
+            <label htmlFor="address" className=" mb-2">
               Address
             </label>
             <input
@@ -273,6 +285,24 @@ const SellerPage = () => {
             />
             {errors.address && (
               <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+            )}
+          </div>
+
+          {/* Description */}
+          <div className="flex flex-col md:col-span-2">
+            <label htmlFor="description" className="mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="p-4 rounded-3xl border border-[#A5A5A5] text-white bg-[#000] focus:border-[#C26510] focus:outline-none transition duration-500"
+              rows="4"
+            />
+            {errors.description && (
+              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
             )}
           </div>
 
@@ -366,6 +396,7 @@ const SellerPage = () => {
             </div>
           </div>
 
+          {/* Submit Button */}
           <div className="col-span-full mt-6 flex justify-center">
             <button
               type="submit"

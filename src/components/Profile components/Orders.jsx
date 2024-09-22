@@ -116,7 +116,7 @@ export function Orders() {
         <div>
           {/* products */}
           <div className="bg-transparent border border-[#C26510] rounded-lg p-6">
-            {orders && orders.products.productId &&
+            {orders &&
               orders.map((order, indexOrder) => (
                 <div key={`${order.userId} - ${indexOrder}`}>
                   {/* Order Header */}
@@ -132,7 +132,7 @@ export function Orders() {
                     const productKey = `${order?._id}-${product.productId?._id}-${product.color}`;
                     return (
                       <div
-                        key={`${order._id}-${product.productId._id}-${index}`}
+                        key={`${order._id}-${product.productId?._id}-${index}`}
                         className="relative bg-white rounded-lg shadow-lg p-6 mb-4"
                       >
                         <div className="grid grid-cols-12 gap-4 mb-2">
@@ -202,9 +202,9 @@ export function Orders() {
                                       if (!isDelivered[productKey])
                                         handleClickDelivered(
                                           e,
-                                          order._id,
-                                          product.productId._id,
-                                          product.color
+                                          order?._id,
+                                          product.productId?._id,
+                                          product?.color
                                         );
                                     }}
                                     className={`text-2xl ${

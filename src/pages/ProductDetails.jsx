@@ -78,12 +78,20 @@ function ProductDetails() {
     addToCart(quantity, product._id, colorSelect);
   };
 
-  const handleIncreaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+  const handleIncreaseQuantity = (product) => {
+    if (quantity < product.quantity) {
+      setQuantity((prevQuantity) => prevQuantity + 1);
+    } else {
+      toast.error("This is the maximum.");
+    }
   };
 
   const handleDecreaseQuantity = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    } else {
+      toast.error("This is the minimum.");
+    }
   };
 
   const [activeTab, setActiveTab] = useState("description");
@@ -190,13 +198,15 @@ function ProductDetails() {
               <button
                 className="px-3 py-2 rounded-l-lg"
                 onClick={handleDecreaseQuantity}
+                disabled= {quantity === 1}
               >
                 -
               </button>
               <span className="px-4 py-2">{quantity}</span>
               <button
                 className="px-3 py-2 rounded-r-lg"
-                onClick={handleIncreaseQuantity}
+                onClick={() => handleIncreaseQuantity(product)}
+                disabled= {quantity === product.quantity}
               >
                 +
               </button>

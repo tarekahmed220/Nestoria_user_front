@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHeart, FaArrowsAltH, FaExpand } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../css modules/productCard.css";
+import axiosInstance from "../apis/axiosConfig";
 
 const ProductCard = ({
   product,
@@ -18,6 +19,23 @@ const ProductCard = ({
     setIsFavoriteState(newIsFavorite); // تبديل الحالة عند الضغط
     onFavoriteClick(product.id, newIsFavorite); // تمرير حالة المفضلة الجديدة للـ Shop
   };
+
+  /////////
+  const [wishlist, setWishlist] = useState([]);
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      try {
+        const response = await axiosInstance.get("/api/v1/fur/favorites");
+        setWishlist(response.data.data.favorites);
+        // console.log(response.data.data.favorites);
+        const isFavorite = response.data.data.favorites.some(item => item.product?.id === product.id);
+        setIsFavoriteState(isFavorite);
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+    fetchWishlist();
+  }, []);
 
   return (
     <div

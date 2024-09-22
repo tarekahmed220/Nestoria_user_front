@@ -100,6 +100,11 @@ export function Orders() {
     }
   };
 
+  /// review function
+  const handleAddReview = (productId, workshop_id) => {
+    console.log(productId, workshop_id);
+  };
+
   return (
     <div>
       {orders.length === 0 ? (
@@ -193,7 +198,7 @@ export function Orders() {
                             {/* Progress Bar */}
                             <div className="border-t pt-3">
                               <div className="flex justify-between items-center">
-                                <div className="text-gray-600 mb-2">
+                                <div className={`text-gray-600 mb-2`}>
                                   Preparing to ship on September 24, 2024
                                 </div>
                                 {product.deliveryStatus === "Shipped" && (
@@ -268,10 +273,26 @@ export function Orders() {
                                 </div>
                               </div>
                             </div>
+                            {(["Delivered"].includes(product.deliveryStatus) ||
+                              isDelivered[productKey]) && (
+                              <button
+                                onClick={(e) =>
+                                  handleAddReview(
+                                    product.productId._id,
+                                    product.productId.workshop_id
+                                  )
+                                }
+                                className="mt-2 flex ms-auto text-center left-1/2 px-4 py-2 hover:text-[#C26510] border border-[#C26510] rounded-3xl text-white bg-[#C26510] hover:bg-white duration-500"
+                              >
+                                Add Review
+                              </button>
+                            )}
                           </>
-                        ): (<div className="absolute border-4 border-red-500 rounded-lg p-1 top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 transform -rotate-12 text-red-500 text-5xl">
-                          Cancelled
-                        </div>)}
+                        ) : (
+                          <div className="absolute border-4 border-red-500 rounded-lg p-1 top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 transform -rotate-12 text-red-500 text-5xl">
+                            Cancelled
+                          </div>
+                        )}
                       </div>
                     );
                   })}

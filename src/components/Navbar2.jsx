@@ -70,7 +70,7 @@ function Navbar2() {
 
   return (
     <ChatProvider>
-      <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50">
+      <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50 ">
         <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
           <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif ">
             {/* <Link to="/">

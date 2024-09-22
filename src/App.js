@@ -5,7 +5,6 @@ import Register from "./pages/Register";
 import Layout from "./pages/Layout";
 import ProductDetails from "./pages/ProductDetails";
 import Home from "./pages/Home";
-import NotfountPage from "./pages/NotfountPage";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 import WishList from "./pages/WishList";
@@ -34,6 +33,7 @@ import Chat from "./pages/Chat";
 import ChatProvider from "./context/ChatProvidor";
 import Admin from "./pages/Admin";
 import UnauthorizedPage from "./pages/UnauthorizedPage ";
+import PageNotFound from "./pages/NotfountPage";
 
 // Load Stripe outside of a component to avoid re-creating it on every render
 const stripePromise = loadStripe(
@@ -47,7 +47,6 @@ function App() {
 
   return (
     <>
-      
       <UserProvider>
         <SearchProvider>
           <Elements stripe={stripePromise}>
@@ -63,12 +62,18 @@ function App() {
                   <Route path="contactus" element={<ContactUs />} />
                   <Route path="aboutus" element={<AboutUs />} />
                   <Route path="wishlist" element={<WishList />} />
-                  <Route path="workshop" element={<HeroSection/>} />
-                  {/* <Route path="/chat" element={<ChatComponent />} /> */}
-                  <Route path="/chat" element={<ChatProvider><Chat/></ChatProvider> }/> 
                   <Route path="workshop" element={<HeroSection />} />
-                  
-                
+                  {/* <Route path="/chat" element={<ChatComponent />} /> */}
+                  <Route
+                    path="/chat"
+                    element={
+                      <ChatProvider>
+                        <Chat />
+                      </ChatProvider>
+                    }
+                  />
+                  <Route path="workshop" element={<HeroSection />} />
+
                   <Route path="/seller" element={<SellerPage />} />
                   <Route path="/thanks" element={<ThankYou />} />
                   <Route path="/register" element={<Register />} />
@@ -89,7 +94,7 @@ function App() {
                 <Route path="paymentfailure" element={<PaymentFailure />} />
                 <Route path="admin" element={<Admin />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
-                <Route path="*" element={<NotfountPage />} />
+                <Route path="*" element={<PageNotFound />} />
               </Routes>
             </Router>
 
@@ -109,7 +114,6 @@ function App() {
           </Elements>
         </SearchProvider>
       </UserProvider>
-     
     </>
   );
 }

@@ -77,7 +77,7 @@ const ProductCard = ({ workshopId }) => {
               <img
                 src={product.images[0]}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
             </div>
 
@@ -93,7 +93,9 @@ const ProductCard = ({ workshopId }) => {
               <p className="text-xl font-bold text-orange-500">
                 ₹ {product.price}
               </p>
-              <div className="mt-2">{renderStars(product.rating ?? 0)}</div>
+              <div className="mt-2  flex justify-center">
+                {renderStars(product.averageRating ?? 0)}
+              </div>
             </div>
 
             {/* Hover Actions */}

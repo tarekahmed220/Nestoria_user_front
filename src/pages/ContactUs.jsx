@@ -10,8 +10,11 @@ import { toast } from "react-toastify";
 import axiosInstance from "../apis/axiosConfig";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function ContactUs() {
+  const translate = useSelector((state) => state.language.translation);
+
   const regexName = /^[a-zA-Z][a-zA-Z ]{2,30}$/;
   const regexPhone = /^01[0125][0-9]{8}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
@@ -145,14 +148,12 @@ function ContactUs() {
         className="text-center py-12 px-6 md:px-10"
       >
         <div className="lg:w-1/2 m-auto px-11">
-          <p className="text-[#C5660E]">DROP US A LINE</p>
+          <p className="text-[#C5660E]">{translate.DROP_US_LINE}</p>
           <h2 className="text-white text-4xl md:text-6xl my-6">
-            Round-the-clock Service
+            {translate.ROUND_THE_CLOCK_SERVICE}
           </h2>
           <p className="text-[#9C9C9C] text-[17px] md:text-[15px] font-bold">
-            Sed id semper risus in hendrerit gravida rutrum quisque. Vitae proin
-            sagittis nisl Vel elit scelerisque mauris rhoncus mattis rhoncus
-            urna.
+            {translate.Sed_id_semper}
           </p>
         </div>
 
@@ -222,11 +223,13 @@ function ContactUs() {
             {/* Submit Button */}
             <div className="flex justify-center">
               <button
+
               disabled={!problemDetails.userName || !problemDetails.userMobile || !problemDetails.userEmail || !problemDetails.userProblem}
+
                 type="submit"
                 className="bg-orange-500 text-white text-[17px] py-3 px-8 rounded-3xl hover:bg-white hover:text-black duration-500"
               >
-                Submit Query
+                {translate.Submit_Query}
               </button>
             </div>
           </form>
@@ -256,12 +259,10 @@ function ContactUs() {
             <div>
               <Link to="">
                 <h4 className="text-2xl text-white hover:text-orange-500 duration-500">
-                  Transit Protocol
+                  {translate.Submit_Query}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                Eget arcu dictum varius duis at lorem donec.
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Eget_arcu}</p>
             </div>
           </div>
           <div className="content flex items-center gap-5">
@@ -274,12 +275,10 @@ function ContactUs() {
             <div>
               <Link to="">
                 <h4 className="text-2xl text-white hover:text-orange-500 duration-500">
-                  Chat Assistance
+                  {translate.Chat_Assistance}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                Tuam quisque id diam vel quam aecenas.
-              </p>
+              <p className="text-[#9D9D9D]">{(translate, Tuam_quisque_id)}</p>
             </div>
           </div>
           <div className="content flex items-center gap-5">
@@ -292,12 +291,10 @@ function ContactUs() {
             <div>
               <Link to="">
                 <h4 className="text-2xl text-white hover:text-orange-500 duration-500">
-                  Email Interaction
+                  {translate.Email_Interaction}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                Quis varius quam id diam vel aecenas.
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Quis_varius}</p>
             </div>
           </div>
           <div className="content flex items-center gap-5">
@@ -310,12 +307,10 @@ function ContactUs() {
             <div>
               <Link to="">
                 <h4 className="text-2xl text-white hover:text-orange-500 duration-500">
-                  Global Stores
+                  {translate.Global_Stores}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                Condimentum id venenatis a vitae sapien.
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Condimentum_id}</p>
             </div>
           </div>
         </div>

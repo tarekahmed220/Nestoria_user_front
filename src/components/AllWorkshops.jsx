@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { RiRadioButtonLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 function AllWorkshops() {
   const [open, setOpen] = useState(false);
@@ -25,6 +26,7 @@ function AllWorkshops() {
   const [keyword, setKeyword] = useState("");
   const [status, setStatus] = useState("");
   const [open2, setOpen2] = useState(false);
+  const translate = useSelector((state) => state.language.translation);
 
   useEffect(() => {
     const fetchClientAccounts = async () => {
@@ -125,11 +127,11 @@ function AllWorkshops() {
   return (
     <section id="client-files" className="mb-8">
       <h2 className="text-3xl font-semibold text-gray-700 mb-4 w-full text-center ">
-        Workshop Accounts
+        {translate.Workshop_Accounts}
       </h2>
       <div className="bg-white shadow-md rounded-lg p-6">
         <p className="text-xl text-center border-b mb-7 pb-2">
-          Number of Workshops: {total}
+          {translate.Number_of_Workshops}: {total}
         </p>
 
         <div className="flex items-center mt-4">
@@ -137,7 +139,7 @@ function AllWorkshops() {
           <div className=" !mb-5">
             <FormControl sx={{ m: 1, minWidth: 140 }}>
               <InputLabel id="demo-controlled-open-select-label">
-                Status
+                {translate.status}
               </InputLabel>
               <Select
                 labelId="demo-controlled-open-select-label"
@@ -181,7 +183,7 @@ function AllWorkshops() {
           >
             <div>
               <p className="text-gray-800">
-                Workshop Name:{" "}
+                {translate.Workshop_Name}:{" "}
                 {workshop.name ?? "not Complete Regestration yet"}{" "}
                 <RiRadioButtonLine
                   className={`inline-block text-sm text-${
@@ -189,20 +191,22 @@ function AllWorkshops() {
                   }`}
                 />
               </p>
-              <p className="text-gray-600">Email: {workshop.email}</p>
+              <p className="text-gray-600">
+                {translate.Email}: {workshop.email}
+              </p>
             </div>
             <div className="flex space-x-4">
               <button
                 onClick={() => handleOpen(workshop)}
                 className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
               >
-                View
+                {translate.View}
               </button>
               <button
                 onClick={() => handleDelete(workshop.email)}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
               >
-                Delete
+                {translate.Delete}
               </button>
             </div>
           </div>
@@ -227,35 +231,35 @@ function AllWorkshops() {
           {selectedClient ? (
             <>
               <Typography id="modal-modal-title" variant="h5" component="h2">
-                Owner Name: {selectedClient.fullName}
+                {translate.Owner_Name}: {selectedClient.fullName}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> Email:</span>{" "}
+                <span className="font-bold"> {translate.Email}:</span>{" "}
                 {selectedClient.email}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> Address:</span>
+                <span className="font-bold"> {translate.Address}:</span>
                 {selectedClient.address}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> Description :</span>
+                <span className="font-bold"> {translate.Description} :</span>
                 {selectedClient.description}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> Phone:</span>
+                <span className="font-bold"> {translate.Phone}:</span>
                 {selectedClient.phone}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> IsConfirm:</span>{" "}
+                <span className="font-bold"> {translate.IsConfirm}:</span>{" "}
                 {JSON.stringify(selectedClient.isConfirm)}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> Acceptance: </span>
+                <span className="font-bold"> {translate.Acceptance}: </span>
                 {JSON.stringify(selectedClient.acceptance)}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-bold"> Balance: </span>
-                {selectedClient.balance} EGP
+                <span className="font-bold"> {translate.Balance}: </span>
+                {selectedClient.balance} {translate.EGP}
               </Typography>
 
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
@@ -267,7 +271,7 @@ function AllWorkshops() {
             </>
           ) : (
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              No client selected.
+              {translate.No_client_selected}
             </Typography>
           )}
         </Box>

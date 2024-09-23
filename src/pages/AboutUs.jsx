@@ -12,8 +12,11 @@ import {
   faChair,
 } from "@fortawesome/free-solid-svg-icons";
 import IntroSection from "../components/IntroSection";
+import { useSelector } from "react-redux";
 
 function AboutUs() {
+     const translate = useSelector((state) => state.language.translation);
+
   return (
     <div>
       {/* Section one*/}
@@ -22,43 +25,33 @@ function AboutUs() {
       {/* Section Two */}
       <div className="homeHub flex flex-col md:flex-row container lg:w-[1440px] mx-auto gap-4 py-20 my-[40px] px-[15px]">
         <div className="first flex-1">
-          <p className="text-[--mainColor]">WE DESIGN</p>
+          <p className="text-[--mainColor]">{translate.WE_DESIGN}</p>
           <h2 className="text-xl md:text-2xl lg:text-4xl text-white">
-            World Class Furniture For Ultimate Comfort
+            {translate.World_h2}{" "}
           </h2>
           <p className="my-4 line-clamp-4 text-[#dfddddd2]">
-            As eleifend mattis ligula, the door is loaded with urns at the
-            borders. Aeneas vehicles do not belong to members of the arc. The
-            whole protein and the price is flattering. The class is suitable for
-            the silent partners who turn to the shores through our marriages,
-            through the Hymenaean projects.
+            {translate.eleifend_p}
           </p>
           <img alt="example" src="/images/about/first.jpg" />
         </div>
         <div className="second flex-1">
           <img alt="example" src="/images/about/second.jpg" />
           <h2 className="text-xl md:text-2xl lg:text-4xl text-white mt-4">
-            Crafting Quality Furnitre
+            {translate.Crafting_h2}
           </h2>
           <div className="my-6 line-clamp-4 text-[#dfddddd2]">
-            Integer dapibus ac dui pretium blandit. Class aptent taciti sociosqu
-            ad litora torquent per conubia nostra, per inceptos himenaeos. Ut
-            eleifend mattis ligula, porta finibus urna gravida at. Aenean
-            vehicula sodales arcu non mattis.
+            {translate.Crafting_h2}
             <div className="tip flex justify-start mt-2 items-center gap-2">
               <GiCheckMark className="text-[--mainColor]" />
-              <span>
-                But the eleifend of the estate, the gate of the border, the urn
-                led at.
-              </span>
+              <span>{translate.But_span}</span>
             </div>
             <div className="tip flex justify-start mt-2 items-center gap-2">
               <GiCheckMark className="text-[--mainColor]" />
-              <span>Ginteger proteins and dui are suitable for blanss.</span>
+              <span>{translate.Ginteger_span}</span>
             </div>
             <div className="tip flex justify-start mt-2 items-center gap-2">
               <GiCheckMark className="text-[--mainColor]" />
-              <span>Kenean vehicles are not owned by members of the arc.</span>
+              <span>{translate.IsConfirm_span}</span>
             </div>
           </div>
         </div>
@@ -80,7 +73,7 @@ function AboutUs() {
                 10k+
               </h2>
               <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white">
-                Products Sold
+                {translate.Products_Sold}
               </p>
             </div>
 
@@ -89,7 +82,7 @@ function AboutUs() {
                 35
               </h2>
               <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white">
-                Years Service
+                {translate.Years_Service}
               </p>
             </div>
 
@@ -98,7 +91,7 @@ function AboutUs() {
                 450
               </h2>
               <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white">
-                Outlets Worldwide
+                {translate.Outlets_Worldwide}
               </p>
             </div>
 
@@ -107,7 +100,7 @@ function AboutUs() {
                 1000+
               </h2>
               <p className="text-xs md:text-sm lg:text-base xl:text-lg text-white">
-                Satisfied Customers
+                {translate.Satisfied_Customers}
               </p>
             </div>
           </div>
@@ -119,10 +112,10 @@ function AboutUs() {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <p className="text-[--mainColor] mb-4 text-sm md:text-base lg:text-lg">
-              DIVERSE RANGE
+              {translate.DIVERSE_RANGE}
             </p>
             <h2 className="text-xl md:text-2xl lg:text-4xl text-white">
-              Customized Furniture
+              {translate.Customized_Furniture}
             </h2>
           </div>
 
@@ -142,7 +135,7 @@ function AboutUs() {
                   className="text-4xl sm:text-5xl text-white mb-3"
                 />
                 <p className="text-base sm:text-lg md:text-xl text-white">
-                  Dining Room
+                  {translate.Dining_Room}
                 </p>
               </div>
 
@@ -152,7 +145,7 @@ function AboutUs() {
                   className="text-4xl sm:text-5xl text-white mb-3"
                 />
                 <p className="text-base sm:text-lg md:text-xl text-white">
-                  Living Room
+                  {translate.Living_Room}
                 </p>
               </div>
 
@@ -162,7 +155,7 @@ function AboutUs() {
                   className="text-4xl sm:text-5xl text-white mb-3"
                 />
                 <p className="text-base sm:text-lg md:text-xl text-white">
-                  Kitchen
+                  {translate.Kitchen}
                 </p>
               </div>
 
@@ -172,7 +165,7 @@ function AboutUs() {
                   className="text-4xl sm:text-5xl text-white mb-3"
                 />
                 <p className="text-base sm:text-lg md:text-xl text-white">
-                  Office
+                  {translate.Office}
                 </p>
               </div>
 
@@ -182,7 +175,7 @@ function AboutUs() {
                   className="text-4xl sm:text-5xl text-white mb-3"
                 />
                 <p className="text-base sm:text-lg md:text-xl text-white">
-                  Bedroom
+                  {translate.Bedroom}
                 </p>
               </div>
 
@@ -192,7 +185,7 @@ function AboutUs() {
                   className="text-4xl sm:text-5xl text-white mb-3"
                 />
                 <p className="text-base sm:text-lg md:text-xl text-white">
-                  Waiting Hall
+                  {translate.Waiting_Hall}
                 </p>
               </div>
             </div>
@@ -204,9 +197,9 @@ function AboutUs() {
       <section className="py-16 bg-black text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-[--mainColor]">COMFORT CRAFTERS</p>
+            <p className="text-[--mainColor]">{translate.COMFORT_CRAFTERS}</p>
             <h2 className="text-xl md:text-2xl lg:text-4xl text-white">
-              Special Team
+              {translate.Special_Team}
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -217,7 +210,9 @@ function AboutUs() {
                 alt="Service 1"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">chales scarter</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                {translate.chales_scarter}
+              </h3>
               <p className="text-[#dfddddd2]">CEO</p>
             </div>
             {/* Service 2 */}
@@ -227,8 +222,10 @@ function AboutUs() {
                 alt="Service 1"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">chales scarter</h3>
-              <p className="text-[#dfddddd2]">VP SALES</p>
+              <h3 className="text-xl font-semibold mb-2">
+                {translate.chales_scarter}
+              </h3>
+              <p className="text-[#dfddddd2]">{translate.VP_SALES}</p>
             </div>
             {/* Service 3 */}
             <div className="flex flex-col items-center">
@@ -237,8 +234,11 @@ function AboutUs() {
                 alt="Service 1"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">chales scarter</h3>
-              <p className="text-[#dfddddd2]">PRODUCT DESIGNER</p>
+              <h3 className="text-xl font-semibold mb-2">
+                {" "}
+                {translate.chales_scarter}
+              </h3>
+              <p className="text-[#dfddddd2]">{translate.PRODUCT_DESIGNER}</p>
             </div>
             {/* Service 4 */}
             <div className="flex flex-col items-center">
@@ -247,8 +247,8 @@ function AboutUs() {
                 alt="Service 4"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">Roger</h3>
-              <p className="text-[#dfddddd2]">Web Devolper</p>
+              <h3 className="text-xl font-semibold mb-2">{translate.Roger}</h3>
+              <p className="text-[#dfddddd2]">{translate.Web_Devolper}</p>
             </div>
           </div>
         </div>
@@ -263,13 +263,13 @@ function AboutUs() {
           <div className="absolute inset-0 bg-black opacity-80"></div>
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4 md:px-8">
             <p className="text-[--mainColor] mb-4 text-sm md:text-base lg:text-lg">
-              ART OF COMFORT
+              {translate.ART_OF_COMFORT}
             </p>
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">
-              Transforming Spaces
+              {translate.Transforming_Spaces}
             </h2>
             <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-6">
-              Transforming Style
+              {translate.Transforming_Style}
             </h2>
 
             <div className="mb-4 w-full max-w-md md:max-w-lg">
@@ -306,12 +306,12 @@ function AboutUs() {
                 type="checkbox"
                 className="form-checkbox h-4 w-4 text-[--mainColor] rounded focus:ring-2 focus:ring-[--mainColor]"
               />
-              <span>Your email is safe with us, we don't spam.</span>
+              <span>{translate.Your_span}</span>
               <a
                 href="#"
                 className="text-blue-400 hover:text-blue-600 underline ml-2"
               >
-                Privacy Policy
+                {translate.Privacy_Policy}
               </a>
             </div>
           </div>

@@ -15,9 +15,14 @@ import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+
 import ColorNamer from "color-namer";
+import { useSelector } from "react-redux";
+
 
 function ProductDetails() {
+      const translate = useSelector((state) => state.language.translation);
+
   const params = useParams();
   const [product, setproduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);

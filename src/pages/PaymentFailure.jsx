@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PaymentFailure = () => {
+      const translate = useSelector((state) => state.language.translation);
+
   const navigate = useNavigate();
 
   return (
@@ -32,7 +35,7 @@ const PaymentFailure = () => {
           onClick={() => navigate("/")}
           className="bg-white text-red-900 font-semibold py-2 px-4 rounded-lg hover:bg-red-100 transition duration-300"
         >
-          Go to Home
+          {translate.Go_to_Home}
         </button>
       </div>
     </div>

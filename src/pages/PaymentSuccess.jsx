@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const PaymentSuccess = () => {
+        const translate = useSelector((state) => state.language.translation);
+
   const navigate = useNavigate();
 
   return (
@@ -10,10 +13,8 @@ const PaymentSuccess = () => {
       style={{ backgroundImage: "url('/images/home/2.jpg')" }}
     >
       <div className="bg-green-800 bg-opacity-80 text-white p-8 rounded-lg shadow-lg w-full max-w-md text-center">
-        <h1 className="text-4xl font-bold mb-4">Success!</h1>
-        <p className="text-lg mb-6">
-          Your payment has been processed successfully.
-        </p>
+        <h1 className="text-4xl font-bold mb-4">{translate.Success}!</h1>
+        <p className="text-lg mb-6">{translate.Your_payment_has}</p>
         <div className="mb-6">
           <svg
             className="w-24 h-24 mx-auto text-green-400"
@@ -34,7 +35,7 @@ const PaymentSuccess = () => {
           onClick={() => navigate("/")}
           className="bg-white text-green-900 font-semibold py-2 px-4 rounded-lg hover:bg-green-100 transition duration-300"
         >
-          Go to Home
+          {translate.Go_to_Home}
         </button>
       </div>
     </div>

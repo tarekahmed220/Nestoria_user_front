@@ -15,11 +15,10 @@ import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-<<<<<<< Updated upstream
-=======
+
 import ColorNamer from "color-namer";
 import { useSelector } from "react-redux";
->>>>>>> Stashed changes
+
 
 function ProductDetails() {
       const translate = useSelector((state) => state.language.translation);
@@ -27,6 +26,7 @@ function ProductDetails() {
   const params = useParams();
   const [product, setproduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [newColors, setNewColors] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,10 +34,18 @@ function ProductDetails() {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
+        console.log("pppp", res.data.data.product);
         setproduct(res.data.data.product);
+        console.log(res.data.data.product);
+        const convertColors = res.data.data.product.color.map((colorHex) => {
+          const colorNames = ColorNamer(colorHex);
+          return { hex: colorHex, colorName: colorNames.ntc[0].name };
+        });
+        setNewColors(convertColors);
+        console.log("convertColors", convertColors);
       })
       .catch((err) => {
-        toast.error(err)
+        toast.error(err);
       })
       .finally(() => {
         setIsLoading(false);
@@ -48,21 +56,11 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
 
   const colors = ["bg-blue-500", "bg-purple-500", "bg-pink-500", "bg-red-500"];
+
   const [colorSelect, setColorSelect] = useState("");
-  const handleColorSelect = (index) => {
+  const handleColorSelect = (index, colorName) => {
     setSelectedColor(index);
-    switch (index) {
-      case 0:
-        return setColorSelect("Blue");
-      case 1:
-        return setColorSelect("Orange");
-      case 2:
-        return setColorSelect("Pink");
-      case 3:
-        return setColorSelect("Purple");
-      default:
-        return colorSelect;
-    }
+    setColorSelect(colorName);
   };
 
   const addToCart = async (quantity, productId, color) => {
@@ -72,9 +70,9 @@ function ProductDetails() {
         productId,
         color,
       });
-      toast.success("Product added")
+      toast.success("Product added");
     } catch (err) {
-      toast.error(err)
+      toast.error(err);
     }
   };
 
@@ -85,12 +83,20 @@ function ProductDetails() {
     addToCart(quantity, product._id, colorSelect);
   };
 
-  const handleIncreaseQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+  const handleIncreaseQuantity = (product) => {
+    if (quantity < product.quantity) {
+      setQuantity((prevQuantity) => prevQuantity + 1);
+    } else {
+      toast.error("This is the maximum.");
+    }
   };
 
   const handleDecreaseQuantity = () => {
-    setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+    } else {
+      toast.error("This is the minimum.");
+    }
   };
 
   const [activeTab, setActiveTab] = useState("description");
@@ -99,7 +105,6 @@ function ProductDetails() {
     setActiveTab(tab);
   };
   const handleWorkshop = (id) => {
-
     navigate(`/workShopProfile/${id}`);
   };
   if (isLoading) {
@@ -171,19 +176,24 @@ function ProductDetails() {
           <div className="mb-4">
             <span className="mr-2">Colors:</span>
             <div className="flex space-x-2 my-4">
-              {colors.map((color, index) => (
-                <div
-                  key={index}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer ${color} ${
-                    selectedColor === index ? "ring-2 ring-orange-500" : ""
-                  }`}
-                  onClick={() => handleColorSelect(index)}
-                >
-                  {selectedColor === index && (
-                    <FaCheck className="text-white" />
-                  )}
-                </div>
-              ))}
+              {newColors &&
+                newColors.map((color, index) => (
+                  <div
+                    key={index}
+                    style={{ backgroundColor: color.hex }}
+                    className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer  ${
+                      selectedColor === index ? "ring-2 ring-orange-500" : ""
+                    }`}
+                    onClick={() => {
+                      handleColorSelect(index, color.colorName);
+                      console.log(color.hex);
+                    }}
+                  >
+                    {selectedColor === index && (
+                      <FaCheck className="text-white" />
+                    )}
+                  </div>
+                ))}
             </div>
           </div>
 
@@ -193,13 +203,15 @@ function ProductDetails() {
               <button
                 className="px-3 py-2 rounded-l-lg"
                 onClick={handleDecreaseQuantity}
+                disabled= {quantity === 1}
               >
                 -
               </button>
               <span className="px-4 py-2">{quantity}</span>
               <button
                 className="px-3 py-2 rounded-r-lg"
-                onClick={handleIncreaseQuantity}
+                onClick={() => handleIncreaseQuantity(product)}
+                disabled= {quantity === product.quantity}
               >
                 +
               </button>
@@ -224,10 +236,10 @@ function ProductDetails() {
           >
             See more about workShop
             <span className="ml-1">
-               {product?.workshop_id?.fullName
+              {product?.workshop_id?.fullName
                 ? product.workshop_id.fullName
                 : "Workshop Name "}
-            </span> 
+            </span>
           </button>
 
           {/* معلومات إضافية */}
@@ -289,26 +301,12 @@ function ProductDetails() {
               <div className="flex flex-col lg:flex-row items-center bg-black text-white p-6">
                 <div className="md:w-full w-full">
                   <p className="mb-4 text-sm md:text-base">
-                    Aliquam egestas enim tristique urna luctus aliquet. Vivamus
-                    justo lacus, ultricies nec tincidunt iaculis, luctus ut
-                    neque. Suspendisse nunc nisl, maximus euismod commodo eget,
-                    blandit in enim. Vivamus vel lorem at nunc mattis ultricies
-                    nec at est. In justo purus, varius et placerat eget,
-                    consectetur a sapien. Quisque finibus ipsum eu dui sagittis,
-                    eu aliquet nibh efficitur. Phasellus eu efficitur tellus.
-                    Donec et leo nisi. Donec consequat porta iaculis. Sed
-                    convallis interdum dui sed viverra. Ut hendrerit justo sed
-                    est condimentum feugiat. Integer rutrum, leo in aliquet
-                    cursus, odio felis porttitor est, sit amet fringilla leo
-                    urna ac metus. Phasellus lectus erat, dictum id dolor sit
-                    amet, malesuada feugiat nunc. Quisque semper lorem in augue
-                    gravida, sit amet vestibulum nibh elementum. Duis massa mi,
-                    feugiat sit amet rutrum.
+                    {product.description}
                   </p>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Dignissim convallis aenean et tortor at risus viverra.
+                      quantity : {product.quantity}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />

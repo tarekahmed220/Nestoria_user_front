@@ -1,5 +1,6 @@
 import { GiCheckMark } from "react-icons/gi";
 import { Link } from "react-router-dom";
+import { HeaderPages } from "../components/HeaderPages";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -19,7 +20,7 @@ function AboutUs() {
   return (
     <div>
       {/* Section one*/}
-      <IntroSection pageTitle="About Us" pageName="About Us" />
+      <HeaderPages namePage="AboutUs" />
 
       {/* Section Two */}
       <div className="homeHub flex flex-col md:flex-row container lg:w-[1440px] mx-auto gap-4 py-20 my-[40px] px-[15px]">

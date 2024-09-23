@@ -18,8 +18,7 @@ function ContactUs() {
   const regexName = /^[a-zA-Z][a-zA-Z ]{2,30}$/;
   const regexPhone = /^01[0125][0-9]{8}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-  const regexProblem = /^[a-zA-Z][a-zA-Z ]{10,100}$/;
-
+  const regexProblem = /^.{10,1000}$/;
   const [problemDetails, setProblemDetails] = useState({
     userName: "",
     userMobile: "",
@@ -162,7 +161,7 @@ function ContactUs() {
           <form onSubmit={(e) => handleSendProblem(e)}>
             {/* Name and Mobile Number */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
+              <div className="flex flex-col items-start gap-2">
                 <input
                   type="text"
                   placeholder="Name"
@@ -171,20 +170,21 @@ function ContactUs() {
                   onChange={(e) => handleProblemDetails(e)}
                   className="w-full bg-[#101010] text-white py-4 px-8 rounded-3xl border border-[#5E5E5E] focus:outline-none focus:border-orange-500 duration-500"
                 />
-                <span className="text-red-500 text-sm font-semibold">
+                <span className="text-red-500 text-sm font-semibold ms-2">
                   {errors.userNameError}
                 </span>
               </div>
-              <div>
+              <div className="flex flex-col items-start gap-2">
                 <input
-                  type="text"
+                  type="tel"
+                  maxLength={11}
                   placeholder="Mobile Number"
                   name="phone"
                   value={problemDetails.userMobile}
                   onChange={(e) => handleProblemDetails(e)}
                   className="w-full bg-[#101010] border border-[#5E5E5E] text-white py-4 px-8 rounded-3xl focus:outline-none focus:border-orange-500 duration-500"
                 />
-                <span className="text-red-500 text-sm font-semibold">
+                <span className="text-red-500 text-sm font-semibold ms-2">
                   {errors.userMobileError}
                 </span>
               </div>
@@ -223,15 +223,9 @@ function ContactUs() {
             {/* Submit Button */}
             <div className="flex justify-center">
               <button
-<<<<<<< Updated upstream
-=======
-                disabled={
-                  !problemDetails.userName ||
-                  !problemDetails.userMobile ||
-                  !problemDetails.userEmail ||
-                  !problemDetails.userProblem
-                }
->>>>>>> Stashed changes
+
+              disabled={!problemDetails.userName || !problemDetails.userMobile || !problemDetails.userEmail || !problemDetails.userProblem}
+
                 type="submit"
                 className="bg-orange-500 text-white text-[17px] py-3 px-8 rounded-3xl hover:bg-white hover:text-black duration-500"
               >

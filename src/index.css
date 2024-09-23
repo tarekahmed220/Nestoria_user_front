@@ -99,3 +99,22 @@ code {
     transform: translateY(-200%);
   }
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--mainColor);
+  border-radius: 10px;
+  border: 2px solid #f1f1f1;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mainColor) rgba(100, 100, 100, 0.651);
+}

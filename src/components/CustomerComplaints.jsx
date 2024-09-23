@@ -1,9 +1,4 @@
 import EmailIcon from "@mui/icons-material/Email";
-<<<<<<< Updated upstream
-import { Button } from "@mui/material";
-
-function CustomerComplaints() {
-=======
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -17,7 +12,6 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import AdminLoader from "./adminLoader";
 import { Box } from "@mui/system";
 import Modal from "react-responsive-modal";
-import { useSelector } from "react-redux";
 function CustomerComplaints() {
   const [clients, setClients] = useState([]);
   const [page, setPage] = useState(1);
@@ -28,8 +22,6 @@ function CustomerComplaints() {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState(null);
-    const translate = useSelector((state) => state.language.translation);
-
   useEffect(() => {
     const fetchClientAccounts = async () => {
       const req = await axios(
@@ -68,53 +60,49 @@ function CustomerComplaints() {
     setOpen2(true);
   };
 
->>>>>>> Stashed changes
   const handleReply = (email) => {
-    window.location.href = `mailto:${email}?subject=Response to Your Complaint&body=Dear Customer,`;
+    window.location.href = `mailto:${email}?subject=Response%20to%20Your%20Complaint&body=Dear%20Customer,%0A%0AThank%20you%20for%20reaching%20out%20to%20us.%20We%20truly%20appreciate%20your%20patience%20and%20understanding%20as%20we%20work%20to%20resolve%20your%20issue.%0A%0APlease%20know%20that%20we%20are%20committed%20to%20providing%20you%20with%20the%20best%20service%20possible.%0A%0AKindly%20provide%20us%20with%20more%20details%20about%20your%20concern%20so%20that%20we%20can%20assist%20you%20more%20effectively.%0A%0ABest%20regards,%0ANestoria
+`;
   };
-  const complaints = [
-    {
-      id: 1,
-      name: "Alice Johnson",
-      email: "alice.johnson@example.com",
-      complaint: "There was an issue with my last order.",
-    },
-    {
-      id: 2,
-      name: "Mark Wilson",
-      email: "mark.wilson@example.com",
-      complaint: "The product I received was damaged.",
-    },
-    {
-      id: 3,
-      name: "Eva Green",
-      email: "eva.green@example.com",
-      complaint: "I haven't received my refund yet.",
-    },
-  ];
+  const makeItDone = async (client) => {
+    if (client.problemState === "pending") {
+      try {
+        setIsLoading(true);
+        const req = await axios.post(
+          `http://localhost:5000/api/v1/fur/problems/change-problem-state?_id=${client._id}`
+        );
+
+        const filterProblems = clients.map((p) =>
+          p._id === client._id ? { ...p, problemState: "solved" } : p
+        );
+        setClients(filterProblems);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  if (isLoading) {
+    return <AdminLoader />;
+  }
   return (
-<<<<<<< Updated upstream
-    <section id="customer-complaints" className="mb-8">
-      <h2 className="text-2xl font-semibold text-gray-700 mb-4 w-full text-center ">
-        Customer Complaints
-      </h2>
-      <div className="bg-white shadow-md rounded-lg p-6">
-        {complaints.map((complaint) => (
-=======
     <section id="client-files" className="mb-8">
       <h2 className="text-3xl font-semibold text-gray-700 mb-4 w-full text-center ">
-        {translate.Client_Complaints}
+        Client Complaints
       </h2>
       <div className="bg-white shadow-md rounded-lg p-6">
         <p className="text-xl text-center border-b mb-7 pb-2">
-          {translate.Number_of_Complaints}: {total}
+          Number of Complaints: {total}
         </p>
+
         <div className="flex items-center mt-4">
           {/* select */}
           <div className=" !mb-5">
             <FormControl sx={{ m: 1, minWidth: 140 }}>
               <InputLabel id="demo-controlled-open-select-label">
-                {translate.Status}
+                Status
               </InputLabel>
               <Select
                 labelId="demo-controlled-open-select-label"
@@ -127,28 +115,22 @@ function CustomerComplaints() {
                 onChange={handleChange2}
               >
                 <MenuItem value="">
-                  <em>{translate.None}</em>
+                  <em>None</em>
                 </MenuItem>
-                <MenuItem value={"pending"}>{translate.Pending}</MenuItem>
-                <MenuItem value={"solved"}>{translate.Solved}</MenuItem>
+                <MenuItem value={"pending"}>Pending</MenuItem>
+                <MenuItem value={"solved"}>Solved</MenuItem>
               </Select>
             </FormControl>
           </div>
         </div>
         {clients.map((client) => (
->>>>>>> Stashed changes
           <div
-            key={complaint.id}
+            key={client._id}
             className="flex justify-between items-center mb-4"
           >
             <div>
-<<<<<<< Updated upstream
-              <p className="text-gray-800 font-bold">{complaint.name}</p>
-              <p className="text-gray-600">Complaint: {complaint.complaint}</p>
-              <p className="text-gray-600">Email: {complaint.email}</p>
-=======
               <p className="text-gray-800">
-                {translate.Name}: {client.userName}{" "}
+                Name: {client.userName}{" "}
                 <RiRadioButtonLine
                   className={`inline-block text-sm text-${
                     client.problemState === "solved" ? "green-400" : "black"
@@ -160,7 +142,7 @@ function CustomerComplaints() {
                 onClick={() => handleOpen(client)}
                 className="text-gray-600"
               >
-                {translate.Massage}
+                Massage
               </Button>
             </div>
             <div className="flex space-x-4">
@@ -181,7 +163,7 @@ function CustomerComplaints() {
                       : "pointer",
                 }}
               >
-                {translate.done}
+                done
               </Button>
               {client.problemState === "pending" && (
                 <Button
@@ -194,29 +176,22 @@ function CustomerComplaints() {
                     padding: "10px 14px",
                   }}
                 >
-                  {translate.Reply_via_Email}
+                  Reply via Email
                 </Button>
               )}
->>>>>>> Stashed changes
             </div>
-            <Button
-              startIcon={<EmailIcon />}
-              onClick={() => handleReply(complaint.email)}
-              sx={{
-                background: "#3b82f6",
-                padding: "10px 10px",
-                color: "white",
-                ":hover": { background: "#2563eb", transition: "all 0.3s" },
-              }}
-            >
-              {/* te xt-white px-4 py-2 rounded-lg hover:bg-blue-600" */}
-              Reply via Email
-            </Button>
           </div>
         ))}
+        <Stack spacing={2}>
+          <Pagination
+            color="primary"
+            count={totalPages}
+            page={page}
+            onChange={handleChange}
+            sx={{ margin: "0 auto", display: "flex", justifyContent: "center" }}
+          />
+        </Stack>
       </div>
-<<<<<<< Updated upstream
-=======
 
       <Modal
         open={open}
@@ -244,14 +219,14 @@ function CustomerComplaints() {
           {selectedClient ? (
             <>
               <Typography id="modal-modal-title" variant="h5" component="h2">
-                {translate.Name}: {selectedClient.userName}
+                Name: {selectedClient.userName}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-semibold"> {translate.Email}:</span>{" "}
+                <span className="font-semibold"> Email:</span>{" "}
                 {selectedClient.userEmail}
               </Typography>
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                <span className="font-semibold"> {translate.Phone}:</span>{" "}
+                <span className="font-semibold"> Phone:</span>{" "}
                 {selectedClient.userMobile}
               </Typography>
 
@@ -265,20 +240,18 @@ function CustomerComplaints() {
                   flexWrap: "wrap",
                 }}
               >
-                <span className="font-semibold"> {translate.Massage}:</span>
+                <span className="font-semibold"> Massage:</span>
                 {selectedClient.userProblem}
               </Box>
             </>
           ) : (
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              {translate.No_client_selected}
+              No client selected.
             </Typography>
           )}
         </Box>
       </Modal>
->>>>>>> Stashed changes
     </section>
   );
 }
-
 export default CustomerComplaints;

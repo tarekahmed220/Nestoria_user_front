@@ -3,7 +3,6 @@ import axiosInstance from "../apis/axiosConfig";
 import AdminLoader from "./adminLoader";
 import Swal from "sweetalert2";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 function PaymentApproval() {
   const [adminBalance, setAdminBalance] = useState({
@@ -14,7 +13,6 @@ function PaymentApproval() {
   const [mergeRequests, setMergeRequests] = useState([]);
   const [numOfRequests, setNumOfRequests] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
- const translate = useSelector((state) => state.language.translation);
 
   useEffect(() => {
     const getAdminBalance = async () => {
@@ -41,6 +39,7 @@ function PaymentApproval() {
       try {
         const req = await axiosInstance.get("/api/v1/admin/money-requests");
         // setAdminBalance(req.data.adminBalance);
+        if (!req.data.orders) return;
         setPayments(req.data.orders);
         setMergeRequests((prev) => {
           const mergeRequests = req.data.orders.flatMap((payment) => {
@@ -105,7 +104,9 @@ function PaymentApproval() {
     const reqAmount = Number(amount.toString().replaceAll(/,/g, ""));
     const confirmed = await Swal.fire({
       title: "Are you sure?",
-      text: `Do you want to transfer (${amount}) EGP   To:${email}`,
+      text: `Do you want to transfer (${
+        amount - amount * 0.1
+      }) EGP   To:${email}`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -169,21 +170,21 @@ function PaymentApproval() {
     <>
       <section id="payments">
         <h2 className="text-end text-xl bg-[#4288f8] w-fit mb-3 md:ml-auto md:mx-0 mx-auto p-2 rounded-lg text-white">
-          <span className="font-semibold">{translate.Available_Balance}: </span>
+          <span className="font-semibold">Available Balance: </span>
           {adminBalance.availableBalance
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-          {translate.EGP}
+          EGP
         </h2>
         <h2 className="text-end text-xl bg-[#dd9d26] w-fit mb-3 md:ml-auto md:mx-0 mx-auto p-2 rounded-lg text-white">
           <span className="font-semibold">Pending Balance: </span>
           {adminBalance.pendingBalance
             ?.toString()
             .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-          {translate.EGP}
+          EGP
         </h2>
         <h2 className="text-2xl font-semibold text-gray-700 mb-4 w-full text-center ">
-          {translate.Payment_Approvals} ({numOfRequests})
+          Payment Approvals ({numOfRequests})
         </h2>
         <div className="">
           {payments.map((payment) => {
@@ -198,35 +199,28 @@ function PaymentApproval() {
                     {product?.price
                       ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-                    {translate.EGP}
+                    EGP
                   </p>
                   <p className="text-gray-600">
-                    To: {product?.productId?.workshop_id?.name},{" "}
-                    {translate.Email}: {product?.productId?.workshop_id?.email}
+                    To: {product?.productId?.workshop_id?.name}, Email:{" "}
+                    {product?.productId?.workshop_id?.email}
                   </p>
                   <p className="text-gray-600">
-                    {translate.Product}: {product?.productId?.name}
+                    Product: {product?.productId?.name}
                   </p>
                   <p className="text-gray-600">
-                    {translate.Quantity}: {payment.products[0].quantity}
+                    Quantity: {payment.products[0].quantity}
                   </p>
                   <p className="text-gray-600">
-                    {translate.Price_unit}:{" "}
+                    Price/unit:{" "}
                     {product?.productId?.price
                       ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                     <span className="ml-1">EGP</span>
                   </p>
+                  <p className="text-gray-600">Status: Customer Confirmed</p>
                   <p className="text-gray-600">
-<<<<<<< Updated upstream
-                    created At: {payment?.updatedAt?.split("T")[0]}, Time:{" "}
-                    {payment?.updatedAt?.split("T")[1]?.split(".")[0]}
-=======
-                    {translate.Status}: Customer Confirmed
-                  </p>
-                  <p className="text-gray-600">
-                    : {payment?.updatedAt?.split("T")[0]}
->>>>>>> Stashed changes
+                    created At: {payment?.updatedAt?.split("T")[0]}
                   </p>
                 </div>
                 <div className="flex space-x-4">
@@ -246,7 +240,7 @@ function PaymentApproval() {
                     }
                     className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
                   >
-                    {translate.Approve_Payment}
+                    Approve Payment
                   </button>
                 </div>
               </div>

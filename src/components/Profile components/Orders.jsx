@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { useUserInfoContext } from "../../context/UserProvider";
 
 export function Orders() {
-  const [orders, setOrders] = useState("");
+  const [orders, setOrders] = useState("");//
   const [isDelivered, setIsDelivered] = useState({});
   const { currentUser } = useUserInfoContext();
   // const [isFoundedAddress, setIsFoundedAddress] = useState(false);
@@ -100,6 +100,11 @@ export function Orders() {
     }
   };
 
+  /// review function
+  const handleAddReview = (productId, workshop_id) => {
+    console.log(productId, workshop_id);
+  };
+
   return (
     <div>
       {orders.length === 0 ? (
@@ -128,11 +133,11 @@ export function Orders() {
                       Total: {order.total} EGP
                     </div>
                   </div>
-                  {order.products.map((product, index) => {
-                    const productKey = `${order._id}-${product.productId._id}-${product.color}`;
+                  {order.products?.map((product, index) => {
+                    const productKey = `${order?._id}-${product.productId?._id}-${product.color}`;
                     return (
                       <div
-                        key={`${order._id}-${product.productId._id}-${index}`}
+                        key={`${order._id}-${product.productId?._id}-${index}`}
                         className="relative bg-white rounded-lg shadow-lg p-6 mb-4"
                       >
                         <div className="grid grid-cols-12 gap-4 mb-2">
@@ -140,21 +145,21 @@ export function Orders() {
                           <div className="flex pb-4 mb-4 col-span-6">
                             <img
                               className="w-20 h-20 object-cover mr-6"
-                              src={product.productId.images[0]}
+                              src={product.productId?.images[0]}
                               alt="Product"
                             />
                             <div className="flex-1">
                               <div className="text-lg font-semibold pr-3">
-                                {product.productId.name}
+                                {product.productId?.name}
                               </div>
                               <div className="text-gray-500">
-                                {product.productId.price} EGP
+                                {product.productId?.price} EGP
                               </div>
                               <div className="text-gray-500">
-                                Color: {product.color}
+                                Color: {product?.color}
                               </div>
                               <div className="text-gray-500">
-                                Quantity: {product.quantity}
+                                Quantity: {product?.quantity}
                               </div>
                             </div>
                           </div>
@@ -193,7 +198,7 @@ export function Orders() {
                             {/* Progress Bar */}
                             <div className="border-t pt-3">
                               <div className="flex justify-between items-center">
-                                <div className="text-gray-600 mb-2">
+                                <div className={`text-gray-600 mb-2`}>
                                   Preparing to ship on September 24, 2024
                                 </div>
                                 {product.deliveryStatus === "Shipped" && (
@@ -202,9 +207,9 @@ export function Orders() {
                                       if (!isDelivered[productKey])
                                         handleClickDelivered(
                                           e,
-                                          order._id,
-                                          product.productId._id,
-                                          product.color
+                                          order?._id,
+                                          product.productId?._id,
+                                          product?.color
                                         );
                                     }}
                                     className={`text-2xl ${
@@ -268,10 +273,26 @@ export function Orders() {
                                 </div>
                               </div>
                             </div>
+                            {(["Delivered"].includes(product.deliveryStatus) ||
+                              isDelivered[productKey]) && (
+                              <button
+                                onClick={(e) =>
+                                  handleAddReview(
+                                    product.productId._id,
+                                    product.productId.workshop_id
+                                  )
+                                }
+                                className="mt-2 flex ms-auto text-center left-1/2 px-4 py-2 hover:text-[#C26510] border border-[#C26510] rounded-3xl text-white bg-[#C26510] hover:bg-white duration-500"
+                              >
+                                Add Review
+                              </button>
+                            )}
                           </>
-                        ): (<div className="absolute border-4 border-red-500 rounded-lg p-1 top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 transform -rotate-12 text-red-500 text-5xl">
-                          Cancelled
-                        </div>)}
+                        ) : (
+                          <div className="absolute border-4 border-red-500 rounded-lg p-1 top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 transform -rotate-12 text-red-500 text-5xl">
+                            Cancelled
+                          </div>
+                        )}
                       </div>
                     );
                   })}

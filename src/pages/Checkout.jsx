@@ -4,16 +4,16 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckoutForm from "../payment/CheckoutForm";
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
-<<<<<<< Updated upstream
-=======
+
 import Loader from "../components/Loader";
 import { useSelector } from "react-redux";
->>>>>>> Stashed changes
+
 
 function Checkout() {
   const isOkAddress = false;
   const [userAddress, setUserAdderss] = useState("");
   const [orderData, setOrderData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [prices, setPrices] = useState({
     subTotal: "",
     total: "",
@@ -37,8 +37,10 @@ function Checkout() {
 
   const userShippingAdderss = (data) => {
     setUserAdderss(data);
+  };
+  if (isLoading) {
+    return <Loader />;
   }
-
   return (
     <div>
       <HeaderPages namePage="Checkout" />
@@ -72,7 +74,10 @@ function Checkout() {
         </div>
 
         <div className="container lg:w-[1440px]  mx-auto text-center md:text-start mt-14 mb-14 px-12 py-10 border border-[#5E5E5E] rounded-2xl">
-        <ShippingAddress check={isOkAddress} sendAddressToCheckout={userShippingAdderss}></ShippingAddress>
+          <ShippingAddress
+            check={isOkAddress}
+            sendAddressToCheckout={userShippingAdderss}
+          ></ShippingAddress>
         </div>
 
         {/* Your order */}
@@ -153,7 +158,11 @@ function Checkout() {
                 {translate.privacy_policy}
               </Link>
             </span>
-            <CheckoutForm sendAdderss = {userAddress} />
+            <CheckoutForm
+              sendAdderss={userAddress}
+              setIsLoading={setIsLoading}
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </section>

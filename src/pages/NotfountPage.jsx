@@ -1,17 +1,7 @@
-<<<<<<< Updated upstream
-function NotfountPage() {
-  return <div>NotfountPage</div>;
-}
-
-export default NotfountPage;
-=======
 import React from "react";
 import { Typography, Button } from "@mui/material";
-import { useSelector } from "react-redux";
 
 const PageNotFound = () => {
-    const translate = useSelector((state) => state.language.translation);
-
   const backgroundImage = "/images/home/2.jpg";
 
   return (
@@ -35,7 +25,7 @@ const PageNotFound = () => {
         404
       </Typography>
       <Typography variant="h5" style={{ marginBottom: "20px" }}>
-        {translate.NotfountPage}
+        Page Not Found
       </Typography>
       <Button
         variant="contained"
@@ -43,11 +33,10 @@ const PageNotFound = () => {
         href="/"
         style={{ padding: "10px 20px", fontSize: "16px" }}
       >
-        {translate.Go_to_Home}
+        Go Back to Home
       </Button>
     </div>
   );
 };
 
 export default PageNotFound;
->>>>>>> Stashed changes

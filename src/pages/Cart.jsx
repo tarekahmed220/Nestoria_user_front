@@ -32,7 +32,7 @@ function Cart() {
         console.log(productsWithSubTotal);
         setProducts(productsWithSubTotal);
       } catch (error) {
-        if(currentUser){
+        if (currentUser) {
           toast.error("Error fetching data:", error);
         }
       }

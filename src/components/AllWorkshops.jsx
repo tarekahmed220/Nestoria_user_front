@@ -108,11 +108,12 @@ function AllWorkshops() {
   };
 
   const handleSearch = () => {
-    setKeyword(searchTerm);
+    setKeyword(searchTerm.trim());
     console.log("Searching for:", searchTerm);
   };
   const handleChange2 = (event) => {
     setStatus(event.target.value);
+    setPage(1);
   };
 
   const handleClose2 = () => {

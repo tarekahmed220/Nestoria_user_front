@@ -12,7 +12,6 @@ import Loader from "../components/Loader";
 import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = (props) => {
-  const [isLoading, setIsLoading] = useState(false);
   const [orderData, setOrderData] = useState(null);
   const [prices, setPrices] = useState({
     subTotal: "",
@@ -63,7 +62,7 @@ const CheckoutForm = (props) => {
       return;
     }
 
-    setIsLoading(true);
+    props.setIsLoading(true);
 
     try {
       // Send payment information to server
@@ -112,7 +111,7 @@ const CheckoutForm = (props) => {
       setPaymentStatus("Payment failed");
       toast.error("Sorry, payment failed");
     } finally {
-      setIsLoading(false);
+      props.setIsLoading(false);
     }
   };
 
@@ -121,7 +120,6 @@ const CheckoutForm = (props) => {
       className="flex justify-start items-center mt-5 w-full"
       //   style={{ backgroundImage: "url('/images/home/2.jpg')" }}
     >
-      {isLoading && <Loader />}
       <form
         onSubmit={handleSubmit}
         className=" border border-[#9b9b9bc7] text-white p-6 rounded-lg shadow-lg w-full "

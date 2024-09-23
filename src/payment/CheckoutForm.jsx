@@ -30,7 +30,6 @@ const CheckoutForm = (props) => {
         subTotal: parsedData.subTotal,
         total: parsedData.total,
       });
-      console.log("total", total, "subTotal", subTotal);
     } else {
       navigate("/cart");
     }
@@ -39,8 +38,8 @@ const CheckoutForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
   const [paymentStatus, setPaymentStatus] = useState("");
-
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!props.sendAdderss) {
@@ -65,13 +64,39 @@ const CheckoutForm = (props) => {
     props.setIsLoading(true);
 
     try {
-      // Send payment information to server
+      // Step 1: Verify product stock before creating the payment intent
+      const products = orderData.products.map((order) => ({
+        productId: order.productId._id,
+        workshopId: order.productId.workshop_id,
+        quantity: order.quantity,
+        price: order.subTotal,
+        color: order.color,
+      }));
+
+      const stockResponse = await axiosInstance.post(
+        "/api/v1/fur/orders/verify-stock",
+
+        { products }
+      );
+
+      if (stockResponse.data.adjusted) {
+        // If stock was adjusted, notify the user and reload the cart
+        navigate("/cart");
+        toast.error(
+          "Some products have insufficient stock. we reduce the quantity for you."
+        );
+        props.reloadCart();
+        return;
+      }
+
+      // Step 2: Create the payment intent after verifying stock
       const response = await axiosInstance.post(
         "/api/payment/create-payment-intent",
         { amount: total }
       );
       const { clientSecret, paymentIntentId } = response.data;
 
+      // Step 3: Confirm the payment with Stripe
       const { error: confirmError } = await stripe.confirmCardPayment(
         clientSecret,
         {
@@ -84,15 +109,7 @@ const CheckoutForm = (props) => {
         navigate("/paymentfailure");
         toast.error("Sorry, payment failed");
       } else {
-        // Handle successful payment
-        const products = orderData.products.map((order) => ({
-          productId: order.productId._id,
-          workshopId: order.productId.workshop_id,
-          quantity: order.quantity,
-          price: order.subTotal,
-          color: order.color,
-        }));
-
+        // Step 4: Submit the order after successful payment
         await axiosInstance.post("/api/v1/fur/orders/addneworders", {
           products,
           total,
@@ -116,10 +133,7 @@ const CheckoutForm = (props) => {
   };
 
   return (
-    <div
-      className="flex justify-start items-center mt-5 w-full"
-      //   style={{ backgroundImage: "url('/images/home/2.jpg')" }}
-    >
+    <div className="flex justify-start items-center mt-5 w-full">
       <form
         onSubmit={handleSubmit}
         className=" border border-[#9b9b9bc7] text-white p-6 rounded-lg shadow-lg w-full "

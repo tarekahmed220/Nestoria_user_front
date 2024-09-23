@@ -10,12 +10,12 @@ const AddReviewModal = ({
   workshop_id,
   productId,
   setIsReview,
+  setIsLoading,
 }) => {
   const [workshopRating, setWorkshopRating] = useState(0);
   const [productRating, setProductRating] = useState(0);
   const [workshopComment, setWorkshopComment] = useState("");
   const [productComment, setProductComment] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
 
   if (!isOpen) return null;
@@ -57,9 +57,7 @@ const AddReviewModal = ({
     onClose();
     setIsReview(true);
   }
-  if (isLoading) {
-    return <Loader />;
-  }
+
   return (
     <div
       className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center"

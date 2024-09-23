@@ -6,6 +6,7 @@ import { GoCheckCircle } from "react-icons/go";
 import Swal from "sweetalert2";
 import { useUserInfoContext } from "../../context/UserProvider";
 import AddReviewModal from "../AddReviewModal";
+import Loader from "../Loader";
 
 export function Orders() {
   const [orders, setOrders] = useState(""); //
@@ -15,6 +16,7 @@ export function Orders() {
   // const [isFoundedAddress, setIsFoundedAddress] = useState(false);
   const [userShipping, setUserShipping] = useState([]);
   const [isReview, setIsReview] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   console.log(currentUser);
 
@@ -108,7 +110,9 @@ export function Orders() {
     console.log("product", productId, "workshop", workshop_id);
     setIsModalOpen(true);
   };
-
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div>
       {orders.length === 0 ? (
@@ -299,9 +303,10 @@ export function Orders() {
                             <AddReviewModal
                               isOpen={isModalOpen}
                               onClose={() => setIsModalOpen(false)}
-                              workshop_id={product.productId.workshop_id}
-                              productId={product.productId._id}
+                              workshop_id={product?.productId?.workshop_id}
+                              productId={product?.productId?._id}
                               setIsReview={setIsReview}
+                              setIsLoading={setIsLoading}
                             />
                           </>
                         ) : (

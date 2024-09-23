@@ -10,7 +10,9 @@ import { IoIosWarning } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import { useUserInfoContext } from "../context/UserProvider";
 import Loader from "../components/Loader";
+import { useSelector } from "react-redux";
 function Login() {
+  const translate = useSelector((state) => state.language.translation);
   const { setIsLogin, isLogin, setCurrentUser } = useUserInfoContext();
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({
@@ -212,7 +214,7 @@ function Login() {
                 className="w-full bg-black  hover:bg-orange-600 hover:text-white text-orange-500 font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
                 type="submit"
               >
-                Log In
+                {translate.Login2}
               </button>
             </div>
             <div className="text-center mt-6">
@@ -220,18 +222,18 @@ function Login() {
                 className="inline-block align-baseline font-bold text-sm text-orange-500 hover:text-orange-600"
                 to="/forgotpassword"
               >
-                Forgot your password?
+                {translate.Forgot_password}
               </Link>
             </div>
             <div className="text-center mt-6 flex justify-center items-center gap-2">
               <span className="inline-block align-baseline font-bold text-sm text-gray-100 ">
-                Don't have an account ?
+                {translate.Donot_have}
               </span>
               <Link
                 className="inline-block align-baseline font-bold text-md text-orange-500 hover:text-orange-700 "
                 to="/register"
               >
-                Signup
+                {translate.Signup}
               </Link>
             </div>
           </form>

@@ -65,7 +65,10 @@ function ProductDetails() {
         productId,
         color,
       });
-      toast.success("Product added");
+      console.log(response);
+      if (response) {
+        return toast.success(response.data.message);
+      }
     } catch (err) {
       toast.error(err);
     }
@@ -168,59 +171,74 @@ function ProductDetails() {
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
 
-          {/* قسم الألوان */}
-          <div className="mb-4">
-            <span className="mr-2">Colors:</span>
-            <div className="flex space-x-2 my-4">
-              {newColors &&
-                newColors.map((color, index) => (
-                  <div
-                    key={index}
-                    style={{ backgroundColor: color.hex }}
-                    className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer  ${
-                      selectedColor === index ? "ring-2 ring-orange-500" : ""
-                    }`}
-                    onClick={() => {
-                      handleColorSelect(index, color.colorName);
-                      console.log(color.hex);
-                    }}
+          {product.quantity === 0 ? (
+            <>
+              <span
+                className="bg-inherit mb-3 rounded-md border border-orange-500 text-white py-3 px-6 flex items-center justify-center flex-grow"
+
+              >
+                Out Of Stock
+              </span>
+            </>
+          ) : (
+            <>
+              {/* قسم الألوان */}
+              <div className="mb-4">
+                <span className="mr-2">Colors:</span>
+                <div className="flex space-x-2 my-4">
+                  {newColors &&
+                    newColors.map((color, index) => (
+                      <div
+                        key={index}
+                        style={{ backgroundColor: color.hex }}
+                        className={`w-8 h-8 rounded-full flex items-center justify-center cursor-pointer  ${
+                          selectedColor === index
+                            ? "ring-2 ring-orange-500"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          handleColorSelect(index, color.colorName);
+                          console.log(color.hex);
+                        }}
+                      >
+                        {selectedColor === index && (
+                          <FaCheck className="text-white" />
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4 mb-6">
+                {/* كمية المنتج */}
+                <div className="flex items-center bg-inherit border rounded-md border-orange-500">
+                  <button
+                    className="px-3 py-2 rounded-l-lg"
+                    onClick={handleDecreaseQuantity}
+                    disabled={quantity === 1}
                   >
-                    {selectedColor === index && (
-                      <FaCheck className="text-white" />
-                    )}
-                  </div>
-                ))}
-            </div>
-          </div>
+                    -
+                  </button>
+                  <span className="px-4 py-2">{quantity}</span>
+                  <button
+                    className="px-3 py-2 rounded-r-lg"
+                    onClick={() => handleIncreaseQuantity(product)}
+                    disabled={quantity === product.quantity}
+                  >
+                    +
+                  </button>
+                </div>
 
-          <div className="flex items-center space-x-4 mb-6">
-            {/* كمية المنتج */}
-            <div className="flex items-center bg-inherit border rounded-md border-orange-500">
-              <button
-                className="px-3 py-2 rounded-l-lg"
-                onClick={handleDecreaseQuantity}
-                disabled={quantity === 1}
-              >
-                -
-              </button>
-              <span className="px-4 py-2">{quantity}</span>
-              <button
-                className="px-3 py-2 rounded-r-lg"
-                onClick={() => handleIncreaseQuantity(product)}
-                disabled={quantity === product.quantity}
-              >
-                +
-              </button>
-            </div>
-
-            {/* زر إضافة إلى السلة */}
-            <button
-              onClick={() => handleAddToCart()}
-              className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow"
-            >
-              <FaShoppingCart className="mr-2" /> Add to Cart
-            </button>
-          </div>
+                {/* زر إضافة إلى السلة */}
+                <button
+                  onClick={() => handleAddToCart()}
+                  className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow"
+                >
+                  <FaShoppingCart className="mr-2" /> Add to Cart
+                </button>
+              </div>
+            </>
+          )}
 
           <button
             onClick={() => {

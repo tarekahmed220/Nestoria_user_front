@@ -12,7 +12,7 @@ const EN = {
   about_us: "ABOUT US",
   contact_us: "CONTACT US",
   Profile: "Profile",
-  logout: "LOGOUT",
+  logout: "Logout",
   login: "Login/Register",
   ////////////////////////////////////////AllClients//////////////////////////////////////////////////////////////
   Client_Accounts: "Client Accounts",

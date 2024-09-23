@@ -196,10 +196,11 @@ function Home() {
         {homeImgUrls.map((url, index) => {
           return (
             <SwiperSlide key={index}>
-              <div className="sectionOne relative ">
+              <div className="sectionOne relative">
                 <div
                   className={`${styles.text} flex flex-col gap-1 justify-center items-center absolute top-[30%] left-1/2 z-30`}
                 >
+
                   <p className="text-[--mainColor] hidden md:block">
                     {translate.SMART_SOLUTION}
                   </p>
@@ -208,6 +209,7 @@ function Home() {
                   </h1>
                   <p className="text-[#dddadaf5]   text-center my-1 md:my-2 line-clamp-1 md:line-clamp-2 lg:line-clamp-3">
                     {translate.The_price_product_section1}
+
                   </p>
                   <button
                     onClick={() => {
@@ -215,8 +217,10 @@ function Home() {
                     }}
                     className={`${styles.shopNowBtn} relative bg-[--mainColor] text-[white] py-1 lg:py-2 px-7 rounded-3xl text-sm md:text-lg lg:text-xl mt-2`}
                   >
+
                     <span className="pr-8">{translate.Shop_Now}</span>
                     <span className=" absolute top-1/2 translate-y-[-50%] right-1 bg-white p-[1px] lg:p-[7px] rounded-full flex justify-center items-center  text-black">
+
                       <IoIosArrowRoundForward className="text-2xl arrow" />
                     </span>
                   </button>
@@ -226,7 +230,11 @@ function Home() {
             </SwiperSlide>
           );
         })}
-      </Swiper>
+      </Swiper>     
+
+
+
+      
       {/* section two */}
       <div className="w-full bg-[#101010]  py-[120px]">
         <div className="homeHub flex flex-col md:flex-row  container lg:w-[1440px] mx-auto gap-4 py-20 my-[40px] px-[15px]">

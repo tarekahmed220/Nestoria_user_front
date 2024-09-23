@@ -155,14 +155,15 @@ function ProductDetails() {
               <FaStar
                 key={index}
                 className={`${
-                  index < (product.rating || 0)
+                  index < (product.averageRating || 0)
                     ? "text-yellow-500"
                     : "text-gray-300"
                 }`}
               />
             ))}
             <span className="ml-2">
-              ({product.reviewCount} customer reviews)
+              ({product && product.ratings && product.ratings.length} customer
+              reviews)
             </span>
           </div>
 
@@ -174,6 +175,7 @@ function ProductDetails() {
             <>
               <span
                 className="bg-inherit mb-3 rounded-md border border-orange-500 text-white py-3 px-6 flex items-center justify-center flex-grow"
+
               >
                 Out Of Stock
               </span>
@@ -241,17 +243,13 @@ function ProductDetails() {
           <button
             onClick={() => {
               if (product?.workshop_id) {
-                handleWorkshop(product.workshop_id);
+                handleWorkshop(product.workshop_id._id);
               }
             }}
             className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3"
           >
             See more about workShop
-            <span className="ml-1">
-              {product?.workshop_id?.fullName
-                ? product.workshop_id.fullName
-                : "Workshop Name "}
-            </span>
+            <span className="ml-1">{product?.workshop_id?.name}</span>
           </button>
 
           {/* معلومات إضافية */}
@@ -302,7 +300,7 @@ function ProductDetails() {
             } px-6 py-3 rounded-full border hover:bg-orange-500 hover:border-orange-500 transition-colors duration-300`}
             onClick={() => handleTabClick("reviews")}
           >
-            Reviews (1)
+            Reviews ({product?.ratings?.length})
           </button>
         </div>
 
@@ -383,56 +381,36 @@ function ProductDetails() {
           {/* Sections 3 */}
 
           {activeTab === "reviews" && (
-            <div className=" p-6 rounded-lg text-white">
-              <form className="mt-6  p-6 rounded-lg">
-                <h2 className="text-white text-xl mb-4">Add a review</h2>
+            <div className="p-6 rounded-lg text-white">
+              <h2 className="text-white text-xl mb-4">Customer Reviews</h2>
 
-                <div className="mb-4">
-                  <label className="block text-white">Your Rating</label>
-                  <div className="flex space-x-1">
-                    {[...Array(5)].map((_, index) => (
-                      <FaStar
-                        key={index}
-                        className="text-gray-500 hover:text-orange-500 cursor-pointer"
-                      />
-                    ))}
+              {product && product.ratings && product.ratings.length > 0 ? (
+                product.ratings.map((review, index) => (
+                  <div
+                    key={index}
+                    className="border-b border-gray-700 mb-4 pb-4"
+                  >
+                    <div className="flex items-center mb-2">
+                      {[...Array(5)].map((_, starIndex) => (
+                        <FaStar
+                          key={starIndex}
+                          className={`${
+                            starIndex < review.rating
+                              ? "text-yellow-500"
+                              : "text-gray-300"
+                          }`}
+                        />
+                      ))}
+                      <span className="ml-2 text-gray-300">
+                        {review.user.fullName}
+                      </span>
+                    </div>
+                    <p className="text-gray-400">{review.comment}</p>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <input
-                    type="text"
-                    placeholder="Name *"
-                    className="w-full p-2 border border-gray-500 bg-gray-800 text-white rounded-lg"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Email *"
-                    className="w-full p-2 border border-gray-500 bg-gray-800 text-white rounded-lg"
-                  />
-                </div>
-
-                <textarea
-                  placeholder="Your review *"
-                  className="w-full p-2 border border-gray-500 bg-gray-800 text-white rounded-lg mb-4"
-                  rows="4"
-                ></textarea>
-
-                <div className="flex items-center mb-4">
-                  <input type="checkbox" id="saveInfo" className="mr-2" />
-                  <label htmlFor="saveInfo" className="text-gray-400">
-                    Save my name, email, and website in this browser for the
-                    next time I comment.
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition duration-200"
-                >
-                  Submit
-                </button>
-              </form>
+                ))
+              ) : (
+                <p className="text-gray-400">No reviews yet.</p>
+              )}
             </div>
           )}
         </div>

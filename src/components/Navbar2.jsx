@@ -2,6 +2,7 @@ import {
   faCaretDown,
   faCartPlus,
   faMagnifyingGlass,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef, useState } from "react";
@@ -27,6 +28,7 @@ function Navbar2() {
   const divRef = useRef(null);
   const { currentUser, isLogin, setIsLogin } = useUserInfoContext();
   const [loginStatus, setLoginStatus] = useState(isLogin);
+  const [showMenu, setShowMenu] = useState(false);
   const {
     // setSelectedChat,
     // user,
@@ -39,6 +41,7 @@ function Navbar2() {
     setLoginStatus(isLogin);
   }, [isLogin]);
 
+  //handle click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (divRef.current && !divRef.current.contains(event.target)) {
@@ -71,20 +74,16 @@ function Navbar2() {
   };
 
   return (
+    
     <ChatProvider>
-      <div className="bg-transparent absolute top-[48px] left-0 w-full mt-3 z-50 ">
-        <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
-          <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif ">
-            {/* <Link to="/">
-            <img
-              className="w-[230px]"
-              src="https://res.cloudinary.com/delh2nrhf/image/upload/v1725672603/ajsz6xaqtvynhmnliwi3.png"
-              alt=""
-            />
-          </Link> */}
-            <Link to="/">Nestoria</Link>
-          </div>
-          <ul className="hidden lg:flex justify-between gap-4 lg:gap-12">
+    <div className="bg-transparent absolute top-[48px] left-0 w-full z-50">
+      <div className="container mx-auto px-2 flex justify-between items-center w-full lg:w-[1440px]">
+        <div className="text-white text-xl sm:text-2xl lg:text-3xl hover:text-[--mainColor] transition-all duration-150 font-serif">
+          <Link to="/">Nestoria</Link>
+        </div>
+        
+        {/* الروابط للقائمة في الشاشات الكبيرة */}
+        <ul className="hidden lg:flex justify-between gap-4 lg:gap-12">
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
               <Link to="/">{translate.home}</Link>
             </li>
@@ -102,8 +101,8 @@ function Navbar2() {
             <li className="text-white hover:text-[--mainColor] transition-all duration-150">
               <Link to="/contactus">{translate.contact_us}</Link>
             </li>
-          </ul>
-          <div className="flex gap-2 sm:gap-4 lg:gap-5 justify-center items-center">
+        </ul>
+        <div className="flex gap-2 sm:gap-4 lg:gap-5 justify-center items-center">
             <FontAwesomeIcon
               onClick={() => {
                 setShowSearch(true);
@@ -186,9 +185,73 @@ function Navbar2() {
 
             {showSearch && <SearchContainer setShowSearch={setShowSearch} />}
           </div>
+        
+        
+        
+        <div className="lg:hidden">
+          <button onClick={() => setShowMenu(!showMenu)}>
+            
+            <svg
+              className="w-6 h-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
+          </button>
         </div>
       </div>
-    </ChatProvider>
+
+      {/* القائمة المنسدلة للشاشات الصغيرة */}
+      {showMenu && (
+        <div className="lg:hidden flex flex-col gap-2 mt-4 bg-black p-4 rounded-lg">
+          <Link
+            to="/"
+            className="text-white hover:bg-[--mainColor] py-2 px-4 rounded-lg"
+            onClick={() => setShowMenu(false)}
+          >
+            {translate.home}
+          </Link>
+          <Link
+            to="/shop"
+            className="text-white hover:bg-[--mainColor] py-2 px-4 rounded-lg"
+            onClick={() => setShowMenu(false)}
+          >
+            {translate.shop}
+          </Link>
+          <Link
+            to="/wishlist"
+            className="text-white hover:bg-[--mainColor] py-2 px-4 rounded-lg"
+            onClick={() => setShowMenu(false)}
+          >
+            {translate.wishlist}
+          </Link>
+          <Link
+            to="/aboutus"
+            className="text-white hover:bg-[--mainColor] py-2 px-4 rounded-lg"
+            onClick={() => setShowMenu(false)}
+          >
+            {translate.about_us}
+          </Link>
+          <Link
+            to="/contactus"
+            className="text-white hover:bg-[--mainColor] py-2 px-4 rounded-lg"
+            onClick={() => setShowMenu(false)}
+          >
+            {translate.contact_us}
+          </Link>
+        </div>
+      )}
+    </div>
+  </ChatProvider>
+
   );
 }
 

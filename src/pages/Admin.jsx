@@ -22,10 +22,12 @@ import AllWorkshops from "../components/AllWorkshops";
 import CustomerComplaints from "../components/CustomerComplaints";
 import axiosInstance from "../apis/axiosConfig";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 function Admin() {
   const [open, setOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("workshop Requests");
   const navigate = useNavigate();
+  const translate = useSelector((state) => state.language.translation);
 
   useEffect(() => {
     async function verifyRole() {
@@ -89,7 +91,7 @@ function Admin() {
           boxShadow: "1px 4px 15px -8px #000000",
         }}
       >
-        Main Sections
+        {translate.Main_Sections}
       </Box>
       <List>
         {[
@@ -150,7 +152,9 @@ function Admin() {
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center z-100">
-          <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+          <h1 className="text-2xl font-bold text-gray-800">
+            {translate.Admin_Dashboard}
+          </h1>
           <ul className="flex space-x-6">
             <li
               onClick={() => setActiveSection("workshop Requests")}
@@ -158,7 +162,7 @@ function Admin() {
                 activeSection === "workshop Requests" ? "bg-green-400 " : ""
               } text-gray-600 hover:text-gray-800 cursor-pointer p-3 rounded-lg transition-all duration-200`}
             >
-              Requests
+              {translate.Requests}
             </li>
             <li
               onClick={() => setActiveSection("Payments")}
@@ -166,7 +170,7 @@ function Admin() {
                 activeSection === "Payments" ? "bg-green-400 " : ""
               } text-gray-600 hover:text-gray-800 cursor-pointer p-3 rounded-lg transition-all duration-200`}
             >
-              Payments
+              {translate.Payments}
             </li>
           </ul>
         </div>

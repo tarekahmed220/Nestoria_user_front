@@ -25,7 +25,6 @@ const EN = {
   Phone: "Phone",
   IsConfirm: "IsConfirm",
   Balance: "Balance",
-  No_client_selected: "No client selected",
   //AllWorkshops/////////////////////////////////////////////
   Workshop_Accounts: "Workshop Accounts",
   Number_of_Workshops: "Number of Workshops",
@@ -34,16 +33,17 @@ const EN = {
   Description: "Description",
   IsConfirm: "IsConfirm",
   Acceptance: "Acceptance",
-  Balance: "Balance",
   EGP: "EGP",
   No_client_selected: "No client selected",
   ///////////////////////CustomerComplaints/////////////////////////////////
-  Customer_Complaints: "Customer Complaints",
+  Client_Complaints: "Client Complaints",
+  Number_of_Complaints: "Number of Complaints",
   Complaint: "Complaint",
   Reply_via_Email: "Reply via Email",
   ///////////////////////////////////////////footer////////////////////////////////
   Proin_interdum:
     "Proin a interdum elit. Etiam eu sapien sem. Suspendisse a massa justo. Cras eget lorem nunc. Fusce nec urna tempus tempus",
+  Useful_links: "Useful links",
   History: "History",
   Our_Team: "Our Team",
   Services_Offered: "Services Offered",
@@ -54,13 +54,19 @@ const EN = {
   Affiliate: "Affiliate",
   Sizing_Guide: "Sizing Guide",
   Accessibility: "Accessibility",
+  site_all_rights: "©Nestoria site all rights Reserved",
   ///////////////////////////////////Loader/////////////////
   LOADING: "LOADING",
   /////////////////////////PaymentApproval///////////////////////////////
+  Available_Balance: "Available Balance",
   Payment_Approvals: "Payment Approvals",
   Approve_Payment: "Approve Payment",
+  created_At: "created At",
+  Price_unit: "Price/unit",
   /////////////////////////////////////WorkshopRequests////////////////////////////
   Workshop_Requests: "Workshop Requests",
+  Workshop_Name: "Workshop Name",
+
   Join_At: "Join At",
   Show_Details: "Show Details",
   Approve: "Approve",
@@ -86,8 +92,8 @@ const EN = {
             vehicula sodales arcu non mattis.`,
   But_span: `But the eleifend of the estate, the gate of the border, the urn
                 led at.`,
-  Ginteger_span: "Ginteger proteins and dui are suitable for blanss",
-  IsConfirm_span: "Kenean vehicles are not owned by members of the arc",
+  Ginteger_span: "Ginteger proteins and dui are suitable for blanss.",
+  IsConfirm_span: "Kenean vehicles are not owned by members of the arc.",
   /////////////////////////////Section Three////////////////////////////////////////////////
   Products_Sold: "Products Sold",
   Years_Service: "Years Service",
@@ -103,6 +109,7 @@ const EN = {
   Bedroom: "Bedroom",
   Waiting_Hall: "Waiting Hall",
   /////////////////////Section Five////////////////////
+  COMFORT_CRAFTERS: "COMFORT CRAFTERS",
   Special_Team: "Special Team",
   chales_scarter: "chales scarter",
   // CEO: "CEO",
@@ -113,7 +120,7 @@ const EN = {
   ART_OF_COMFORT: "ART OF COMFORT",
   Transforming_Spaces: "Transforming Spaces",
   Transforming_Style: "Transforming Style",
-  Your_span: "Your email is safe with us, we don't spam",
+  Your_span: "Your email is safe with us, we don't spam.",
   Privacy_Policy: "Privacy Policy",
   /////////////////////////////Admin  page/////////////////////
   Main_Sections: "Main Sections",
@@ -125,6 +132,8 @@ const EN = {
   Your_cart_div: " Your cart is currently empty.",
   Return_To_Shop: "Return To Shop",
   Got_div: "Got a gift card from a loved one?",
+  Use_it_here: "Use it here!",
+
   Product: "Product",
   Price: "Price",
   Quantity: "Quantity",
@@ -156,6 +165,7 @@ const EN = {
   Confirm: "Confirm",
   /////////////////////////////////////////////////////////ContactUs page///////////////////////
   DROP_US_LINE: "DROP US A LINE",
+  Round_the_clock_Service: "Round-the-clock Service",
   Sed_id_semper:
     " Sed id semper risus in hendrerit gravida rutrum quisque. Vitae proin sagittis nisl Vel elit scelerisque mauris rhoncus mattis rhoncus urna.",
   Submit_Query: "Submit Query",
@@ -195,15 +205,18 @@ const EN = {
   Products_Service: "Products & Service",
   For_furniture_purchases:
     "For furniture purchases, do you have financing options?",
-  Pain_should:
-    "Pain should be followed by coaching. Elit duis sad  sollicitudin nibh is important. Utrice eros in the course of the high school. Ultricies sad no aquet for the tortor at the  auctor urn now. Consectetur adipiscing elit duis trisque sollicitudin nibh sit amet.",
+  Pain_should: ` Pain should be followed by coaching. Elit duis sad
+                  sollicitudin nibh is important. Utrice eros in the course of
+                  the high school. Ultricies sad no aquet for the tortor at the
+                  auctor urn now. Consectetur adipiscing elit duis trisque
+                  sollicitudin nibh sit amet.`,
   have_eco_friendly: "Do you have eco-friendly furniture?",
   I_need_the_wisdom:
     "I need the wisdom of God. What a caricature of a doctor who  hates football. Everyone needs to drink and not need to do their homework. It's a great airline for kids. Aliquet lectus  proin nibh nisl condimentum id. Ridiculous mus mauris vitae ultricies leo integer.",
   Is_it_possible: "Is it possible to follow the delivery of my furniture?",
   The_yeast_of_the_god:
     " The yeast of the god's throat in the ornament than the cartoon of the doctor with football arrows. I want to decorate the  bed. Morbi, the urn of the employee, but the element of  football is easy. Everyone doesn't want to drink or do their  homework. I don't hate euismod lacinia at quis risus sed  vulputate odio.",
-  BalDo_you_offer: "BalDo you offer design consultations?ance",
+  Do_you_offer_design:"Do you offer design consultations?",
   For_the_pure_does:
     " For the pure does not present an element that is easy or  natural. Pharetra diam should be a lot of fans. The mountains,  pregnant with their partners and born, will give birth to  feathers and great thrusts. The price of the product itself is  insignificant, or the price of the bed that adorns the pure  palate.",
   Are_custom_orders:
@@ -212,10 +225,11 @@ const EN = {
     " It is said that everyone who lived in this street is free from  arrows. It is said that it is sad and urgent that someone  himself suspended the basketball. Ultricies lake but ugly  tincidunt id aquiet risus feugiat. Maecenas was flattered by  some of the chocolates he wanted.",
   /////////////////////////////////////Furniture's section////////////////////////////////////
   Innovative_Furniture: "Innovative Furniture",
-  Balance:
+  class_Furniture_section:
     "The class is silent. As eleifend mattis ligula, the door is loaded  with urns at the borders. Aeneas do not own the vehicles of th   bow. The whole protein and the price is flattering.",
   Testimonial_Time: "Testimonial Time",
   Our_Customers_Speak: "Our Customers Speak",
+  Visit_Our_Blog:"Visit Our Blog",
   Get_the_Latest_News: "Get the Latest News",
   The_Modest_Living: "The Modest Living Space Furnishings Ideas",
   Bala_Explore_the_best:
@@ -227,7 +241,7 @@ const EN = {
   ransform_your_bedroom:
     " Transform your bedroom into a relaxing oasis with our essential furniture and decor tips. This video guides you   through selecting the right furniture and accessories to   create a serene and inviting retreat, perfect for unwinding   after a long day.",
   Minimalist_Modern: "Minimalist Modern Modular Kitchen Design",
-  Balance: `Discover innovative ways to elevate your living room with
+  Discover_Furniture_section: `Discover innovative ways to elevate your living room with
                     our stylish furniture ideas. This video showcases the latest
                     trends and design tips for selecting the perfect pieces to
                     create a cozy and modern living space that reflects your personal style.`,
@@ -235,8 +249,9 @@ const EN = {
   Forgot_password: "Forgot your password?",
   Donot_have: "Don't have an account ?",
   Signup: "Signup",
+  Log_In:"Log In",
   /////////////////////////////////////////////////NotfountPage page//////////////////
-  NotfountPage: "NotfountPage",
+  NotfountPage: "Not fount Page",
   /////////////////////////////////PaymentFailure page////////////////////////
   Payment_Failed: "Payment Failed",
   Something_went: "Something went wrong with your payment.",
@@ -280,6 +295,7 @@ const EN = {
   Your_Wishlist_div: "Your Wishlist is currently empty.",
   Return_To_Shop: "Return To Shop",
   Remove_fom_wishlist: "Remove fom wishlist",
+  Add_to_Cart:"Add to Cart"
 };
 
 export default EN;

@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import CheckoutForm from "../payment/CheckoutForm";
 import { ShippingAddress } from "../components/Profile components/ShippingAddress";
+<<<<<<< Updated upstream
+=======
+import Loader from "../components/Loader";
+import { useSelector } from "react-redux";
+>>>>>>> Stashed changes
 
 function Checkout() {
   const isOkAddress = false;
@@ -14,6 +19,8 @@ function Checkout() {
     total: "",
   });
   const { subTotal, total } = prices;
+    const translate = useSelector((state) => state.language.translation);
+
   useEffect(() => {
     const data = localStorage.getItem("ordersLocal");
     console.log("data", JSON.parse(data));
@@ -50,7 +57,7 @@ function Checkout() {
         <div className=" container lg:w-[1440px]  mx-auto bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative mb-4">
           <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
           <div className="p-6 text-white  flex justify-center md:justify-start items-center gap-2">
-            <span>Got a gift card from a loved one?</span>
+            <span>{translate.Got_gift}</span>
             <Link
               to="#"
               className="text-white hover:text-[--mainColor] transition-colors"
@@ -59,7 +66,7 @@ function Checkout() {
                 toast.success("this feature is not available yet ❤️")
               }
             >
-              Use it here!
+              {translate.Use_it_here}
             </Link>
           </div>
         </div>
@@ -98,7 +105,7 @@ function Checkout() {
                         </p>
 
                         <span className="mt-1 block text-[#999999]">
-                          Color: <span>{order.color}</span>
+                          {translate.Color}: <span>{order.color}</span>
                         </span>
                       </div>
                     </li>
@@ -107,44 +114,43 @@ function Checkout() {
             </div>
             <span className="my-4 bg-[--mainColor] w-full h-[1px] block"></span>
             <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between">
-              <span className="text-white">Subtotal</span>
-              <span className="text-white">EGP {subTotal}</span>
+              <span className="text-white">{translate.Subtotal}</span>
+              <span className="text-white">
+                {translate.EGP} {subTotal}
+              </span>
             </div>
             <span className="my-4 bg-[--mainColor] w-full h-[1px] block"></span>
 
             <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
-              <span className="text-white">Shipping</span>
-              <span className="text-white">Free Shipping</span>
+              <span className="text-white">{translate.Shipping}</span>
+              <span className="text-white">{translate.Free_Shipping}</span>
             </div>
             <span className="my-4 bg-[--mainColor] w-full h-[1px] block"></span>
 
             <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
-              <span className="text-white">Total</span>
-              <span className="text-white">EGP {total}</span>
+              <span className="text-white">{translate.Total}</span>
+              <span className="text-white">
+                {translate.EGP} {total}
+              </span>
             </div>
 
             <span className="mb-6 my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
 
             <div className="mb-8 bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
               <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
-              <div className="p-8 text-white ">
-                Kindly verify the quantities and prices of the items in your
-                order before completing the payment process.
-              </div>
+              <div className="p-8 text-white ">{translate.Kindly_verify}</div>
             </div>
             <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
 
             {/* تعديل حجم النص */}
             <span className="mt-3 block text-[#999999] text-sm">
-              Your personal data will be used to process your order, support
-              your experience throughout this website, and for other purposes
-              described in our
+              {translate.PhoYour_personalne}
               <Link
                 to="#"
                 className="text-white hover:text-[--mainColor] transition-colors ms-1"
                 style={{ borderBottom: "2px solid white" }}
               >
-                privacy policy
+                {translate.privacy_policy}
               </Link>
             </span>
             <CheckoutForm sendAdderss = {userAddress} />

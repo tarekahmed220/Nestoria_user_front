@@ -10,7 +10,10 @@ import { IoIosArrowDropdown } from "react-icons/io";
 import Loader from "../components/Loader";
 import { IoEye } from "react-icons/io5";
 import { useSearchContext } from "../context/SearchContext";
+import { useSelector } from "react-redux";
 function Register() {
+  const translate = useSelector((state) => state.language.translation);
+
   const { search } = useSearchContext();
   console.log(search);
 
@@ -172,10 +175,10 @@ function Register() {
         {isLoading && <Loader />}
         <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-2xl">
           <h2 className="text-white text-3xl font-200 mb-3 text-center font-[serif]">
-            Register Form
+            {translate.Register_Form}
           </h2>
           <p className="text-[#c7c6c6b9] text-md text-center mb-5">
-            Do not have an account?
+            {translate.Do_not_have}
           </p>
           <form onSubmit={handleSubmit}>
             <span className="text-green-500 text-sm mt-2">{success} </span>
@@ -251,7 +254,7 @@ function Register() {
                   }`}
                 >
                   <option value="" disabled>
-                    <span> Role* </span>
+                    <span> {translate.Role}* </span>
                   </option>
                   <option value="client">Client</option>
                   <option value="workshop">Workshop</option>
@@ -313,13 +316,13 @@ function Register() {
                     }`}
                   >
                     <option value="" disabled>
-                      Address*
+                      {translate.Address}*
                     </option>
-                    <option value="Egypt">Egypt</option>
-                    <option value="Palestine">Palestine</option>
-                    <option value="Yemen">Yemen</option>
-                    <option value="Sudan">Sudan</option>
-                    <option value="Syria">Syria</option>
+                    <option value="Egypt">{translate.Egypt}</option>
+                    <option value="Palestine">{translate.Palestine}</option>
+                    <option value="Yemen">{translate.Yemen}</option>
+                    <option value="Sudan">{translate.Sudan}</option>
+                    <option value="Syria">{translate.Syria}</option>
                   </select>
                   {errors.address ? (
                     <span
@@ -430,19 +433,19 @@ function Register() {
                 className="mt-5 w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
                 type="submit"
               >
-                Register
+                {translate.Register}
               </button>
             </div>
 
             <div className="text-center mt-6 flex justify-center items-center gap-2">
               <span className="inline-block align-baseline font-bold text-sm text-gray-100 ">
-                Already have an account ?
+                {translate.Already_have}
               </span>
               <Link
                 className="inline-block align-baseline font-bold text-md text-orange-500 hover:text-orange-700 "
                 to="/login"
               >
-                Login
+                {translate.Login2}
               </Link>
             </div>
           </form>

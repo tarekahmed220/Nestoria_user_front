@@ -7,7 +7,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FaRegEyeSlash } from "react-icons/fa";
 
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 function ResetPassword() {
+    const translate = useSelector((state) => state.language.translation);
+
   const [user, setUser] = useState({
     password: '',
   });
@@ -92,53 +95,62 @@ console.log('Form submitted:', user, newErrors);
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#171716]">
       <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-xl mx-auto">
-        <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']"> Reset Password</h2>
+        <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']">
+          {" "}
+          Reset Password
+        </h2>
         <form onSubmit={handleSubmit}>
-        <p className="text-red-500 text-md mt-2">{serverErr}</p>
-     
-           <label className="block text-gray-400 text-sm font-medium mb-2" htmlFor="email">
-             Reset Password
-            </label>
-           <div className='h-[40px] mb-[40px] w-full'>
-          <div className="mb-6">
-          
-            <div className="relative">
-              <input
-                style={{ border: '1px solid #A5A5A5' }}
-                className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
-                  errors.password ? 'focus:ring-red-500 border-red-500 ' : 'focus:ring-orange-500 border-orange-500'
-                }`} 
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                value={user.password}
-                onChange={(e) => setUser({ ...user, password: e.target.value })}
-                onBlur={handleBlur}
-                placeholder="Enter your new password*"
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaRegEyeSlash/> : '👁️'}
-              </button>
+          <p className="text-red-500 text-md mt-2">{serverErr}</p>
+
+          <label
+            className="block text-gray-400 text-sm font-medium mb-2"
+            htmlFor="email"
+          >
+            {translate.Reset_Password}
+          </label>
+          <div className="h-[40px] mb-[40px] w-full">
+            <div className="mb-6">
+              <div className="relative">
+                <input
+                  style={{ border: "1px solid #A5A5A5" }}
+                  className={`w-full px-4 py-3 bg-black text-white text-sm rounded-full focus:outline-none focus:ring-2 ${
+                    errors.password
+                      ? "focus:ring-red-500 border-red-500 "
+                      : "focus:ring-orange-500 border-orange-500"
+                  }`}
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  value={user.password}
+                  onChange={(e) =>
+                    setUser({ ...user, password: e.target.value })
+                  }
+                  onBlur={handleBlur}
+                  placeholder="Enter your new password*"
+                />
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-white"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FaRegEyeSlash /> : "👁️"}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm mt-2">{errors.password}</p>
+              )}
             </div>
-            {errors.password && <p className="text-red-500 text-sm mt-2">{errors.password}</p>}
           </div>
-          </div>
-        
+
           <div className="flex items-center justify-center rounded-full border border-solid border-[#EA580C]">
-          <button
+            <button
               className="w-full bg-black  hover:bg-orange-600 hover:text-white text-orange-500 font-bold py-3 px-4 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-500"
               type="submit"
             >
               Reset Password
             </button>
           </div>
-        
         </form>
-        
       </div>
     </div>
   );

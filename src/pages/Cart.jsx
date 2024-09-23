@@ -7,6 +7,7 @@ import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { useUserInfoContext } from "../context/UserProvider.jsx";
+import { useSelector } from "react-redux";
 
 function Cart() {
   let [subTotal, setSubTotal] = useState(0);
@@ -18,6 +19,7 @@ function Cart() {
   const navigate = useNavigate();
 
   const { currentUser } = useUserInfoContext();
+  const translate = useSelector((state) => state.language.translation);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -196,12 +198,12 @@ function Cart() {
             <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
               <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
               <div className="p-6 text-white font-bold">
-                Your cart is currently empty.
+                {translate.Your_cart_div}
               </div>
             </div>
             <Link to="/shop">
               <button className="mt-10 px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
-                Return To Shop
+                {translate.Return_To_Shop}
               </button>
             </Link>
           </div>
@@ -211,12 +213,12 @@ function Cart() {
             <div className="bg-[#2B2B2B] text-center md:text-start rounded-br-xl rounded-bl-xl relative">
               <span className="absolute bg-[#019ED5] w-full h-[3px] block"></span>
               <div className="p-6 text-white font-bold">
-                Got a gift card from a loved one?{" "}
+                {translate.Got_div}
                 <Link
                   to={""}
                   className="hover:text-[#C26510] duration-500 underline"
                 >
-                  Use it here!
+                  {translate.Use_it_here}
                 </Link>
               </div>
             </div>
@@ -224,10 +226,10 @@ function Cart() {
             {/* products */}
             <div className="mt-10 mb-5 py-5 border border-[#393938] md:border-[#C26510] rounded-2xl">
               <ul className="px-7 hidden md:grid grid-cols-10 items-center text-white">
-                <li className="col-span-4">Product</li>
-                <li className="col-span-2">Price</li>
-                <li className="col-span-2">Quantity</li>
-                <li className="col-span-2">SubTotal</li>
+                <li className="col-span-4">{translate.Product}</li>
+                <li className="col-span-2">{translate.Price}</li>
+                <li className="col-span-2">{translate.Quantity}</li>
+                <li className="col-span-2">{translate.SubTotal}</li>
               </ul>
               <span className="my-6 bg-[#393938] w-full h-[2px] hidden md:block"></span>
               {products &&
@@ -253,12 +255,12 @@ function Cart() {
                             {product.productId.name}
                           </p>
                           <span className="mt-3 block text-[#999999]">
-                            Color: <span>{product.color}</span>
+                            {translate.Color}: <span>{product.color}</span>
                           </span>
                         </div>
                       </li>
                       <li className="col-span-5 md:col-span-2 text-center md:text-start text-white">
-                        EGP {product.productId.price}
+                        {translate.EGP} {product.productId.price}
                       </li>
                       <li className="col-span-5 md:col-span-2 text-center md:text-start ml-auto mr-auto mt-6 md:m-0">
                         <div className="p-3 w-fit flex gap-5 rounded-3xl border border-[#C26510]">
@@ -300,7 +302,7 @@ function Cart() {
             {/* coupon */}
             <div className="mt-14 p-12 border border-[#5E5E5E] rounded-2xl">
               <div className="text-center md:text-start text-white text-2xl font-bold mb-4">
-                Coupon:
+                {translate.Coupon}:
               </div>
               <form
                 onSubmit={(e) => handleSubmitCoupon(e)}
@@ -315,7 +317,7 @@ function Cart() {
                   className="text-center md:text-start w-full md:w-3/4 text-[#5E5E5E] mr-3 py-3 px-6 bg-transparent border border-[#5E5E5E] focus:outline-none focus:border-[#C26510] duration-500 rounded-3xl"
                 />
                 <button className="mt-5 w-full md:mt-0 md:w-fit px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500">
-                  Apply Coupon
+                  {translate.Apply_Coupon}
                 </button>
               </form>
             </div>
@@ -325,18 +327,24 @@ function Cart() {
               <div>
                 <h3 className="mb-5 text-2xl text-white">Cart Totals</h3>
                 <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between">
-                  <span className="text-white">Subtotal</span>
-                  <span className="text-white">EGP {subTotal}</span>
+                  <span className="text-white">{translate.Subtotal}</span>
+                  <span className="text-white">
+                    {translate.EGP} {subTotal}
+                  </span>
                 </div>
                 <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
                 <div>
                   <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
-                    <span className="text-white">Shipping</span>
-                    <span className="text-white">Free Shipping</span>
+                    <span className="text-white">{translate.Shipping}</span>
+                    <span className="text-white">
+                      {translate.Free_Shipping}
+                    </span>
                   </div>
                   <div className="md:text-end">
                     <div className="flex flex-col my-3">
-                      <span className="text-white mb-1">Shipping to</span>
+                      <span className="text-white mb-1">
+                        {translate.Shipping_to}
+                      </span>
                       <span className="text-white font-bold">
                         {currentUser.address && currentUser.address}
                       </span>
@@ -346,23 +354,23 @@ function Cart() {
                         to="/billingAddress"
                         className="text-white underline cursor-pointer hover:text-[#C26510] duration-500"
                       >
-                        Change Address
+                        {translate.Change_Address}
                       </Link>
                     </div>
                   </div>
                 </div>
                 <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
                 <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between text-white">
-                  <span>Total</span>
+                  <span>{translate.Total}</span>
                   <span
                     className={`${isUsedCupon && "line-through duration-500"}`}
                   >
-                    EGP {total}
+                    {translate.EGP} {total}
                   </span>
                 </div>
                 {isUsedCupon && (
                   <span className="text-white flex justify-center md:justify-end mt-2 duration-500">
-                    EGP {Number(totalAfterCoupon).toFixed(2)}
+                    {translate.EGP} {Number(totalAfterCoupon).toFixed(2)}
                   </span>
                 )}
                 <span className="my-4 bg-[#5E5E5E] w-full h-[1px] block"></span>
@@ -370,7 +378,7 @@ function Cart() {
                   onClick={() => handleCheckoutBtn()}
                   className="w-full md:w-fit mt-5 px-6 py-3 text-[#C26510] border border-[#C26510] rounded-3xl hover:text-white hover:bg-[#C26510] duration-500"
                 >
-                  Proceed To Checkout
+                  {translate.Proceed_To_Checkout}
                 </button>
               </div>
             </div>

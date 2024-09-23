@@ -10,11 +10,16 @@ import { toast } from "react-toastify";
 
 import { FaHome } from "react-icons/fa";
 import { useSearchContext } from "../context/SearchContext.jsx";
+<<<<<<< Updated upstream
+=======
+import { FaTh, FaThLarge, FaThList, FaBars } from "react-icons/fa";
+import { useSelector } from "react-redux";
+>>>>>>> Stashed changes
 
 const Shop = () => {
-  // const [products, setProducts] = useState([]);
-  const { search, products, setProducts } = useSearchContext();
+  const translate = useSelector((state) => state.language.translation);
 
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [categories, setCategories] = useState([
@@ -161,7 +166,7 @@ const Shop = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* قسم الفئات مع الخط الفاصل */}
           <div className="col-span-1 relative ml-4">
-            <h2 className="text-white mb-4">Collection</h2>
+            <h2 className="text-white mb-4">{translate.Collection}</h2>
             <ul className="text-white space-y-2">
               {categories.map((category) => (
                 <li
@@ -180,7 +185,7 @@ const Shop = () => {
             <div className="absolute top-0 right-0 h-full border-r-4 border-gray-700 lg:block hidden"></div>
             <div className="mt-12">
               <div className="mb-6">
-                <h2 className="text-white mb-4">Filter By Price</h2>
+                <h2 className="text-white mb-4">{translate.Filter_By_Price}</h2>
               </div>
               <input
                 type="range"

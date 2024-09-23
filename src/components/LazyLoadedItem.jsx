@@ -3,6 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { useSpring, animated } from "@react-spring/web";
 
 const LazyLoadedItem = ({ children, x }) => {
+
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.3,

@@ -50,6 +50,11 @@ const Shop = () => {
 
   // جلب المنتجات المفضلة
   useEffect(() => {
+    const isLogin = !!localStorage.getItem("token");
+
+    if (!isLogin) {
+      return;
+    }
     axiosInstance
       .get("/api/v1/fur/favorites")
       .then((res) => {
@@ -64,6 +69,7 @@ const Shop = () => {
 
   const fetchProducts = (page = 1, category = "All", maxPrice = 2499) => {
     // if (!search) {
+
     setIsLoading(true);
     axios
       .get(
@@ -120,6 +126,14 @@ const Shop = () => {
   };
 
   const handleFavoriteClick = (productId, isAdding) => {
+    const isLogin = !!localStorage.getItem("token");
+
+    if (!isLogin) {
+      navigate("/login");
+      toast.error("you should sign in first");
+      return;
+    }
+
     if (isAdding) {
       axiosInstance
         .post(`/api/v1/fur/favorites/${productId}`)

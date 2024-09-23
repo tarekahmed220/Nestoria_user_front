@@ -39,6 +39,7 @@ function Navbar2() {
     setLoginStatus(isLogin);
   }, [isLogin]);
 
+  //handle click outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (divRef.current && !divRef.current.contains(event.target)) {

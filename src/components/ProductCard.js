@@ -24,11 +24,19 @@ const ProductCard = ({
   const [wishlist, setWishlist] = useState([]);
   useEffect(() => {
     const fetchWishlist = async () => {
+      const isLogin = !!localStorage.getItem("token");
+
+      if (!isLogin) {
+        return;
+      }
+
       try {
         const response = await axiosInstance.get("/api/v1/fur/favorites");
         setWishlist(response.data.data.favorites);
         // console.log(response.data.data.favorites);
-        const isFavorite = response.data.data.favorites.some(item => item.product?.id === product.id);
+        const isFavorite = response.data.data.favorites.some(
+          (item) => item.product?.id === product.id
+        );
         setIsFavoriteState(isFavorite);
       } catch (error) {
         console.error("Error fetching wishlist:", error);

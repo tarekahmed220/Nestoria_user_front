@@ -5,13 +5,16 @@ import axiosInstance from "../../apis/axiosConfig";
 import { GoCheckCircle } from "react-icons/go";
 import Swal from "sweetalert2";
 import { useUserInfoContext } from "../../context/UserProvider";
+import AddReviewModal from "../AddReviewModal";
 
 export function Orders() {
-  const [orders, setOrders] = useState("");//
+  const [orders, setOrders] = useState(""); //
   const [isDelivered, setIsDelivered] = useState({});
   const { currentUser } = useUserInfoContext();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // const [isFoundedAddress, setIsFoundedAddress] = useState(false);
   const [userShipping, setUserShipping] = useState([]);
+  const [isReview, setIsReview] = useState(false);
 
   console.log(currentUser);
 
@@ -102,7 +105,8 @@ export function Orders() {
 
   /// review function
   const handleAddReview = (productId, workshop_id) => {
-    console.log(productId, workshop_id);
+    console.log("product", productId, "workshop", workshop_id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -276,17 +280,29 @@ export function Orders() {
                             {(["Delivered"].includes(product.deliveryStatus) ||
                               isDelivered[productKey]) && (
                               <button
+                                disabled={isReview}
                                 onClick={(e) =>
                                   handleAddReview(
                                     product.productId._id,
                                     product.productId.workshop_id
                                   )
                                 }
-                                className="mt-2 flex ms-auto text-center left-1/2 px-4 py-2 hover:text-[#C26510] border border-[#C26510] rounded-3xl text-white bg-[#C26510] hover:bg-white duration-500"
+                                className={`mt-2 flex ms-auto text-center left-1/2 px-4 py-2 rounded-3xl  text-white ${
+                                  !isReview
+                                    ? "hover:text-[#C26510] border border-[#C26510]  bg-[#C26510] hover:bg-white duration-500"
+                                    : "bg-[#c2661091] cursor-not-allowed"
+                                }`}
                               >
-                                Add Review
+                                {isReview ? "Reviewed" : "Add Review"}
                               </button>
                             )}
+                            <AddReviewModal
+                              isOpen={isModalOpen}
+                              onClose={() => setIsModalOpen(false)}
+                              workshop_id={product.productId.workshop_id}
+                              productId={product.productId._id}
+                              setIsReview={setIsReview}
+                            />
                           </>
                         ) : (
                           <div className="absolute border-4 border-red-500 rounded-lg p-1 top-1/2 -translate-y-1/2 start-1/2 -translate-x-1/2 transform -rotate-12 text-red-500 text-5xl">

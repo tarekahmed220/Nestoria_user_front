@@ -9,6 +9,7 @@ import Loader from "../Loader";
 import axiosInstance from "../../apis/axiosConfig";
 import { toast } from "react-toastify";
 import ChatProvider, { ChatState } from "../../context/ChatProvidor";
+import { FaStar } from "react-icons/fa";
 const HeroSection = () => {
   const [workshop, setWorkshop] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -96,7 +97,7 @@ const HeroSection = () => {
           <div className="absolute inset-0 flex flex-col justify-center items-center px-4 sm:px-8 md:px-16 lg:px-24">
             <div className="m-auto w-full max-w-4xl text-center text-white">
               <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl">
-                {workshop.fullName}
+                {workshop.name}
               </h3>
               <div className="text-center my-4">
                 <Link to="/">
@@ -106,7 +107,7 @@ const HeroSection = () => {
                 </Link>
                 <span className="text-[#A5A5A5] mx-2"> / </span>
                 <span className="text-[#A5A5A5] text-base sm:text-lg md:text-xl lg:text-2xl">
-                  {workshop.fullName}
+                  {workshop.name}
                 </span>
               </div>
             </div>
@@ -119,6 +120,9 @@ const HeroSection = () => {
         <div className="flex justify-center items-start space-x-8">
           <div className="w-1/2 pr-8">
             <h2 className="text-3xl font-semibold mb-4">{workshop.name}</h2>
+            <p className="text-gray-300 text-lg leading-relaxed mb-4">
+              Owner: {workshop.fullName}
+            </p>
             <p className="text-gray-300 text-lg leading-relaxed mb-4">
               Location: {workshop.address}
             </p>
@@ -134,16 +138,25 @@ const HeroSection = () => {
             </p>
 
             <div className="mb-6">
-              <p className="text-gray-300 mb-2">Rating:</p>
-              <div className="flex space-x-2">
-                <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                <FontAwesomeIcon icon={faStar} className="text-yellow-400" />
-                <FontAwesomeIcon
-                  icon={faStarHalfAlt}
-                  className="text-yellow-400"
-                />
+              <p className="text-gray-300 mb-2">
+                Rating: {workshop.averageRating}
+              </p>
+              <div className="flex items-center mb-2">
+                {[...Array(5)].map((_, index) => (
+                  <FaStar
+                    key={index}
+                    className={`${
+                      index < (workshop.averageRating || 0)
+                        ? "text-yellow-500"
+                        : "text-gray-300"
+                    }`}
+                  />
+                ))}
+                <span className="ml-2">
+                  ({workshop && workshop.ratings && workshop.ratings.length}
+                  {"  "}
+                  customer reviews)
+                </span>
               </div>
             </div>
 
@@ -158,6 +171,37 @@ const HeroSection = () => {
       </section>
 
       <ProductCarousel workshopId={workshop._id} />
+      <div className="flex justify-start mt-5 ml-5">
+        <div className="w-fit bg-orange-500 text-white border-orange-500 px-6 py-3 rounded-full border hover:bg-orange-500 hover:border-orange-500 transition-colors duration-300">
+          Reviews ({workshop?.ratings?.length})
+        </div>
+      </div>
+      <div className="p-6 rounded-lg text-white">
+        {workshop && workshop.ratings && workshop.ratings.length > 0 ? (
+          workshop.ratings.map((review, index) => (
+            <div key={index} className="border-b border-gray-700 mb-4 pb-4">
+              <div className="flex items-center mb-2">
+                {[...Array(5)].map((_, starIndex) => (
+                  <FaStar
+                    key={starIndex}
+                    className={`${
+                      starIndex < review.rating
+                        ? "text-yellow-500"
+                        : "text-gray-300"
+                    }`}
+                  />
+                ))}
+                <span className="ml-2 text-gray-300">
+                  {review.user.fullName}
+                </span>
+              </div>
+              <p className="text-gray-400">{review.comment}</p>
+            </div>
+          ))
+        ) : (
+          <p className="text-gray-400">No reviews yet.</p>
+        )}
+      </div>
     </div>
   );
 };

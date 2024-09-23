@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { FaFacebookF, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { FaX } from "react-icons/fa6";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Footer() {
+  const translate = useSelector((state) => state.language.translation);
   const [focusPlus, setFoucsPlus] = useState({
     useful: false,
     information: false,
@@ -45,8 +47,7 @@ function Footer() {
             Nestoria
           </Link>
           <p className="text-white text-sm md:text-lg my-4 md:my-5">
-            Proin a interdum elit. Etiam eu sapien sem. Suspendisse a massa
-            justo. Cras eget lorem nunc. Fusce nec urna tempus tempus
+            {translate.Proin_interdum}
           </p>
           <div className="flex gap-4 mt-4 md:mt-0">
             <Link to={""}>
@@ -90,22 +91,22 @@ function Footer() {
                 className="my-1 hover:text-orange-500 duration-500"
                 to={"/"}
               >
-                History
+                {translate.History}
               </Link>
               <Link
                 className="my-1 hover:text-orange-500 duration-500"
                 to={"/"}
               >
-                Our Team
+                {translate.Our_Team}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
                 Privacy Policy
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Services Offered
+                {translate.Services_Offered}
               </Link>
               <Link className="hover:text-orange-500 duration-500">
-                Product Catalog
+                {translate.Product_Catalog}
               </Link>
             </div>
           </div>
@@ -115,7 +116,7 @@ function Footer() {
             className="text-white w-full md:w-fit flex flex-col"
           >
             <h4 id="information" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
-              Information
+              {translate.Information}
               <FontAwesomeIcon
                 className={`text-white text-2xl ${focusPlus.information && "hidden"} md:hidden`}
                 icon={faPlus}
@@ -126,19 +127,19 @@ function Footer() {
             </h4>
             <div className={`${!focusPlus.information ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                FAQ/Return
+                {translate.FAQ_Return}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Privacy/Terms
+                {translate.Privacy_Terms}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Affiliate
+                {translate.Affiliate}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Sizing Guide
+                {translate.Sizing_Guide}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Accessibility
+                {translate.Accessibility}
               </Link>
             </div>
           </div>

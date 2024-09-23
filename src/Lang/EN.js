@@ -36,11 +36,8 @@ const EN = {
   Workshop_Name: " Workshop Name",
   Owner_Name: "Owner Name",
   Description: "Description",
-  IsConfirm: "IsConfirm",
   Acceptance: "Acceptance",
-  Balance: "Balance",
   EGP: "EGP",
-  No_client_selected: "No client selected",
   ///////////////////////CustomerComplaints/////////////////////////////////
   Customer_Complaints: "Customer Complaints",
   Complaint: "Complaint",
@@ -207,7 +204,7 @@ const EN = {
   Is_it_possible: "Is it possible to follow the delivery of my furniture?",
   The_yeast_of_the_god:
     " The yeast of the god's throat in the ornament than the cartoon of the doctor with football arrows. I want to decorate the  bed. Morbi, the urn of the employee, but the element of  football is easy. Everyone doesn't want to drink or do their  homework. I don't hate euismod lacinia at quis risus sed  vulputate odio.",
-  BalDo_you_offer: "BalDo you offer design consultations?ance",
+  BalDo_you_offer: "Do you offer design consultations?",
   For_the_pure_does:
     " For the pure does not present an element that is easy or  natural. Pharetra diam should be a lot of fans. The mountains,  pregnant with their partners and born, will give birth to  feathers and great thrusts. The price of the product itself is  insignificant, or the price of the bed that adorns the pure  palate.",
   Are_custom_orders:
@@ -216,7 +213,7 @@ const EN = {
     " It is said that everyone who lived in this street is free from  arrows. It is said that it is sad and urgent that someone  himself suspended the basketball. Ultricies lake but ugly  tincidunt id aquiet risus feugiat. Maecenas was flattered by  some of the chocolates he wanted.",
   /////////////////////////////////////Furniture's section////////////////////////////////////
   Innovative_Furniture: "Innovative Furniture",
-  Balance:
+  The_class:
     "The class is silent. As eleifend mattis ligula, the door is loaded  with urns at the borders. Aeneas do not own the vehicles of th   bow. The whole protein and the price is flattering.",
   Testimonial_Time: "Testimonial Time",
   Our_Customers_Speak: "Our Customers Speak",
@@ -231,7 +228,7 @@ const EN = {
   ransform_your_bedroom:
     " Transform your bedroom into a relaxing oasis with our essential furniture and decor tips. This video guides you   through selecting the right furniture and accessories to   create a serene and inviting retreat, perfect for unwinding   after a long day.",
   Minimalist_Modern: "Minimalist Modern Modular Kitchen Design",
-  Balance: `Discover innovative ways to elevate your living room with
+  Discover_innovative: `Discover innovative ways to elevate your living room with
                     our stylish furniture ideas. This video showcases the latest
                     trends and design tips for selecting the perfect pieces to
                     create a cozy and modern living space that reflects your personal style.`,

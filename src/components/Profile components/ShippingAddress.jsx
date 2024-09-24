@@ -8,7 +8,7 @@ export function ShippingAddress(props) {
   const { currentUser } = useUserInfoContext();
   const [isOkAddress, setIsOkAddress] = useState(props.check);
   const countries = ["Egypt", "Palestine", "Yemen", "Sudan", "Syria"];
-  const [selectedCountry, setSelectedCountry] = useState(currentUser.address);
+  const [selectedCountry, setSelectedCountry] = useState(currentUser?.address);
   const [userShipping, setUserShipping] = useState({
     company: "",
     houseNumber: "",
@@ -126,7 +126,6 @@ export function ShippingAddress(props) {
 
   const handleShippingAddress = async (e) => {
     e.preventDefault();
-    console.log(userShipping);
     if (
       !userShipping.houseNumber ||
       !userShipping.city ||
@@ -240,7 +239,7 @@ export function ShippingAddress(props) {
           className="bg-transparent py-4 px-8 text-[#929292] rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
           type="text"
           name=""
-          value={currentUser.fullName}
+          value={currentUser?.fullName}
           readOnly
         />
       </div>

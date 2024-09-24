@@ -292,7 +292,7 @@ export function Orders() {
                                   )
                                 }
                                 className={`mt-2 flex ms-auto text-center left-1/2 px-4 py-2 rounded-3xl  text-white ${
-                                  !isReview
+                                  !product.isRated && !isReview
                                     ? "hover:text-[#C26510] border border-[#C26510]  bg-[#C26510] hover:bg-white duration-500"
                                     : "bg-[#c2661091] cursor-not-allowed"
                                 }`}

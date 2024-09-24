@@ -76,17 +76,29 @@ function Footer() {
             onClick={(e) => handlePlus(e)}
             className="text-white w-full md:w-fit flex flex-col"
           >
-            <h4 id="useful" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
-              Useful links
+            <h4
+              id="useful"
+              className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4"
+            >
+              {translate.Useful_links}
               <FontAwesomeIcon
-                className={`text-white text-2xl ${focusPlus.useful && "hidden"} md:hidden`}
+                className={`text-white text-2xl ${
+                  focusPlus.useful && "hidden"
+                } md:hidden`}
                 icon={faPlus}
               />
-              <FontAwesomeIcon icon={faMinus}
-                className={`text-white text-2xl ${!focusPlus.useful && "hidden"} md:hidden`}
-                />
+              <FontAwesomeIcon
+                icon={faMinus}
+                className={`text-white text-2xl ${
+                  !focusPlus.useful && "hidden"
+                } md:hidden`}
+              />
             </h4>
-            <div className={`${!focusPlus.useful ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
+            <div
+              className={`${
+                !focusPlus.useful ? "hidden" : "mt-3 ml-5"
+              } md:m-0 flex md:flex flex-col`}
+            >
               <Link
                 className="my-1 hover:text-orange-500 duration-500"
                 to={"/"}
@@ -100,7 +112,7 @@ function Footer() {
                 {translate.Our_Team}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Privacy Policy
+                {translate.Privacy_Policy}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
                 {translate.Services_Offered}
@@ -115,17 +127,29 @@ function Footer() {
             onClick={(e) => handlePlus(e)}
             className="text-white w-full md:w-fit flex flex-col"
           >
-            <h4 id="information" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
+            <h4
+              id="information"
+              className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4"
+            >
               {translate.Information}
               <FontAwesomeIcon
-                className={`text-white text-2xl ${focusPlus.information && "hidden"} md:hidden`}
+                className={`text-white text-2xl ${
+                  focusPlus.information && "hidden"
+                } md:hidden`}
                 icon={faPlus}
               />
-              <FontAwesomeIcon icon={faMinus}
-                className={`text-white text-2xl ${!focusPlus.information && "hidden"} md:hidden`}
-                />
+              <FontAwesomeIcon
+                icon={faMinus}
+                className={`text-white text-2xl ${
+                  !focusPlus.information && "hidden"
+                } md:hidden`}
+              />
             </h4>
-            <div className={`${!focusPlus.information ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
+            <div
+              className={`${
+                !focusPlus.information ? "hidden" : "mt-3 ml-5"
+              } md:m-0 flex md:flex flex-col`}
+            >
               <Link className="my-1 hover:text-orange-500 duration-500">
                 {translate.FAQ_Return}
               </Link>
@@ -148,31 +172,43 @@ function Footer() {
             onClick={(e) => handlePlus(e)}
             className="text-white md:ml-[-350px] lg:ml-0 mr-auto w-full md:w-fit flex flex-col"
           >
-            <h4 id="support" className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4">
-              Support
+            <h4
+              id="support"
+              className="flex justify-between items-center bg-[#1A1A1A] md:bg-transparent py-3 px-5 md:p-0 rounded-3xl md:rounded-none text-xl md:text-xl mb-2 md:mb-4"
+            >
+              {translate.Support}
               <FontAwesomeIcon
-                className={`text-white text-2xl ${focusPlus.support && "hidden"} md:hidden`}
+                className={`text-white text-2xl ${
+                  focusPlus.support && "hidden"
+                } md:hidden`}
                 icon={faPlus}
               />
-              <FontAwesomeIcon icon={faMinus}
-                className={`text-white text-2xl ${!focusPlus.support && "hidden"} md:hidden`}
-                />
+              <FontAwesomeIcon
+                icon={faMinus}
+                className={`text-white text-2xl ${
+                  !focusPlus.support && "hidden"
+                } md:hidden`}
+              />
             </h4>
-            <div className={`${!focusPlus.support ? "hidden" : "mt-3 ml-5"} md:m-0 flex md:flex flex-col`}>
+            <div
+              className={`${
+                !focusPlus.support ? "hidden" : "mt-3 ml-5"
+              } md:m-0 flex md:flex flex-col`}
+            >
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Your Account
+                {translate.Your_Account}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Press Release
+                {translate.Press_Release}{" "}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Return Centre
+                {translate.Return_Centre}{" "}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                App Download
+                {translate.App_Download}{" "}
               </Link>
               <Link className="my-1 hover:text-orange-500 duration-500">
-                Advertisements
+                {translate.Advertisements}{" "}
               </Link>
             </div>
           </div>
@@ -199,7 +235,6 @@ function Footer() {
 
       <div className="my-5 flex flex-col md:flex-row justify-between items-center">
         <div className="text-white text-xl md:text-base text-center md:text-left mb-4 md:mb-0">
-
           ©Nestoria site all rights Reserved
         </div>
         <div className="flex items-center flex-wrap justify-center gap-2">

@@ -133,7 +133,7 @@ function ContactUs() {
   return (
     <div>
       {/* section header */}
-      <HeaderPages namePage="Contact Us"></HeaderPages>
+      <HeaderPages namePage={`${translate.contact_us}`}></HeaderPages>
       {/* section drop up */}
       <section
         style={{
@@ -149,7 +149,7 @@ function ContactUs() {
         <div className="lg:w-1/2 m-auto px-11">
           <p className="text-[#C5660E]">{translate.DROP_US_LINE}</p>
           <h2 className="text-white text-4xl md:text-6xl my-6">
-            Round-the-clock Service
+            {translate.Round_the_clock_Service}
           </h2>
           <p className="text-[#9C9C9C] text-[17px] md:text-[15px] font-bold">
             {translate.Sed_id_semper}
@@ -177,7 +177,7 @@ function ContactUs() {
                 <input
                   type="tel"
                   maxLength={11}
-                  placeholder="Mobile Number"
+                  placeholder={`${translate.Mobile_Number}`}
                   name="phone"
                   value={problemDetails.userMobile}
                   onChange={(e) => handleProblemDetails(e)}
@@ -193,7 +193,7 @@ function ContactUs() {
             <div className="mb-4">
               <input
                 type="email"
-                placeholder="Mail ID"
+                placeholder={`${translate.Mail_ID}`}
                 name="email"
                 value={problemDetails.userEmail}
                 onChange={(e) => handleProblemDetails(e)}
@@ -207,7 +207,7 @@ function ContactUs() {
             {/* Additional Information */}
             <div className="mb-6">
               <textarea
-                placeholder="Additional Information"
+                placeholder={`${translate.Additional_Information}`}
                 name="problem"
                 value={problemDetails.userProblem}
                 onChange={(e) => handleProblemDetails(e)}
@@ -222,7 +222,12 @@ function ContactUs() {
             {/* Submit Button */}
             <div className="flex justify-center">
               <button
-              disabled={!problemDetails.userName || !problemDetails.userMobile || !problemDetails.userEmail || !problemDetails.userProblem}
+                disabled={
+                  !problemDetails.userName ||
+                  !problemDetails.userMobile ||
+                  !problemDetails.userEmail ||
+                  !problemDetails.userProblem
+                }
                 type="submit"
                 className="bg-orange-500 text-white text-[17px] py-3 px-8 rounded-3xl hover:bg-white hover:text-black duration-500"
               >
@@ -259,9 +264,7 @@ function ContactUs() {
                   {translate.Transit_Protocol}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                {translate.Eget_arcu}
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Eget_arcu}</p>
             </div>
           </div>
           <div className="content flex items-center gap-5">
@@ -277,9 +280,7 @@ function ContactUs() {
                   {translate.Chat_Assistance}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                {translate.Tuam_quisque_id}
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Tuam_quisque_id}</p>
             </div>
           </div>
           <div className="content flex items-center gap-5">
@@ -295,9 +296,7 @@ function ContactUs() {
                   {translate.Email_Interaction}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                {translate.Quis_varius}
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Quis_varius}</p>
             </div>
           </div>
           <div className="content flex items-center gap-5">
@@ -313,9 +312,7 @@ function ContactUs() {
                   {translate.Global_Stores}
                 </h4>
               </Link>
-              <p className="text-[#9D9D9D]">
-                {translate.Condimentum_id}
-              </p>
+              <p className="text-[#9D9D9D]">{translate.Condimentum_id}</p>
             </div>
           </div>
         </div>

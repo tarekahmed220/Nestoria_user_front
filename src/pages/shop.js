@@ -7,16 +7,12 @@ import axiosInstance from "../apis/axiosConfig.js";
 import Loader from "../components/Loader.jsx";
 import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
-
-import { FaHome } from "react-icons/fa";
-import { useSearchContext } from "../context/SearchContext.jsx";
 import { FaTh, FaThLarge, FaThList, FaBars } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
 const Shop = () => {
   const translate = useSelector((state) => state.language.translation);
-  // const [products, setProducts] = useState([]);
-  const { search, products, setProducts } = useSearchContext();
+  const [products, setProducts] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -37,6 +33,22 @@ const Shop = () => {
     "Office Decoration",
     "Indoor Decoration",
     "Outdoor Decoration",
+    // `${translate.All}`,
+    // `${translate.Sofa}`,
+    // `${translate.Outdoor_Sofa}`,
+    // `${translate.Dining_Table}`,
+    // `${translate.Coffee_Table}`,
+    // `${translate.Bookshelf}`,
+    // `${translate.Bed_Frame}`,
+    // `${translate.Desk}`,
+    // `${translate.Wardrobe}`,
+    // `${translate.Couch}`,
+    // `${translate.Bed}`,
+    // `${translate.Recliners}`,
+    // `${translate.Home_Decoration}`,
+    // `${translate.Office_Decoration}`,
+    // `${translate.Indoor_Decoration}`,
+    // `${translate.Outdoor_Decoration}`,
   ]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [priceRange, setPriceRange] = useState([10, 2499]);
@@ -48,7 +60,7 @@ const Shop = () => {
   const [favorites, setFavorites] = useState([]);
   // إضافة حالة جديدة للتحكم بعدد الأعمدة
   const [activeGrid, setActiveGrid] = useState(3);
-  // القيمة الافتراضية هي 3 أعمدة
+ 
 
   // جلب المنتجات المفضلة
   useEffect(() => {
@@ -70,7 +82,7 @@ const Shop = () => {
   // جلب المنتجات من السيرفر مع التصفية
 
   const fetchProducts = (page = 1, category = "All", maxPrice = 2499) => {
-    // if (!search) {
+    
 
     setIsLoading(true);
     axios
@@ -81,7 +93,6 @@ const Shop = () => {
       )
 
       .then((res) => {
-        console.log("fav", res.data.products[3].isFavourite);
         const productsWithFavorites = res.data.products.map((product) => ({
           ...product,
           isFavorite: favorites.some((fav) => fav.id === product.id),
@@ -96,7 +107,7 @@ const Shop = () => {
       .finally(() => {
         setIsLoading(false);
       });
-    // }
+   
   };
 
   // تحديث المنتجات عند تغيير الصفحة أو الفئة أو رفع الضغط عن الفلتر
@@ -168,8 +179,7 @@ const Shop = () => {
 
   return (
     <>
-      
-       <HeaderPages namePage="Shop" />
+      <HeaderPages namePage={`${translate.shop}`} />
 
       <div className="bg-[#030303] p-5">
         {/* إضافة أيقونات التحكم بعدد الأعمدة */}
@@ -307,8 +317,6 @@ const Shop = () => {
             </div>
           </div>
 
-          {/* قسم عرض المنتجات */}
-          {/* قسم عرض المنتجات */}
           <div
             className={`lg:col-span-3 grid grid-cols-1 lg:grid-cols-${
               activeGrid === 1
@@ -327,11 +335,11 @@ const Shop = () => {
                   product={product}
                   onProductClick={() => handleProductClick(product._id)}
                   onFavoriteClick={handleFavoriteClick}
-                  isSingleColumn={activeGrid === 1} // تمرير الحالة لتحديد عرض بعمود واح
+                  isSingleColumn={activeGrid === 1}
                 />
               ))
             ) : (
-              <p className="text-white">No products found</p>
+              <p className="text-white">{translate.No_products_found}</p>
             )}
           </div>
         </div>

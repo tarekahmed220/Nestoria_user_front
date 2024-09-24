@@ -15,6 +15,8 @@ import ColorNamer from "color-namer";
 import { useSelector } from "react-redux";
 
 function WishlistPage() {
+  const { myLang, translation } = useSelector((state) => state.language);
+
   const translate = useSelector((state) => state.language.translation);
   const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
@@ -100,7 +102,7 @@ function WishlistPage() {
   return (
     <div>
       <ToastContainer />
-      <HeaderPages namePage="Wishlist" />
+      <HeaderPages namePage={`${translate.wishlist}`} />
       <section
         style={{
           backgroundImage: "url('/body-bg.png')",
@@ -165,7 +167,10 @@ function WishlistPage() {
                       </figure>
                       <div className="text-center md:text-start">
                         <p className="text-xl md:text-base text-white hover:text-[#C26510] duration-500">
-                          {item.product.name}
+                          {myLang === "ar"
+                            ? item.product.nameInArabic
+                            : item.product.name}
+
                         </p>
                       </div>
                     </li>
@@ -195,7 +200,7 @@ function WishlistPage() {
                             icon={faShoppingCart}
                             className="mr-2"
                           />{" "}
-                          Add to Cart
+                          {translate.Add_to_Cart}
                         </button>
                       </div>
                     </li>

@@ -52,6 +52,7 @@ function App() {
         <SearchProvider>
           <Elements stripe={stripePromise}>
             <Router>
+              <ChatProvider>
               <Routes>
                 <Route path="/" element={<Layout />}>
                   <Route path="/" element={<Home />} />
@@ -112,6 +113,7 @@ function App() {
                 <Route path="/unauthorized" element={<UnauthorizedPage />} />
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
+              </ChatProvider>
             </Router>
 
             <ToastContainer

@@ -216,13 +216,14 @@ import Avatar from "./Avatar";
 // import "../styles/CustomScrollbar.css";  // Import custom scrollbar CSS
 
 const SideBar = ({ fetchAgain }) => {
-  const { selectedChat, setSelectedChat, chats, setChats } = ChatState();
+  const { selectedChat, setSelectedChat, chats, setChats,socket,user } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
   const userInfo = JSON.parse(localStorage.getItem("user"));
 
   const fetchChats = async () => {
     try {
       const { data } = await axiosInstance.get("/api/v1/fur/chat");
+  
       setChats(data);
     } catch (error) {
       toast("Failed to Load the chats", { type: "error" });
@@ -230,34 +231,52 @@ const SideBar = ({ fetchAgain }) => {
   };
 
   useEffect(() => {
-    if (userInfo) {
-      setLoggedUser(userInfo);
+    if (user) {
+      console.log("user", user);
+      setLoggedUser(user);
       fetchChats();
     }
   }, [fetchAgain]);
+ 
+  useEffect(() => {
+    // الاستماع لحدث "refresh chats"
+    socket.on("refresh chats", (updatedChats) => {
+      console.log("Updated chats received:", updatedChats);
+      setChats(updatedChats); // تحديث حالة الـ chats
+    });
 
+    // تنظيف الاستماع عند تفكيك المكون
+    return () => {
+      socket.off("refresh chats");
+    };
+  }, []);
   return (
     <div className="flex flex-col w-full h-[calc(100vh-80px)] lg:h-auto overflow-y-auto lg:overflow-y-auto custom-scrollbar">
       {/* Chat List */}
       {chats ? (
         <div className="space-y-2 overflow-y-auto">
-          {chats.map((chat) => (
+          {chats?.map((chat) => (
             <div
-              onClick={() => setSelectedChat(chat)}
+              onClick={() => {setSelectedChat(chat);
+                console.log("chat", selectedChat);
+                if (socket) {
+                socket.emit("join chat", chat);}
+              }
+            }
               key={chat._id}
               className={`flex items-center space-x-3 p-3 rounded-full   cursor-pointer transition  duration-500 ${
                 selectedChat === chat ? 'bg-[#C26510] text-white' : 'hover:bg-gray-700 text-[#929292]'
               }`}
             >
               <Avatar
-                imageUrl={chat?.users?.length > 1 && chat.users[0]?._id === userInfo?._id ? chat.users[1]?.photo : chat.users[0]?.photo }
-                name={userInfo?.chatName}
+                imageUrl={chat?.users?.length > 1 && chat.users[0]?._id === user?._id ? chat.users[1]?.photo : chat.users[0]?.photo }
+                name={user.chatName}
               />
               <div className="flex-1">
                 <div className="flex justify-between">
                   {/* Truncate the chat name */}
                   <span className="font-semibold truncate w-2/3">
-                    {chat.users?.length > 1 && chat.users[0]?._id === userInfo?._id
+                    {chat.users?.length > 1 && chat.users[0]?._id === user?._id
                       ? chat.users[1]?.fullName
                       : chat.users[0]?.fullName || "unknown user"}
                   </span>

@@ -17,14 +17,14 @@ const HeroSection = () => {
 
   const { workshopId } = useParams();
   console.log("workshopId ", workshopId);
-  // const {
-
+   const {
+socket,
   //   user,
   //   notification,
   //   setNotification,
   //   chats,
   //   setChats,
-  // } = ChatState()||{};
+  } = ChatState()||{};
   const token = localStorage.getItem("token");
   const userInfo = localStorage.getItem("user");
   // Moved useNavigate to the top, before any early return
@@ -73,8 +73,9 @@ const HeroSection = () => {
       // if (!chats.find((c) => c._id === data._id)) {setChats([data, ...chats])};
       // setSelectedChat(data);
       //  setChats([data, ...chats]);
+      if(socket){console.log(socket)};
       console.log("chat", data);
-      //  console.log("chats", chats);
+     socket.emit("join chat", data._id);
       // setSelectedChat(chat);
       navigate("/chat ");
     } catch (err) {

@@ -94,7 +94,7 @@ function Login() {
         if (user2.data.user.role === "client") {
           localStorage.setItem("token", token);
           localStorage.setItem("role", user2?.data?.user?.role);
-          localStorage.setItem("user", JSON.stringify(user2?.data?.user));
+          // localStorage.setItem("user", JSON.stringify(user2?.data?.user));
           setCurrentUser(user2.data.user);
           setIsLogin(true);
           navigate("/");

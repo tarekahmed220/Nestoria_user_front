@@ -249,7 +249,7 @@ const { myLang, translation } = useSelector((state) => state.language);
           <button
             onClick={() => {
               if (product?.workshop_id) {
-                handleWorkshop(product.workshop_id._id);
+                handleWorkshop(product.workshop_id);
               }
             }}
             className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3"

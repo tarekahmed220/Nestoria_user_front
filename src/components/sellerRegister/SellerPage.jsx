@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -33,10 +32,13 @@ const uploadToCloudinary = async (file) => {
 };
 
 const SellerPage = () => {
+  const [state, setState] = useState("notCompleted");
+  const [user, setUser] = useState(null);
+  const [stateMessage, setStateMessage] = useState("");
   const [formData, setFormData] = useState({
     workshopName: "",
     address: "",
-    description: "", // Added Description field
+    description: "",
     bankStatement: null,
     taxFile: null,
     frontID: null,
@@ -54,10 +56,40 @@ const SellerPage = () => {
     async function applyAcceptance() {
       try {
         const req = await axiosInstance.get("/api/v1/fur/auth/applyAcceptance");
-        const state = req.data.state;
-        console.log(req.data.state);
+        const state = req.data.user.registerStatus;
+        const user = req.data.user;
+        console.log(req.data.user);
+        setState(state);
+        setUser(user);
         if (state === "pending") {
           // Handle pending state if needed
+          setFormData({
+            workshopName: user.name,
+            address: user.address,
+            description: user.description,
+            bankStatement: user.registrationDocuments.bankStatement,
+            taxFile: user.registrationDocuments.commercialRecord,
+            frontID: user.registrationDocuments.nationalIDFront,
+            backID: user.registrationDocuments.nationalIDBack,
+            avatar: user.registrationDocuments.personalPhoto,
+          });
+          setStateMessage(
+            "Your Application Still Under Review, Please Be Patient ❤️"
+          );
+        } else if (state === "modify") {
+          setFormData({
+            workshopName: user.name,
+            address: user.address,
+            description: user.description,
+            bankStatement: user.registrationDocuments.bankStatement,
+            taxFile: user.registrationDocuments.commercialRecord,
+            frontID: user.registrationDocuments.nationalIDFront,
+            backID: user.registrationDocuments.nationalIDBack,
+            avatar: user.registrationDocuments.personalPhoto,
+          });
+          setStateMessage(
+            "Your Application Needs To Be Modified, Please Update Your Information"
+          );
         }
       } catch (error) {
         console.log(error);
@@ -220,6 +252,12 @@ const SellerPage = () => {
     >
       <ToastContainer />
       <div className="bg-[#000] p-8 rounded-3xl shadow-md">
+        {state === "pending" ||
+          (state === "modify" && (
+            <div className="bg-gray-500 rounded-lg py-3 text-2xl">
+              <p className="text-center">{stateMessage}</p>
+            </div>
+          ))}
         <h2 className="text-3xl text-[#C26510] mb-6 text-center py-10">
           Seller Registration
         </h2>
@@ -232,7 +270,11 @@ const SellerPage = () => {
             <input {...getInputPropsAvatar()} />
             {previews.avatar ? (
               <img
-                src={previews.avatar}
+                src={
+                  state === "pending"
+                    ? user?.registrationDocuments?.personalPhoto
+                    : previews.avatar
+                }
                 alt="Avatar"
                 className="w-full h-full object-cover rounded-full"
               />
@@ -258,6 +300,7 @@ const SellerPage = () => {
               Workshop Name
             </label>
             <input
+              readOnly={state === "pending"}
               id="workshopName"
               name="workshopName"
               type="text"
@@ -276,6 +319,7 @@ const SellerPage = () => {
               Address
             </label>
             <input
+              readOnly={state === "pending"}
               id="address"
               name="address"
               type="text"
@@ -294,6 +338,7 @@ const SellerPage = () => {
               Description
             </label>
             <textarea
+              readOnly={state === "pending"}
               id="description"
               name="description"
               value={formData.description}
@@ -402,8 +447,10 @@ const SellerPage = () => {
               type="submit"
               className={`w-1/2 p-4 rounded-3xl text-white bg-[#C26510] hover:bg-[#A0522D] transition duration-500  ${
                 uploading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
-              disabled={uploading}
+              }
+              ${state === "pending" && "cursor-not-allowed"}
+              `}
+              disabled={uploading || state === "pending"}
             >
               {uploading ? "Submitting..." : "Submit"}
             </button>

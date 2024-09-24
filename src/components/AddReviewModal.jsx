@@ -11,6 +11,9 @@ const AddReviewModal = ({
   productId,
   setIsReview,
   setIsLoading,
+  orderId,
+  color,
+  isRated,
 }) => {
   const [workshopRating, setWorkshopRating] = useState(0);
   const [productRating, setProductRating] = useState(0);
@@ -20,6 +23,17 @@ const AddReviewModal = ({
 
   if (!isOpen) return null;
 
+  console.log({
+    workshop_id,
+    productId,
+    workshopRating,
+    productRating,
+    workshopComment,
+    productComment,
+    orderId,
+    color,
+    isRated,
+  });
   async function handleSubmit() {
     if (
       workshopComment === "" ||
@@ -37,6 +51,8 @@ const AddReviewModal = ({
       productRating,
       workshopComment,
       productComment,
+      orderId,
+      color,
     });
     try {
       setIsLoading(true);
@@ -47,6 +63,8 @@ const AddReviewModal = ({
         productRating: productRating,
         productComment: productComment,
         workshopComment: workshopComment,
+        orderId,
+        color,
       });
     } catch (error) {
       toast.success("there was an error, please tyr again later");

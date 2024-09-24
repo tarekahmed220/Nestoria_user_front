@@ -284,7 +284,7 @@ export function Orders() {
                             {(["Delivered"].includes(product.deliveryStatus) ||
                               isDelivered[productKey]) && (
                               <button
-                                disabled={isReview}
+                                disabled={isReview || product.isRated}
                                 onClick={(e) =>
                                   handleAddReview(
                                     product.productId._id,
@@ -297,7 +297,9 @@ export function Orders() {
                                     : "bg-[#c2661091] cursor-not-allowed"
                                 }`}
                               >
-                                {isReview ? "Reviewed" : "Add Review"}
+                                {isReview || product.isRated
+                                  ? "Reviewed"
+                                  : "Add Review"}
                               </button>
                             )}
                             <AddReviewModal
@@ -307,6 +309,9 @@ export function Orders() {
                               productId={product?.productId?._id}
                               setIsReview={setIsReview}
                               setIsLoading={setIsLoading}
+                              color={product.color}
+                              orderId={order._id}
+                              isRated={product.isRated}
                             />
                           </>
                         ) : (

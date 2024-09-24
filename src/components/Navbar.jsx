@@ -31,19 +31,26 @@ function Navbar() {
 
   const currencyRef = useRef(null);
   const handleClickOutside = (event) => {
-    if (showCurrency && currencyRef.current && !currencyRef.current.contains(event.target)) {
+    if (
+      showCurrency &&
+      currencyRef.current &&
+      !currencyRef.current.contains(event.target)
+    ) {
       setShowCurrency(false);
     }
   };
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showCurrency]);
 
   return (
-    <div ref={currencyRef} className="bg-black min-h-[50px] flex justify-center items-center">
+    <div
+      ref={currencyRef}
+      className="bg-black min-h-[50px] flex justify-center items-center"
+    >
       <div className="container flex justify-between items-center w-[1440px] mx-auto">
         <div className="social flex justify-center items-center gap-4 px-2 ">
           <FaFacebookF className="text-white text-xl hover:text-[--mainColor] transition-all duration-150 cursor-pointer" />
@@ -63,9 +70,9 @@ function Navbar() {
           <p
             className={`${styles.headeranimation2} z-30 text-white flex items-center gap-10 py-3`}
           >
-            <span>Join Our Schema And Earn Rewards!</span>
-            <span>Invite Friends And Earn Rewards!</span>
-            <span>Free Shipping On Order Over $100!</span>
+            <span>{translate.p1}</span>
+            <span>{translate.p2}</span>
+            <span>{translate.p3}</span>
           </p>
         </div>
         <div
@@ -84,14 +91,18 @@ function Navbar() {
             <ul className="absolute top-8 text-center flex flex-col gap-1 p-1 w-full rounded-md bg-[#101010] z-[200]">
               <li
                 onClick={switchToArabic}
-                className={`text-white ${lang === "ar" && "bg-[#DD7210]"} hover:bg-[#DD7210] pb-1 rounded-md`}
+                className={`text-white ${
+                  lang === "ar" && "bg-[#DD7210]"
+                } hover:bg-[#DD7210] pb-1 rounded-md`}
               >
                 {translate.Arabic}
                 {/* <LuIndianRupee className="text-sm" /> */}
               </li>
               <li
                 onClick={switchToEnglish}
-                className={`text-white ${lang === "en" && "bg-[#DD7210]"} hover:bg-[#DD7210] pb-1 rounded-md`}
+                className={`text-white ${
+                  lang === "en" && "bg-[#DD7210]"
+                } hover:bg-[#DD7210] pb-1 rounded-md`}
               >
                 {translate.English}
                 {/* <FaDollarSign className="text-sm" /> */}

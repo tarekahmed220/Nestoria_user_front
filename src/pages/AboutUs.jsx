@@ -19,7 +19,7 @@ function AboutUs() {
   return (
     <div>
       {/* Section one*/}
-      <HeaderPages namePage="AboutUs" />
+      <HeaderPages namePage={`${translate.about_us}`} />
 
       {/* Section Two */}
       <div className="homeHub flex flex-col md:flex-row container lg:w-[1440px] mx-auto gap-4 py-20 my-[40px] px-[15px]">
@@ -36,15 +36,13 @@ function AboutUs() {
         <div className="second flex-1">
           <img alt="example" src="/images/about/second.jpg" />
           <h2 className="text-xl md:text-2xl lg:text-4xl text-white mt-4">
-            Crafting Quality Furnitre
+            {translate.Crafting_Quality_Furnitre}
           </h2>
           <div className="my-6 line-clamp-4 text-[#dfddddd2]">
             {translate.Crafting_h2}
             <div className="tip flex justify-start mt-2 items-center gap-2">
               <GiCheckMark className="text-[--mainColor]" />
-              <span>
-                {translate.But_span}
-              </span>
+              <span>{translate.But_span}</span>
             </div>
             <div className="tip flex justify-start mt-2 items-center gap-2">
               <GiCheckMark className="text-[--mainColor]" />
@@ -198,7 +196,7 @@ function AboutUs() {
       <section className="py-16 bg-black text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-[--mainColor]">COMFORT CRAFTERS</p>
+            <p className="text-[--mainColor]">{translate.COMFORTCRAFTERS}</p>
             <h2 className="text-xl md:text-2xl lg:text-4xl text-white">
               {translate.Special_Team}
             </h2>
@@ -211,8 +209,10 @@ function AboutUs() {
                 alt="Service 1"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">{translate.chales_scarter}</h3>
-              <p className="text-[#dfddddd2]">CEO</p>
+              <h3 className="text-xl font-semibold mb-2">
+                {translate.chales_scarter}
+              </h3>
+              <p className="text-[#dfddddd2]">{translate.CEO}</p>
             </div>
             {/* Service 2 */}
             <div className="flex flex-col items-center">
@@ -221,7 +221,9 @@ function AboutUs() {
                 alt="Service 1"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">{translate.chales_scarter}</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                {translate.chales_scarter}
+              </h3>
               <p className="text-[#dfddddd2]">{translate.VP_SALES}</p>
             </div>
             {/* Service 3 */}
@@ -231,7 +233,9 @@ function AboutUs() {
                 alt="Service 1"
                 className="w-full h-64 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2">{translate.chales_scarter}</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                {translate.chales_scarter}
+              </h3>
               <p className="text-[#dfddddd2]">{translate.PRODUCT_DESIGNER}</p>
             </div>
             {/* Service 4 */}

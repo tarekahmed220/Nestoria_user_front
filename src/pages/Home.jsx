@@ -37,6 +37,7 @@ import { useSearchContext } from "../context/SearchContext";
 import { useSelector } from "react-redux";
 
 function Home() {
+    const { myLang, translation } = useSelector((state) => state.language);
   const translate = useSelector((state) => state.language.translation);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -46,7 +47,9 @@ function Home() {
   const [email, setEmail] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [error, setError] = useState("");
-  const [categoryName, setCategoryName] = useState("Home Decoration");
+  const [categoryName, setCategoryName] = useState(
+    `${translate.Home_Decoration}`
+  );
   const [collectionList, setCollectionList] = useState([]);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -61,88 +64,83 @@ function Home() {
     "/images/home/1.jpg",
   ];
   const collectionName = [
-    "Home Decoration",
-    "Office Decoration",
-    "Indoor Decoration",
-    "Outdoor Decoration",
+    `${translate.Home_Decoration}`,
+    `${translate.Office_Decoration}`,
+    `${translate.Indoor_Decoration}`,
+    `${translate.Outdoor_Decoration}`,
   ];
 
   const customerReviews = [
     {
-      name: "John Doe",
-      country: "USA",
-      review:
-        "I was thoroughly impressed with the level of service I received. From start to finish, the team was attentive, professional, and made sure all my needs were met. The product itself is top-notch, with a quality that truly stands out in the market. I highly recommend this company to anyone looking for excellence.",
+      name: `${translate.name1}`,
+      country: `${translate.country1}`,
+      review: `${translate.review1}`,
       image: "/images/home/man1.jpg",
     },
     {
-      name: "Maria Garcia",
-      country: "Spain",
-      review:
-        "My experience with this company was nothing short of amazing. The customer support was always available to answer my questions, and the delivery was faster than I expected. The product exceeded my expectations in every way – from the materials used to the attention to detail in the design. I'll definitely be a returning customer.",
+      name: `${translate.name2}`,
+      country: `${translate.country2}`,
+      review: `${translate.review2}`,
       image: "/images/home/man2.jpg",
     },
     {
-      name: "Liu Wei",
-      country: "China",
-      review:
-        "This was one of the best shopping experiences I've ever had. The website was easy to navigate, the purchasing process was straightforward, and the product arrived in perfect condition. The quality is absolutely phenomenal, and I can tell that this company really cares about its customers. I will recommend it to all my friends and family.",
+      name: `${translate.name3}`,
+      country: `${translate.country3}`,
+      review: `${translate.review3}`,
       image: "/images/home/man3.jpg",
     },
     {
-      name: "Ahmed Ali",
-      country: "Egypt",
-      review:
-        "I cannot speak highly enough about the service I received. The team went above and beyond to ensure I was happy with my purchase. The quality of the product is simply outstanding, and it has become one of my favorite items. I appreciate the dedication to customer satisfaction and will definitely be shopping here again.",
+      name: `${translate.name4}`,
+      country: `${translate.country4}`,
+      review: `${translate.review4}`,
       image: "/images/home/man4.jpg",
     },
     {
-      name: "Sophie Dubois",
-      country: "France",
-      review:
-        "The level of care and attention I received from this company was incredible. Every step of the way, I felt valued as a customer. The product is beautiful, well-made, and exactly what I was looking for. I am so pleased with my purchase and will be recommending this company to everyone I know. A truly five-star experience!",
+      name: `${translate.name5}`,
+      country: `${translate.country5}`,
+      review: `${translate.review5}`,
       image: "/images/home/man5.jpg",
     },
   ];
 
   const sections = [
     {
-      name: "Sofa",
+      name: `${translate.Sofa}`,
       icon: <GiSofa />,
       img: "/images/home/Sofa-Home-1-Section-3-01.jpg",
     },
     {
-      name: "Cabinet",
+      name: `${translate.Cabinet}`,
       icon: <BiCabinet />,
       img: "/images/home/Cabinet-Home-1-Section-3-02.jpg",
     },
     {
-      name: "Shelving Units",
+      name: `${translate.Shelving_Units}`,
       icon: <MdShelves />,
       img: "/images/home/Shelving Units.jpg",
     },
     {
-      name: "Tea Table",
+      name: `${translate.Tea_Table}`,
       icon: <MdTableChart />,
       img: "/images/home/tea table.jpg",
     },
     {
-      name: "Decors",
+      name: `${translate.Decors}`,
       icon: <GiBedLamp />,
       img: "/images/home/decors.jpg",
     },
     {
-      name: "Office Table",
+      name: `${translate.Office_Table}`,
       icon: <HiBuildingOffice2 />,
       img: "/images/home/office table.jpg",
     },
     {
-      name: "Kitchen Furniture",
+      name: `${translate.Kitchen_Furniture}`,
       icon: <GiKitchenScale />,
       img: "/images/home/kitchenfurniture.jpg",
     },
     {
-      name: "Storage Furniture",
+      name: `${translate.Storage_Furniture}`,
       icon: <MdDinnerDining />,
       img: "/images/home/storage furniture.jpg",
     },
@@ -200,7 +198,6 @@ function Home() {
                 <div
                   className={`${styles.text} flex flex-col gap-1 justify-center items-center absolute top-[30%] left-1/2 z-30`}
                 >
-
                   <p className="text-[--mainColor] hidden md:block">
                     {translate.SMART_SOLUTION}
                   </p>
@@ -209,7 +206,6 @@ function Home() {
                   </h1>
                   <p className="text-[#dddadaf5]   text-center my-1 md:my-2 line-clamp-1 md:line-clamp-2 lg:line-clamp-3">
                     {translate.The_price_product_section1}
-
                   </p>
                   <button
                     onClick={() => {
@@ -217,10 +213,8 @@ function Home() {
                     }}
                     className={`${styles.shopNowBtn} relative bg-[--mainColor] text-[white] py-1 lg:py-2 px-7 rounded-3xl text-sm md:text-lg lg:text-xl mt-2`}
                   >
-
                     <span className="pr-8">{translate.Shop_Now}</span>
                     <span className=" absolute top-1/2 translate-y-[-50%] right-1 bg-white p-[1px] lg:p-[7px] rounded-full flex justify-center items-center  text-black">
-
                       <IoIosArrowRoundForward className="text-2xl arrow" />
                     </span>
                   </button>
@@ -230,11 +224,8 @@ function Home() {
             </SwiperSlide>
           );
         })}
-      </Swiper>     
+      </Swiper>
 
-
-
-      
       {/* section two */}
       <div className="w-full bg-[#101010]  py-[120px]">
         <div className="homeHub flex flex-col md:flex-row  container lg:w-[1440px] mx-auto gap-4 py-20 my-[40px] px-[15px]">
@@ -244,11 +235,7 @@ function Home() {
               {translate.Exceptional_Furniture}
             </h2>
             <p className="my-4 line-clamp-4 text-[#dfddddd2] ">
-              As eleifend mattis ligula, the door is loaded with urns at the
-              borders. Aeneas vehicles do not belong to members of the arc. The
-              whole protein and the price is flattering. The class is suitable
-              for the silent partners who turn to the shores through our
-              marriages, through the Hymenaean projects.
+              {translate.eleifend_p}
             </p>
             <LazyLoadedItem x="-100">
               <img alt="example" src="/images/home/first.jpg" />
@@ -263,26 +250,18 @@ function Home() {
               {translate.Discover_Endless_Designs}
             </h2>
             <div className="my-6 line-clamp-4 text-[#dfddddd2] ">
-              Integer dapibus ac dui pretium blandit. Class aptent taciti
-              sociosqu ad litora torquent per conubia nostra, per inceptos
-              himenaeos. Ut eleifend mattis ligula, porta finibus urna gravida
-              at. Aenean vehicula sodales arcu non mattis.
+              {translate.Crafting_h2}
               <div className="tip flex justify-start mt-2 items-center gap-2">
                 <GiCheckMark className="text-[--mainColor]" />
-                <span>
-                  But the eleifend of the estate, the gate of the border, the
-                  urn led at.
-                </span>
+                <span>{translate.But_span}</span>
               </div>
               <div className="tip flex justify-start mt-2 items-center gap-2">
                 <GiCheckMark className="text-[--mainColor]" />
-                <span>Ginteger proteins and dui are suitable for blanss.</span>
+                <span>{translate.Ginteger_span}</span>
               </div>
               <div className="tip flex justify-start mt-2 items-center gap-2">
                 <GiCheckMark className="text-[--mainColor]" />
-                <span>
-                  Kenean vehicles are not owned by members of the arc.
-                </span>
+                <span>{translate.IsConfirm_span}</span>
               </div>
             </div>
           </div>
@@ -378,7 +357,7 @@ function Home() {
                         {product.category}
                       </p>
                       <h2 className="text-white text-md md:text-xl lg:text-2xl font-semibold">
-                        {product.name}
+                        {myLang === "ar" ? product.nameInArabic : product.name}
                       </h2>
                       <p className="flex justify-center items-center text-white my-2">
                         <LuIndianRupee />
@@ -438,7 +417,9 @@ function Home() {
       <div className="w-full bg-[#2c2c2c]  py-[120px] min-h-[875px]">
         <div className="container lg:w-[1440px] flex justify-center items-center mx-auto gap-4 flex-col lg:flex-row ">
           <div className="flex-1 px-3 max-h-[625px] overflow-hidden">
-            <p className="text-[--mainColor]">Product related queries</p>
+            <p className="text-[--mainColor]">
+              {translate.Product_related_queries}
+            </p>
             <h2 className="text-2xl md:text-3xl lg:text-6xl text-white my-5">
               {translate.Products_Service}
             </h2>
@@ -582,7 +563,7 @@ function Home() {
         <div className="container lg:w-[1440px] mx-auto my-10 px-3">
           <div className="flex justify-between items-center">
             <div className="flex-1">
-              <p className="text-[--mainColor]">Sleek And Stylish</p>
+              <p className="text-[--mainColor]">{translate.Sleek_And_Stylish}</p>
               <h2 className="text-2xl md:text-3xl lg:text-6xl text-white my-5">
                 {translate.Innovative_Furniture}
               </h2>

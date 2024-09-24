@@ -12,7 +12,7 @@ const EN = {
   about_us: "ABOUT US",
   contact_us: "CONTACT US",
   Profile: "Profile",
-  logout: "Logout",
+  logout: "Log out",
   login: "Login/Register",
   ////////////////////////////////////////AllClients//////////////////////////////////////////////////////////////
   Client_Accounts: "Client Accounts",
@@ -55,6 +55,14 @@ const EN = {
   Affiliate: "Affiliate",
   Sizing_Guide: "Sizing Guide",
   Accessibility: "Accessibility",
+  Your_Account: "Your Account",
+  Press_Release: "Press Release",
+  Return_Centre: "Return Centre",
+  App_Download: "App Download",
+  Advertisements: "Advertisements",
+  Support: "Support",
+  Useful_links: "Useful links",
+  Privacy_Policy: "Privacy Policy",
   ///////////////////////////////////Loader/////////////////
   LOADING: "LOADING",
   /////////////////////////PaymentApproval///////////////////////////////
@@ -76,6 +84,7 @@ const EN = {
   //////////////////////Section Two//////////////////////////
   WE_DESIGN: "WE DESIGN",
   world_h2: "World Class Furniture For Ultimate Comfort",
+  Crafting_Quality_Furnitre: "Crafting Quality Furnitre",
   eleifend_p: `As eleifend mattis ligula, the door is loaded with urns at the
             borders. Aeneas vehicles do not belong to members of the arc. The
             whole protein and the price is flattering. The class is suitable for
@@ -105,8 +114,9 @@ const EN = {
   Waiting_Hall: "Waiting Hall",
   /////////////////////Section Five////////////////////
   Special_Team: "Special Team",
+  COMFORTCRAFTERS: "COMFORT CRAFTERS",
+  CEO: "CEO",
   chales_scarter: "chales scarter",
-  // CEO: "CEO",
   VP_SALES: "VP SALES",
   PRODUCT_DESIGNER: "PRODUCT DESIGNER",
   Roger: "Roger",
@@ -157,6 +167,10 @@ const EN = {
   Confirm: "Confirm",
   /////////////////////////////////////////////////////////ContactUs page///////////////////////
   DROP_US_LINE: "DROP US A LINE",
+  Round_the_clock_Service: "Round-the-clock Service",
+  Mobile_Number: "Mobile Number",
+  Mail_ID: "Mail ID",
+  Additional_Information: "Additional Information",
   Sed_id_semper:
     " Sed id semper risus in hendrerit gravida rutrum quisque. Vitae proin sagittis nisl Vel elit scelerisque mauris rhoncus mattis rhoncus urna.",
   Submit_Query: "Submit Query",
@@ -183,9 +197,24 @@ const EN = {
   Home_Decor_Hub: "Home Decor Hub",
   Exceptional_Furniture: "Exceptional Furniture's For Indoor & Outdoor",
   Discover_Endless_Designs: "Discover Endless Designs",
+  /////////section three/////////////////
+  Sofa: "Sofa",
+  Cabinet: "Cabinet",
+  Shelving_Units: "Shelving Units",
+  Tea_Table: "Tea Table",
+  Decors: "Decors",
+  Office_Table: "Office Table",
+  Kitchen_Furniture: "Kitchen Furniture",
+  Storage_Furniture: "Storage Furniture",
+
   /////////////////////////////// Collection section////////////////////
   EXPLORE_OUR: "EXPLORE OUR",
   Luxurious_Haven: "Luxurious Haven Collection",
+  Home_Decoration: "Home Decoration",
+  Office_Decoration: "Office Decoration",
+  Indoor_Decoration: "Indoor Decoration",
+  Outdoor_Decoration: "Outdoor Decoration",
+
   ON_SALE: "ON SALE",
   ///////////////////////////////////Slider section//////////////////////////////
   Tailored_Furniture: "Tailored Furniture For Specific Needs.",
@@ -194,6 +223,7 @@ const EN = {
   Comfort_And_High: "Comfort And High Functionality.",
   /////////////////////////////////////accordian section/////////////////////////////
   Products_Service: "Products & Service",
+  Product_related_queries: "Product related queries",
   For_furniture_purchases:
     "For furniture purchases, do you have financing options?",
   Pain_should:
@@ -213,10 +243,32 @@ const EN = {
     " It is said that everyone who lived in this street is free from  arrows. It is said that it is sad and urgent that someone  himself suspended the basketball. Ultricies lake but ugly  tincidunt id aquiet risus feugiat. Maecenas was flattered by  some of the chocolates he wanted.",
   /////////////////////////////////////Furniture's section////////////////////////////////////
   Innovative_Furniture: "Innovative Furniture",
+  Sleek_And_Stylish: "Sleek And Stylish",
   The_class:
     "The class is silent. As eleifend mattis ligula, the door is loaded  with urns at the borders. Aeneas do not own the vehicles of th   bow. The whole protein and the price is flattering.",
   Testimonial_Time: "Testimonial Time",
   Our_Customers_Speak: "Our Customers Speak",
+  name1: "John Doe",
+  country1: "USA",
+  review1:
+    "I was thoroughly impressed with the level of service I received. From start to finish, the team was attentive, professional, and made sure all my needs were met. The product itself is top-notch, with a quality that truly stands out in the market. I highly recommend this company to anyone looking for excellence.",
+  name2: "Maria Garcia",
+  country2: "Spain",
+  review2:
+    "My experience with this company was nothing short of amazing. The customer support was always available to answer my questions, and the delivery was faster than I expected. The product exceeded my expectations in every way – from the materials used to the attention to detail in the design. I'll definitely be a returning customer.",
+  name3: "Liu Wei",
+  country3: "China",
+  review3:
+    "This was one of the best shopping experiences I've ever had. The website was easy to navigate, the purchasing process was straightforward, and the product arrived in perfect condition. The quality is absolutely phenomenal, and I can tell that this company really cares about its customers. I will recommend it to all my friends and family.",
+  name4: "Ahmed Ali",
+  country4: "Egypt",
+  review4:
+    "I cannot speak highly enough about the service I received. The team went above and beyond to ensure I was happy with my purchase. The quality of the product is simply outstanding, and it has become one of my favorite items. I appreciate the dedication to customer satisfaction and will definitely be shopping here again.",
+  name5: "Sophie Dubois",
+  country5: "France",
+  review5:
+    "The level of care and attention I received from this company was incredible. Every step of the way, I felt valued as a customer. The product is beautiful, well-made, and exactly what I was looking for. I am so pleased with my purchase and will be recommending this company to everyone I know. A truly five-star experience!",
+
   Get_the_Latest_News: "Get the Latest News",
   The_Modest_Living: "The Modest Living Space Furnishings Ideas",
   Bala_Explore_the_best:
@@ -232,10 +284,15 @@ const EN = {
                     our stylish furniture ideas. This video showcases the latest
                     trends and design tips for selecting the perfect pieces to
                     create a cozy and modern living space that reflects your personal style.`,
+
   //////////////////////////////////////login page ////////////////////////
   Forgot_password: "Forgot your password?",
   Donot_have: "Don't have an account ?",
   Signup: "Signup",
+  email_login: "Please Enter your Email*",
+  password_login: "Please Enter your Password*",
+
+  //////////////////////////////Home page /////////
   /////////////////////////////////////////////////NotfountPage page//////////////////
   NotfountPage: "NotfountPage",
   /////////////////////////////////PaymentFailure page////////////////////////
@@ -246,7 +303,12 @@ const EN = {
   Success: "Success",
   Your_payment_has: "Your payment has been processed successfully.",
   ///////////////////////////////////////ProfileUser page////////////////////
+  My_Account: "My Account",
   Hello: "Hello",
+  Addresses: "Addresses",
+  Dashboard: "Dashboard",
+  Orders: "Orders",
+  Account_details: "Account details",
   From_your_account:
     " From your account dashboard you can view your recent orders,manage your shipping and billing addresses, and edit your password and account details.",
   following_addresses:
@@ -266,13 +328,64 @@ const EN = {
   Sudan: "Sudan",
   Syria: "Syria",
   Register: "Register",
+  Enter_your_Full_name: "please Enter your Full name*",
+  Enter_your_Email: "please Enter your Email*",
+  Enter_your_phone: "please Enter your phone*",
+  Enter_your_password: "please Enter your password*",
+  Confirm_password: "Confirm password",
   Already_have: " Already have an account ?",
-  Login2: "Login",
+  Login2: "Log in",
   ////////////////////////////////ResetPassword page//////////////////////////////
   Reset_Password: "Reset Password",
   ////////////////////////////////shop page//////////////////////////////
+  All: "All",
+  Sofa: "Sofa",
+  Outdoor_Sofa: "Outdoor Sofa",
+  Dining_Table: "Dining Table",
+  Coffee_Table: "Coffee Table",
+  Bookshelf: "Bookshelf",
+  Bed_Frame: "Bed Frame",
+  Desk: "Desk",
+  Wardrobe: "Wardrobe",
+  Couch: "Couch",
+  Bed: "Bed",
+  Recliners: "Recliners",
+  Home_Decoration: "Home Decoration",
+  Office_Decoration: "Office Decoration",
+  Indoor_Decoration: "Indoor Decoration",
+  Outdoor_Decoration: "Outdoor Decoration",
+  No_products_found: "No products found",
+  //دى تبع product card
+  Select_Options: "Select Options",
+
   Collection: "Collection",
   Filter_By_Price: "Filter By Price",
+  /////////product Details////////////////
+  No_images_available: "No images available",
+  customer_reviews: "customer reviews",
+  Out_Of_Stock: "Out Of Stock",
+  See_more_about_workShop: "See more about workShop",
+  Free_Delivery_Free_Shipping: "Free Delivery & Free Shipping",
+  Secure_Online_Payment: " Secure Online Payment",
+  Pick_Up_Available_At_Los:
+    "Pick Up Available At Los Angeles, Usually ready in 24 hours",
+  Additional_Information: "Additional Information",
+  Reviews: "Reviews",
+  Euisimod_in_pellentesque_massa:
+    "Euisimod in pellentesque massa amnrita placerat.",
+  Suspendisse_in_est_ante_sitra:
+    "Suspendisse in est ante sitra aretnarin nibh mauris.",
+  Tincidunt_vitae_semper_quis:
+    "Tincidunt vitae semper quis lectus nulla at diam.",
+  Neque_convallis_cras_semper: "Neque convallis a cras semper auctor neque.",
+  Secure_Online_Payment:"Secure Online Payment",
+  Scelerisque_felis_imperdiet_proin:"Scelerisque felis imperdiet proin fermentum.",
+  Colors: "Colors",
+  Blue_Orange_Pink_Purple:"Blue, Orange, Pink, Purple",
+  ////////////////waiting page////////////////////
+  Thank_You_for_Registering:"Thank You for Registering!",
+  Your_documents_will_be_reviewed:"Your documents will be reviewed within 48 hours.",
+
   /////////////////////////////UnauthorizedPage///////////////////
   Unauthorized_Access: "Unauthorized Access",
   Sorry_you_don: "Sorry, you don't have permission to access this page.",
@@ -281,6 +394,7 @@ const EN = {
   Your_Wishlist_div: "Your Wishlist is currently empty.",
   Return_To_Shop: "Return To Shop",
   Remove_fom_wishlist: "Remove fom wishlist",
+  Add_to_Cart: "Add to Cart",
 };
 
 export default EN;

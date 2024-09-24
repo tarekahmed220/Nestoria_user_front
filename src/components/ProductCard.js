@@ -3,6 +3,8 @@ import { FaHeart, FaArrowsAltH, FaExpand } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "../css modules/productCard.css";
 import axiosInstance from "../apis/axiosConfig";
+import { setLanguage } from "../Redux/languageSlice";
+import { useSelector } from "react-redux";
 
 const ProductCard = ({
   product,
@@ -11,6 +13,8 @@ const ProductCard = ({
   isFavorite,
   isSingleColumn, // خاصية جديدة للتحقق من حالة عرض عمود واحد
 }) => {
+  const translate = useSelector((state) => state.language.translation);
+  const { myLang, translation } = useSelector((state) => state.language);
   const [isFavoriteState, setIsFavoriteState] = useState(isFavorite);
 
   const handleFavoriteClick = (e) => {
@@ -70,7 +74,7 @@ const ProductCard = ({
         />
         <div className="absolute bottom-0 left-0 right-0 flex justify-center bg-black bg-opacity-75 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out z-10">
           <Link to="#" className="text-white text-lg font-semibold p-4">
-            Select Options
+            {translate.Select_Options}
           </Link>
         </div>
       </div>
@@ -81,7 +85,9 @@ const ProductCard = ({
           isSingleColumn ? "text-left pl-4" : ""
         }`} // تعديل المحاذاة في حالة العرض بعمود واحد
       >
-        <p className="text-lg text-white font-semibold">{product.name}</p>
+        <p className="text-lg text-white font-semibold">
+          {myLang === "ar" ? product.nameInArabic : product.name}
+        </p>
         <p className="text-sm pb-2 text-white">{product.price} ₹</p>
       </div>
 

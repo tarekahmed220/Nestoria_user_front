@@ -144,7 +144,10 @@ function Login() {
   return (
     <>
       {isLoading && <Loader />}
-      <IntroSection pageName="Signin" pageTitle="Signin" />
+      <IntroSection
+        pageName={`${translate.Login2}`}
+        pageTitle={`${translate.Login2}`}
+      />
       <div
         className="flex justify-center items-center min-h-[60vh] "
         style={{
@@ -158,7 +161,7 @@ function Login() {
       >
         <div className="bg-black p-10 rounded-xl shadow-xl w-full max-w-xl mx-auto">
           <h2 className="text-white text-3xl font-200 mb-6 text-center font-['Segoe UI']">
-            Log In
+            {translate.Login2}
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="h-[40px] mb-[40px] w-full">
@@ -167,7 +170,7 @@ function Login() {
                 name="email"
                 type="email"
                 value={user.email}
-                placeholder="Please Enter your Email*"
+                placeholder={`${translate.email_login}`}
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
                 onBlur={handleBlur}
                 error={errors.email}
@@ -191,7 +194,7 @@ function Login() {
                       setUser({ ...user, password: e.target.value })
                     }
                     onBlur={handleBlur}
-                    placeholder="Enter your password*"
+                    placeholder={`${translate.password_login}`}
                   />
                   <button
                     type="button"

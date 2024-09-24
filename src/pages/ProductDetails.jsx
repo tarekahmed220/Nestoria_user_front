@@ -16,8 +16,12 @@ import Loader from "../components/Loader.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ColorNamer from "color-namer";
+import { useSelector } from "react-redux";
+
 
 function ProductDetails() {
+const translate = useSelector((state) => state.language.translation);
+const { myLang, translation } = useSelector((state) => state.language);
   const params = useParams();
   const [product, setproduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -29,9 +33,8 @@ function ProductDetails() {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
-        console.log("pppp", res.data.data.product);
+        console.log("product", res.data.data.product);
         setproduct(res.data.data.product);
-        console.log(res.data.data.product);
         const convertColors = res.data.data.product.color.map((colorHex) => {
           const colorNames = ColorNamer(colorHex);
           return { hex: colorHex, colorName: colorNames.ntc[0].name };
@@ -150,13 +153,15 @@ function ProductDetails() {
               </div>
             </>
           ) : (
-            <p>No images available</p>
+            <p>{translate.No_images_available}</p>
           )}
         </div>
 
         {/* قسم التفاصيل */}
         <div>
-          <h2 className="text-3xl font-bold mb-4">{product.name}</h2>
+          <h2 className="text-3xl font-bold mb-4">
+            {myLang === "ar" ? product.nameInArabic : product.name}
+          </h2>
           <div className="flex items-center mb-2">
             {[...Array(5)].map((_, index) => (
               <FaStar
@@ -169,26 +174,31 @@ function ProductDetails() {
               />
             ))}
             <span className="ml-2">
-              ({product && product.ratings && product.ratings.length} customer
-              reviews)
+              ({product && product.averageRating && product.averageRating}{" "}
+              {translate.customer_reviews})
             </span>
           </div>
 
-          <p className="text-gray-400 mb-4">{product.description}</p>
+          <p className="text-gray-400 mb-4">
+            {myLang === "ar"
+              ? product.descriptionInArabic
+              : product.description}
+          </p>
 
           <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
 
           {product.quantity === 0 ? (
             <>
               <span className="bg-inherit mb-3 rounded-md border border-orange-500 text-white py-3 px-6 flex items-center justify-center flex-grow">
-                Out Of Stock
+
+                {translate.Out_Of_Stock}
               </span>
             </>
           ) : (
             <>
               {/* قسم الألوان */}
               <div className="mb-4">
-                <span className="mr-2">Colors:</span>
+                <span className="mr-2">{translate.Colors}:</span>
                 <div className="flex space-x-2 my-4">
                   {newColors &&
                     newColors.map((color, index) => (
@@ -238,7 +248,7 @@ function ProductDetails() {
                   onClick={() => handleAddToCart()}
                   className="bg-inherit rounded-md border border-orange-500 hover:bg-orange-600 text-white py-3 px-6 flex items-center justify-center flex-grow"
                 >
-                  <FaShoppingCart className="mr-2" /> Add to Cart
+                  <FaShoppingCart className="mr-2" /> {translate.Add_to_Cart}
                 </button>
               </div>
             </>
@@ -252,22 +262,24 @@ function ProductDetails() {
             }}
             className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3"
           >
-            See more about workShop
+            {translate.See_more_about_workShop}
             <span className="ml-1">{product?.workshop_id?.name}</span>
           </button>
 
           {/* معلومات إضافية */}
           <ul className="mt-4 space-y-2">
             <li className="flex items-center">
-              <FaShoppingCart className="mr-2" /> Free Delivery & Free Shipping
+              <FaShoppingCart className="mr-2" />{" "}
+              {translate.Free_Delivery_Free_Shipping}
             </li>
             <li className="flex items-center">
-              <FaShoppingCart className="mr-2" /> Secure Online Payment
+              <FaShoppingCart className="mr-2" />{" "}
+              {translate.Secure_Online_Payment}
             </li>
           </ul>
 
           <p className="text-sm text-gray-400 mt-4">
-            Pick Up Available At Los Angeles, Usually ready in 24 hours
+            {translate.Pick_Up_Available_At_Los}
           </p>
         </div>
       </div>
@@ -284,7 +296,7 @@ function ProductDetails() {
             } px-6 py-3 rounded-full border hover:bg-orange-500 hover:border-orange-500 transition-colors duration-300`}
             onClick={() => handleTabClick("description")}
           >
-            Description
+            {translate.Description}
           </button>
           <button
             className={`${
@@ -294,7 +306,7 @@ function ProductDetails() {
             } px-6 py-3 rounded-full border hover:bg-orange-500 hover:border-orange-500 transition-colors duration-300`}
             onClick={() => handleTabClick("additionalInfo")}
           >
-            Additional Information
+            {translate.Additional_Information}
           </button>
           <button
             className={`${
@@ -304,7 +316,7 @@ function ProductDetails() {
             } px-6 py-3 rounded-full border hover:bg-orange-500 hover:border-orange-500 transition-colors duration-300`}
             onClick={() => handleTabClick("reviews")}
           >
-            Reviews ({product?.ratings?.length})
+            {translate.Reviews} ({product?.ratings?.length})
           </button>
         </div>
 
@@ -315,32 +327,34 @@ function ProductDetails() {
               <div className="flex flex-col lg:flex-row items-center bg-black text-white p-6">
                 <div className="md:w-full w-full">
                   <p className="mb-4 text-sm md:text-base">
-                    {product.description}
+                    {myLang === "ar"
+                      ? product.descriptionInArabic
+                      : product.description}
                   </p>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      quantity : {product.quantity}
+                      {translate.quantity} : {product.quantity}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Euisimod in pellentesque massa amnrita placerat.
+                      {translate.Euisimod_in_pellentesque_massa}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Suspendisse in est ante sitra aretnarin nibh mauris.
+                      {translate.Suspendisse_in_est_ante_sitra}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Tincidunt vitae semper quis lectus nulla at diam.
+                      {translate.Tincidunt_vitae_semper_quis}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Neque convallis a cras semper auctor neque.
+                      {translate.Neque_convallis_cras_semper}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      Scelerisque felis imperdiet proin fermentum.
+                      {translate.Scelerisque_felis_imperdiet_proin}
                     </li>
                   </ul>
                 </div>
@@ -371,10 +385,10 @@ function ProductDetails() {
                   <thead>
                     <tr>
                       <th className="p-4 border border-orange-500 text-white">
-                        Colors
+                        {translate.Colors}
                       </th>
                       <th className="p-4 border border-orange-500 text-gray-400">
-                        Blue, Orange, Pink, Purple
+                        {translate.Blue_Orange_Pink_Purple}
                       </th>
                     </tr>
                   </thead>

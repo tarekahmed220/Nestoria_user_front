@@ -75,6 +75,13 @@ function ProductDetails() {
   };
 
   const handleAddToCart = () => {
+    const isLogin = !!localStorage.getItem("token");
+    if (!isLogin) {
+      navigate("/login");
+      toast.error("you should signin first");
+      return;
+    }
+
     if (colorSelect === "") {
       return toast.error("Select color");
     }
@@ -173,10 +180,7 @@ function ProductDetails() {
 
           {product.quantity === 0 ? (
             <>
-              <span
-                className="bg-inherit mb-3 rounded-md border border-orange-500 text-white py-3 px-6 flex items-center justify-center flex-grow"
-
-              >
+              <span className="bg-inherit mb-3 rounded-md border border-orange-500 text-white py-3 px-6 flex items-center justify-center flex-grow">
                 Out Of Stock
               </span>
             </>
@@ -402,7 +406,7 @@ function ProductDetails() {
                         />
                       ))}
                       <span className="ml-2 text-gray-300">
-                        {review.user.fullName}
+                        {review.user?.fullName || "User"}
                       </span>
                     </div>
                     <p className="text-gray-400">{review.comment}</p>

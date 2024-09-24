@@ -106,7 +106,8 @@ function Login() {
         ) {
           localStorage.setItem("token", token);
           localStorage.setItem("role", user2?.data?.user?.role);
-          navigate("/seller ");
+          // navigate("/seller ");
+          window.location.href = "http://localhost:3000/seller";
           toast.info("please complete your registration");
         } else if (user2.data.user.registerStatus === "completed") {
           window.location.href = `http://localhost:4200/dashboard?token=${token}`;

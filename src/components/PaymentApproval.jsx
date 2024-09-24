@@ -105,7 +105,7 @@ function PaymentApproval() {
     const confirmed = await Swal.fire({
       title: "Are you sure?",
       text: `Do you want to transfer (${
-        amount - amount * 0.1
+        reqAmount - reqAmount * 0.1
       }) EGP   To:${email}`,
       icon: "warning",
       showCancelButton: true,

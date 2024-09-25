@@ -41,10 +41,17 @@
 // };
 
 // export default ChatProvider;
-import React, { createContext, useContext, useEffect, useState,useMemo } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useMemo,
+} from "react";
 import { io } from "socket.io-client";
-import{useNavigate}from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig";
+import { useUserInfoContext } from "./UserProvider";
 const ENDPOINT = "http://localhost:5000";
 const ChatContext = createContext();
 
@@ -55,8 +62,14 @@ const ChatProvider = ({ children }) => {
   const [chats, setChats] = useState();
   const [socket, setSocket] = useState(null);
 
-  const navigate=useNavigate();
-  const token = localStorage.getItem('token');
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const { currentUser, setCurrentUser } = useUserInfoContext();
+
+  useEffect(() => {
+    setUser(currentUser);
+  }, [currentUser]);
+
   useEffect(() => {
     if (token) {
       const socketInstance = io(ENDPOINT, {
@@ -67,14 +80,12 @@ const ChatProvider = ({ children }) => {
     } else {
       console.log("No token found, socket not initialized");
     }
-  
+
     return () => {
       if (socket) socket.disconnect();
     };
   }, [token]);
-  
 
-  
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
@@ -82,18 +93,23 @@ const ChatProvider = ({ children }) => {
         setUser(data.user);
       } catch (error) {
         console.error("Error fetching user info", error);
-        navigate("/shop"); // If the token is invalid, redirect to login
+
+        navigate("/"); // If the token is invalid, redirect to login
+
       }
     };
-
     // if (token) {
     //   fetchUserInfo();
     // } else {
     //   navigate("/login");
     // }
+  }, [navigate]);
+
+  
   }, [ navigate]);
 
   
+
   useEffect(() => {
     if (socket) {
       console.log("Socket instance:", socket);

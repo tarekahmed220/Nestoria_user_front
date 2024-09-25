@@ -362,7 +362,7 @@ const EN = {
   Filter_By_Price: "Filter By Price",
   /////////product Details////////////////
   No_images_available: "No images available",
-  customer_reviews: "customer reviews",
+  customer_reviews: "average rating",
   Out_Of_Stock: "Out Of Stock",
   See_more_about_workShop: "See more about workShop",
   Free_Delivery_Free_Shipping: "Free Delivery & Free Shipping",
@@ -378,13 +378,15 @@ const EN = {
   Tincidunt_vitae_semper_quis:
     "Tincidunt vitae semper quis lectus nulla at diam.",
   Neque_convallis_cras_semper: "Neque convallis a cras semper auctor neque.",
-  Secure_Online_Payment:"Secure Online Payment",
-  Scelerisque_felis_imperdiet_proin:"Scelerisque felis imperdiet proin fermentum.",
+  Secure_Online_Payment: "Secure Online Payment",
+  Scelerisque_felis_imperdiet_proin:
+    "Scelerisque felis imperdiet proin fermentum.",
   Colors: "Colors",
-  Blue_Orange_Pink_Purple:"Blue, Orange, Pink, Purple",
+  Blue_Orange_Pink_Purple: "Blue, Orange, Pink, Purple",
   ////////////////waiting page////////////////////
-  Thank_You_for_Registering:"Thank You for Registering!",
-  Your_documents_will_be_reviewed:"Your documents will be reviewed within 48 hours.",
+  Thank_You_for_Registering: "Thank You for Registering!",
+  Your_documents_will_be_reviewed:
+    "Your documents will be reviewed within 48 hours.",
 
   /////////////////////////////UnauthorizedPage///////////////////
   Unauthorized_Access: "Unauthorized Access",

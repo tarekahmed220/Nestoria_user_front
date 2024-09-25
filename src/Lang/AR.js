@@ -367,34 +367,28 @@ const AR = {
 
   Filter_By_Price: "تصفية حسب السعر",
 
-
- /////////product Details////////////////
+  /////////product Details////////////////
 
   No_images_available: "لا توجد صور متاحة",
-  customer_reviews: " تقيم آراء العملاء ",
+  customer_reviews: " متوسط آراء العملاء",
   Out_Of_Stock: "غير متوفر",
   See_more_about_workShop: "اطلع على المزيد حول الورشة",
   Free_Delivery_Free_Shipping: "توصيل مجاني وشحن مجاني",
   Secure_Online_Payment: "دفع آمن عبر الإنترنت",
-  Pick_Up_Available_At_Los: "الاستلام متاح في لوس أنجلوس، عادة جاهز خلال 24 ساعة",
+  Pick_Up_Available_At_Los:
+    "الاستلام متاح في لوس أنجلوس، عادة جاهز خلال 24 ساعة",
   Additional_Information: "معلومات إضافية",
   Reviews: "المراجعات",
   Euisimod_in_pellentesque_massa: "توازن في كتلة البيلينسكوينتيه.",
   Suspendisse_in_est_ante_sitra: "سوسبندي في الاستانتي ستراني نيب.",
   Tincidunt_vitae_semper_quis: "تينسيند فيتاي سيمبر كوي ليست نولا.",
   Neque_convallis_cras_semper: "نيك كونفاليس كراس سيمبر أكتور نيك.",
-    Secure_Online_Payment: "دفع آمن عبر الإنترنت",
+  Secure_Online_Payment: "دفع آمن عبر الإنترنت",
   Scelerisque_felis_imperdiet_proin: "سكيلريسكي فيليس إمبرديت بروين فيرمنتوم.",
 
   Colors: "الألوان",
 
-
   ///////////////////////////////UnauthorizedPage///////////////////
- 
-
-
-
-
 
   Unauthorized_Access: "دخول غير مصرح به",
   Sorry_you_don: "عذرًا، ليس لديك إذن للوصول إلى هذه الصفحة.",

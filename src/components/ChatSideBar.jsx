@@ -12,13 +12,12 @@
 // import { toast } from "react-toastify";
 // import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
 // import ChatBox from "./ChatBox.jsx";
-// import "../css modules/chat.module.css"; 
+// import "../css modules/chat.module.css";
 // import { useUserInfoContext } from "../context/UserProvider.jsx";
 
 // const SideBar = ({fetchAgain}) => {
 //   const navigate = useNavigate();
 
- 
 //   const { currentUser, isLogin, setIsLogin } = useUserInfoContext();
 //   const [loggedUser, setLoggedUser] = useState();
 //   const {selectedChat,
@@ -87,14 +86,14 @@
 //     }
 //     // eslint-disable-next-line
 //   }, [fetchAgain]);
-//   return ( 
+//   return (
 //     <div className="flex justify-between w-full h-[91.5vh] p-2.5">
 //      {/* <div className="w-full h-full grid grid-cols-[48px,1fr] pt-3 "> */}
 //         {/* <div className="bg-secondary h-full py-5 flex flex-col items-center justify-between"> */}
 //            {/* //</div><div> */}
 //             {/* <div className="w-12 h-12 flex justify-center items-center cursor-pointer text-slate-300 hover:text-slate-200 rounded">
 //                <FiMessageCircle size={20} />
-            
+
 //              </div>
 //             <div
 //               title="bell notification"
@@ -118,9 +117,9 @@
 //                 name={userInfo?.fullName}
 //                 userId={userInfo?._id}
 //               />
-            
+
 //             </button>
-          
+
 //           </div>
 //         </div> */}
 //     <div className="flex flex-col   w-full  rounded-lg  bg-transparent  h-[calc(100vh-65px)]  overflow-y-auto scrollbar-none   scrollbar-hidden">
@@ -132,13 +131,13 @@
 //                           key={chat._id}
 //                           // className={`cursor-pointer px-3 py-2 rounded-lg ${
 //                           //   selectedChat === chat ? "bg-gray-200 text-white" : "bg-gray-600 text-black"
-                            
+
 //                           className={`flex items-center space-x-3 p-3 rounded-full cursor-pointer transition duration-500 ${
 //                             selectedChat ? 'bg-[#C26510] text-white' : 'hover:bg-gray-700 text-[#929292]'
 //                           }`}
-                        
+
 //                         >
-     
+
 //       <img
 //         src={ userInfo?.photo ? userInfo?.photo : "https://cdn-icons-png.flaticon.com/512/149/149071.png"}
 //         alt={userInfo.fullName}
@@ -169,7 +168,7 @@
 //       </div>
 //       <span className={`w-3 h-3 rounded-full ${chat.status === 'online' ? 'bg-green-500' : 'bg-gray-500'}`}></span>
 //     {/* </div> */}
-// {/*                         
+// {/*
 //                         <span>
 //   <Avatar
 //     imageUrl={userInfo?.photo}
@@ -181,7 +180,7 @@
 //     ? chat.users[1]?.fullName
 //     : chat.users[0]?.fullName||"unknown user"}
 // </span>
-                          
+
 //                            {chat.latestMessage && (
 //                             <p className="text-xs">
 //                               <b>{chat.latestMessage.sender.name}:</b>{" "}
@@ -199,11 +198,10 @@
 //                 </div>
 //                 {/* //{openSearchUser && <AddUser setOpenSearchUser={setOpenSearchUser} />} */}
 //               {/* </div> */}
-              
+
 //             </div>
 //   );
- 
-  
+
 // };
 
 // export default SideBar;
@@ -216,14 +214,15 @@ import Avatar from "./Avatar";
 // import "../styles/CustomScrollbar.css";  // Import custom scrollbar CSS
 
 const SideBar = ({ fetchAgain }) => {
-  const { selectedChat, setSelectedChat, chats, setChats,socket,user } = ChatState();
+  const { selectedChat, setSelectedChat, chats, setChats, socket, user } =
+    ChatState();
   const [loggedUser, setLoggedUser] = useState();
   const userInfo = JSON.parse(localStorage.getItem("user"));
 
   const fetchChats = async () => {
     try {
       const { data } = await axiosInstance.get("/api/v1/fur/chat");
-  
+
       setChats(data);
     } catch (error) {
       toast("Failed to Load the chats", { type: "error" });
@@ -237,7 +236,7 @@ const SideBar = ({ fetchAgain }) => {
       fetchChats();
     }
   }, [fetchAgain]);
- 
+
   useEffect(() => {
     // الاستماع لحدث "refresh chats"
     socket.on("refresh chats", (updatedChats) => {
@@ -257,19 +256,26 @@ const SideBar = ({ fetchAgain }) => {
         <div className="space-y-2 overflow-y-auto">
           {chats?.map((chat) => (
             <div
-              onClick={() => {setSelectedChat(chat);
+              onClick={() => {
+                setSelectedChat(chat);
                 console.log("chat", selectedChat);
                 if (socket) {
-                socket.emit("join chat", chat);}
-              }
-            }
+                  socket.emit("join chat", chat);
+                }
+              }}
               key={chat._id}
               className={`flex items-center space-x-3 p-3 rounded-full   cursor-pointer transition  duration-500 ${
-                selectedChat === chat ? 'bg-[#C26510] text-white' : 'hover:bg-gray-700 text-[#929292]'
+                selectedChat === chat
+                  ? "bg-[#C26510] text-white"
+                  : "hover:bg-gray-700 text-[#929292]"
               }`}
             >
               <Avatar
-                imageUrl={chat?.users?.length > 1 && chat.users[0]?._id === user?._id ? chat.users[1]?.photo : chat.users[0]?.photo }
+                imageUrl={
+                  chat?.users?.length > 1 && chat.users[0]?._id === user?._id
+                    ? chat.users[1]?.photo
+                    : chat.users[0]?.photo
+                }
                 name={user.chatName}
               />
               <div className="flex-1">
@@ -277,13 +283,13 @@ const SideBar = ({ fetchAgain }) => {
                   {/* Truncate the chat name */}
                   <span className="font-semibold truncate w-2/3">
                     {chat.users?.length > 1 && chat.users[0]?._id === user?._id
-                      ? chat.users[1]?.fullName
-                      : chat.users[0]?.fullName || "unknown user"}
+                      ? chat.users[1]?.name
+                      : chat.users[0]?.name || "unknown user"}
                   </span>
                   <small className="text-gray-400 text-xs">
                     {new Date(chat.updatedAt).toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
+                      hour: "2-digit",
+                      minute: "2-digit",
                     })}
                   </small>
                 </div>

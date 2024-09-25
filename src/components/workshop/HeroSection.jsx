@@ -17,14 +17,14 @@ const HeroSection = () => {
 
   const { workshopId } = useParams();
   console.log("workshopId ", workshopId);
-   const {
-socket,
-  //   user,
-  //   notification,
-  //   setNotification,
-  //   chats,
-  //   setChats,
-  } = ChatState()||{};
+  const {
+    socket,
+    //   user,
+    //   notification,
+    //   setNotification,
+    //   chats,
+    //   setChats,
+  } = ChatState() || {};
   const token = localStorage.getItem("token");
   const userInfo = localStorage.getItem("user");
   // Moved useNavigate to the top, before any early return
@@ -73,9 +73,11 @@ socket,
       // if (!chats.find((c) => c._id === data._id)) {setChats([data, ...chats])};
       // setSelectedChat(data);
       //  setChats([data, ...chats]);
-      if(socket){console.log(socket)};
+      if (socket) {
+        console.log(socket);
+      }
       console.log("chat", data);
-     socket.emit("join chat", data._id);
+      socket.emit("join chat", data._id);
       // setSelectedChat(chat);
       navigate("/chat ");
     } catch (err) {
@@ -193,7 +195,7 @@ socket,
                   />
                 ))}
                 <span className="ml-2 text-gray-300">
-                  {review.user.fullName}
+                  {review.user?.fullName || "user"}
                 </span>
               </div>
               <p className="text-gray-400">{review.comment}</p>

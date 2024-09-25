@@ -18,10 +18,9 @@ import { toast } from "react-toastify";
 import ColorNamer from "color-namer";
 import { useSelector } from "react-redux";
 
-
 function ProductDetails() {
-const translate = useSelector((state) => state.language.translation);
-const { myLang, translation } = useSelector((state) => state.language);
+  const translate = useSelector((state) => state.language.translation);
+  const { myLang, translation } = useSelector((state) => state.language);
   const params = useParams();
   const [product, setproduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -190,7 +189,6 @@ const { myLang, translation } = useSelector((state) => state.language);
           {product.quantity === 0 ? (
             <>
               <span className="bg-inherit mb-3 rounded-md border border-orange-500 text-white py-3 px-6 flex items-center justify-center flex-grow">
-
                 {translate.Out_Of_Stock}
               </span>
             </>
@@ -257,7 +255,7 @@ const { myLang, translation } = useSelector((state) => state.language);
           <button
             onClick={() => {
               if (product?.workshop_id) {
-                handleWorkshop(product.workshop_id);
+                handleWorkshop(product.workshop_id._id);
               }
             }}
             className="w-full bg-yellow-500 rounded-md hover:bg-yellow-600 text-white py-3"

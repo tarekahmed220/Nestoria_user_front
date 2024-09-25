@@ -9,9 +9,11 @@ import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
 import { FaTh, FaThLarge, FaThList, FaBars } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useSearchContext } from "../context/SearchContext.jsx";
 
 const Shop = () => {
   const translate = useSelector((state) => state.language.translation);
+  // const [products, setProducts] = useSearchContext();
   const [products, setProducts] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,7 +60,6 @@ const Shop = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPriceSliding, setIsPriceSliding] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  // إضافة حالة جديدة للتحكم بعدد الأعمدة
   const [activeGrid, setActiveGrid] = useState(3);
  
 
@@ -320,7 +321,7 @@ const Shop = () => {
           <div
             className={`lg:col-span-3 grid grid-cols-1 lg:grid-cols-${
               activeGrid === 1
-                ? "1" // عند اختيار عرض بعمود واحد
+                ? "1" 
                 : activeGrid === 2
                 ? "2"
                 : activeGrid === 3

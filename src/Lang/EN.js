@@ -214,7 +214,6 @@ const EN = {
   Office_Decoration: "Office Decoration",
   Indoor_Decoration: "Indoor Decoration",
   Outdoor_Decoration: "Outdoor Decoration",
-
   ON_SALE: "ON SALE",
   ///////////////////////////////////Slider section//////////////////////////////
   Tailored_Furniture: "Tailored Furniture For Specific Needs.",

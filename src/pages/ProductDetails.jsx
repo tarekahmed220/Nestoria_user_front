@@ -32,14 +32,12 @@ function ProductDetails() {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
-        console.log("product", res.data.data.product);
         setproduct(res.data.data.product);
         const convertColors = res.data.data.product.color.map((colorHex) => {
           const colorNames = ColorNamer(colorHex);
           return { hex: colorHex, colorName: colorNames.ntc[0].name };
         });
         setNewColors(convertColors);
-        console.log("convertColors", convertColors);
       })
       .catch((err) => {
         toast.error(err);
@@ -67,7 +65,6 @@ function ProductDetails() {
         productId,
         color,
       });
-      console.log(response);
       if (response) {
         return toast.success(response.data.message);
       }
@@ -220,7 +217,6 @@ function ProductDetails() {
                         }`}
                         onClick={() => {
                           handleColorSelect(index, color.colorName);
-                          console.log(color.hex);
                         }}
                       >
                         {selectedColor === index && (
@@ -328,7 +324,6 @@ function ProductDetails() {
           </button>
         </div>
 
-        {/* Sections 1 */}
         <div className="mt-6">
           {activeTab === "description" && (
             <div className="p-6 rounded-lg text-white">

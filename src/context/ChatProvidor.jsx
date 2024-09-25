@@ -93,7 +93,9 @@ const ChatProvider = ({ children }) => {
         setUser(data.user);
       } catch (error) {
         console.error("Error fetching user info", error);
+
         navigate("/"); // If the token is invalid, redirect to login
+
       }
     };
     // if (token) {
@@ -102,6 +104,11 @@ const ChatProvider = ({ children }) => {
     //   navigate("/login");
     // }
   }, [navigate]);
+
+  
+  }, [ navigate]);
+
+  
 
   useEffect(() => {
     if (socket) {

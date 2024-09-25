@@ -173,7 +173,7 @@ export function AccountDetails() {
   return (
     <form
       onSubmit={(e) => handleUpdateUser(e)}
-      className="relative flex flex-col gap-6 border border-[#929292] rounded-2xl py-3 px-5 "
+      className={`relative flex flex-col gap-6 border border-[#929292] ${isClickIconEdit && "border-[#C26510]"} rounded-2xl py-3 px-5 `}
     >
       <div onClick={() => handleEditIcon()}>
         <FaUserEdit
@@ -196,19 +196,6 @@ export function AccountDetails() {
           {errors.fullNameError}
         </span>
       </div>
-      {/* <div className="flex flex-col gap-4 text-[#929292]">
-        <label>Display name</label>
-        <input
-          className="bg-transparent py-4 px-8 rounded-full border border-[#929292] focus:border-[#C26510] focus:outline-none duration-500"
-          type="text"
-          name=""
-          placeholder={currentUser.fullName}
-        />
-        <span className="italic font-bold">
-          This will be how your name will be displayed in the account section
-          and in reviews
-        </span>
-      </div> */}
       <div className="flex flex-col gap-4 text-[#929292]">
         <label>Email address</label>
         <input

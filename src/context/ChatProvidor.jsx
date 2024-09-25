@@ -87,30 +87,6 @@ const ChatProvider = ({ children }) => {
   }, [token]);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const { data } = await axiosInstance.get("/api/v1/fur/users/myprofile");
-        setUser(data.user);
-      } catch (error) {
-        console.error("Error fetching user info", error);
-
-        navigate("/"); // If the token is invalid, redirect to login
-
-      }
-    };
-    // if (token) {
-    //   fetchUserInfo();
-    // } else {
-    //   navigate("/login");
-    // }
-  }, [navigate]);
-
-  
-  }, [ navigate]);
-
-  
-
-  useEffect(() => {
     if (socket) {
       console.log("Socket instance:", socket);
     } else {

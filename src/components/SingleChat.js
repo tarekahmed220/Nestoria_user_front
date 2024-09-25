@@ -291,7 +291,7 @@ import Loader from "./Loader";
 const ENDPOINT = "http://localhost:5000"; // Adjust the endpoint for deployment
 
 function SingleChat({ fetchAgain, setFetchAgain }) {
-  const { selectedChat, user, notification, setNotification } = ChatState();
+  const { selectedChat, user, notification, setNotification ,socket,setChats} = ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -303,15 +303,15 @@ const fileInput=createRef()
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
-  const socket = useMemo(() => {
-    if (token) {
-      return io(ENDPOINT, {
-        auth: { token },
-        transports: ["websocket", "polling"],
-      });
-    }
-    return null;
-  }, [token]);
+  // const socket = useMemo(() => {
+  //   if (token) {
+  //     return io(ENDPOINT, {
+  //       auth: { token },
+  //       transports: ["websocket", "polling"],
+  //     });
+  //   }
+  //   return null;
+  // }, [token]);
 
   useEffect(() => {
     if (socket) {
@@ -337,8 +337,10 @@ const options={
         `/api/v1/fur/message/${selectedChat._id}`
       );
       setMessages(data);
+      const chat= await axiosInstance.get("/api/v1/fur/chat");
+        
       setLoading(false);
-      socket.emit("join chat", selectedChat._id);
+    
     } catch (error) {
       toast("Failed to Load the Messages");
     }
@@ -346,13 +348,27 @@ const options={
 
   const sendMessage = async (event) => {
     if ((event.key === "Enter" || event.type === "click") && newMessage) {
+      if(socket){console.log("socket")}
+      socket.emit("stop typing", selectedChat._id);
+     socket.emit("join room", selectedChat._id);
+      const messageData = {
+        sender: user._id,
+        content: newMessage,
+        chat: selectedChat,
+      }
+  
       try {
         const { data } = await axiosInstance.post("/api/v1/fur/message", {
           content: newMessage,
           chatId: selectedChat._id,
         });
-        setMessages([...messages, data]);
-        setNewMessage("");
+        setMessages([...messages, data])
+      
+        
+        if(socket){console.log(socket,"sending")}
+        socket.emit("new message",messageData);
+        setNewMessage("")
+        setFetchAgain(!fetchAgain);  // إجبار الـ Sidebar على التحديث
       } catch (error) {
         toast("Failed to send the message");
       }
@@ -391,6 +407,17 @@ const options={
   useEffect(() => {
     fetchMessages();
   }, [selectedChat]);
+useEffect(() => {
+  socket.emit("join chat", selectedChat);
+  socket.on(" recieve message", (newMessage) => {
+    setMessages([...messages, newMessage]);
+    // setMessages((prevMessages) => [...prevMessages, messageData]);
+  })
+
+  return () => {  
+    socket.off("recieve message");
+  }
+},[selectedChat])
 
   if (loading) {
     return <Loader />;
@@ -402,7 +429,7 @@ const options={
     (<div className="w-full h-full" style={{ scrollbarWidth: "none" }}>
       <div className="flex justify-between items-center ">
         <span className="text-xl ">
-          {selectedChat?.chat?.users[0]?.fullName === userInfo?.fullName
+          {selectedChat?.chat?.users[0]?.fullName === user?.fullName
             ? selectedChat?.chat?.users[1]?.fullName
             : selectedChat?.chat?.users[0]?.fullName}
         </span>

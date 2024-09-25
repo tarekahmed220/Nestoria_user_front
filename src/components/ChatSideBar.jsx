@@ -218,8 +218,7 @@ import Avatar from "./Avatar";
 const SideBar = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, chats, setChats,socket,user } = ChatState();
   const [loggedUser, setLoggedUser] = useState();
-  const userInfo = JSON.parse(localStorage.getItem("user"));
-
+const [onlineUsers, setOnlineUsers] = useState([]);
   const fetchChats = async () => {
     try {
       const { data } = await axiosInstance.get("/api/v1/fur/chat");
@@ -250,6 +249,22 @@ const SideBar = ({ fetchAgain }) => {
       socket.off("refresh chats");
     };
   }, []);
+  const timeout=5000
+  setTimeout(() => {
+    
+  }, timeout);
+  useEffect(() => {
+    socket.on("onlineUsers", (onlineUsers) => {
+      console.log("Online users:", onlineUsers);
+      // تحديث حالة المستخدمين المتصلين
+      setOnlineUsers(onlineUsers);
+    });
+  
+    return () => {
+      socket.off("onlineUsers");
+    };
+  }, [socket]);
+  
   return (
     <div className="flex flex-col w-full h-[calc(100vh-80px)] lg:h-auto overflow-y-auto lg:overflow-y-auto custom-scrollbar">
       {/* Chat List */}
@@ -286,6 +301,8 @@ const SideBar = ({ fetchAgain }) => {
                       minute: '2-digit',
                     })}
                   </small>
+                  { onlineUsers.includes(chat._id)  ? <span className="w-3 h-3 mr-3 rounded-full bg-green-500"></span>:<span className="w-3 h-3 mr-3 p-0 rounded-full bg-gray-500"></span> }
+
                 </div>
                 {/* Truncate the latest message */}
                 <p className="text-sm truncate w-2/3">

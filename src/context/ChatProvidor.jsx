@@ -82,16 +82,16 @@ const ChatProvider = ({ children }) => {
         setUser(data.user);
       } catch (error) {
         console.error("Error fetching user info", error);
-        navigate("/login"); // If the token is invalid, redirect to login
+        navigate("/shop"); // If the token is invalid, redirect to login
       }
     };
 
-    if (token) {
-      fetchUserInfo();
-    } else {
-      navigate("/login");
-    }
-  }, [token, navigate]);
+    // if (token) {
+    //   fetchUserInfo();
+    // } else {
+    //   navigate("/login");
+    // }
+  }, [ navigate]);
 
   
   useEffect(() => {

@@ -332,7 +332,7 @@ function ProductDetails() {
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      {translate.quantity} : {product.quantity}
+                      {translate.Quantity} : {product.quantity}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />

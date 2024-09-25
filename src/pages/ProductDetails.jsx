@@ -90,19 +90,29 @@ function ProductDetails() {
     addToCart(quantity, product._id, colorSelect);
   };
 
+  const [minMessageShown, setMinMessageShown] = useState(false);
+  const [maxMessageShown, setMaxMessageShown] = useState(false);
   const handleIncreaseQuantity = (product) => {
     if (quantity < product.quantity) {
       setQuantity((prevQuantity) => prevQuantity + 1);
+      setMaxMessageShown(false);
     } else {
-      toast.error("This is the maximum.");
+      if(!maxMessageShown){
+        toast.error("This is the maximum.");
+        setMaxMessageShown(true);
+      }
     }
   };
 
   const handleDecreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+      setMinMessageShown(false);
     } else {
-      toast.error("This is the minimum.");
+      if(!minMessageShown){
+        toast.error("This is the minimum.");
+        setMinMessageShown(true);
+      }
     }
   };
 
@@ -184,7 +194,7 @@ function ProductDetails() {
               : product.description}
           </p>
 
-          <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
+          <div className="text-xl font-semibold mb-4">{product.price} EGP</div>
 
           {product.quantity === 0 ? (
             <>
@@ -227,7 +237,7 @@ function ProductDetails() {
                   <button
                     className="px-3 py-2 rounded-l-lg"
                     onClick={handleDecreaseQuantity}
-                    disabled={quantity === 1}
+                    disabled={minMessageShown}
                   >
                     -
                   </button>
@@ -235,7 +245,7 @@ function ProductDetails() {
                   <button
                     className="px-3 py-2 rounded-r-lg"
                     onClick={() => handleIncreaseQuantity(product)}
-                    disabled={quantity === product.quantity}
+                    disabled={maxMessageShown}
                   >
                     +
                   </button>

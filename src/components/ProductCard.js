@@ -88,7 +88,7 @@ const ProductCard = ({
         <p className="text-lg text-white font-semibold">
           {myLang === "ar" ? product.nameInArabic : product.name}
         </p>
-        <p className="text-sm pb-2 text-white">{product.price} ₹</p>
+        <p className="text-sm pb-2 text-white">{product.price} EGP</p>
       </div>
 
       {/* الأيقونات */}

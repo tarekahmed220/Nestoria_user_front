@@ -312,7 +312,7 @@ const Shop = () => {
               `}
               </style>
               <p className="text-white">
-                {translate.Price}: ₹{priceRange[0]} - ₹{priceRange[1]}
+                {translate.Price}: EGP{priceRange[0]} - EGP{priceRange[1]}
               </p>
             </div>
           </div>

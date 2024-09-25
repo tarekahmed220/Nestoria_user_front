@@ -47,30 +47,6 @@ export function Orders() {
     fetchOrders();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchShippingAddress = async () => {
-  //     try {
-  //       const res = await axiosInstance.get(
-  //         "/api/v1/fur/shippingAddress/getShippingAddress"
-  //       );
-  //       if (res.data) {
-  //         // setIsFoundedAddress(true);
-  //         setUserShipping({
-  //           company: res.data.company,
-  //           houseNumber: res.data.streetAddress.houseNumber,
-  //           apartment: res.data.streetAddress.apartment,
-  //           city: res.data.city,
-  //           state: res.data.state,
-  //           PINCode: res.data.PINCode,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       toast.error(error);
-  //     }
-  //   };
-  //   fetchShippingAddress();
-  // }, []);
-
   const handleClickDelivered = async (e, orderId, productId, color) => {
     const confirmed = await Swal.fire({
       title: "Are you sure?",

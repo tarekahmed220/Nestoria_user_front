@@ -77,8 +77,8 @@ function ProfileUser() {
                   itemSelected === item && "bg-[#C26510]"
                 } duration-500 border border-[#393938] rounded-full`}
               >
-                {item === "Wishlist" ? (
-                  <Link to="/wishlist">{item}</Link>
+                {item === "WISHLIST" ? (
+                  <Link className="capitalize" to="/wishlist">{item}</Link>
                 ) : item === "Log out" ? (
                   <span onClick={() => handleLogout()}>{item}</span>
                 ) : (

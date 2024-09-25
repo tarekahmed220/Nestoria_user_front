@@ -33,14 +33,12 @@ const { myLang, translation } = useSelector((state) => state.language);
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
-        console.log("product", res.data.data.product);
         setproduct(res.data.data.product);
         const convertColors = res.data.data.product.color.map((colorHex) => {
           const colorNames = ColorNamer(colorHex);
           return { hex: colorHex, colorName: colorNames.ntc[0].name };
         });
         setNewColors(convertColors);
-        console.log("convertColors", convertColors);
       })
       .catch((err) => {
         toast.error(err);
@@ -68,7 +66,6 @@ const { myLang, translation } = useSelector((state) => state.language);
         productId,
         color,
       });
-      console.log(response);
       if (response) {
         return toast.success(response.data.message);
       }
@@ -204,7 +201,6 @@ const { myLang, translation } = useSelector((state) => state.language);
                         }`}
                         onClick={() => {
                           handleColorSelect(index, color.colorName);
-                          console.log(color.hex);
                         }}
                       >
                         {selectedColor === index && (
@@ -312,7 +308,6 @@ const { myLang, translation } = useSelector((state) => state.language);
           </button>
         </div>
 
-        {/* Sections 1 */}
         <div className="mt-6">
           {activeTab === "description" && (
             <div className="p-6 rounded-lg text-white">
@@ -326,7 +321,7 @@ const { myLang, translation } = useSelector((state) => state.language);
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      {translate.quantity} : {product.quantity}
+                      {translate.Quantity} : {product.quantity}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />

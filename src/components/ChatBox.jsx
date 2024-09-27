@@ -14,7 +14,7 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
 
   return (
     <div className={`flex justify-center items-start h-full  flex-col  bg-black w-full rounded-lg border border-gray-300  relative`}
-     style={{ height: "calc(100vh - 80px)" }}>
+     style={{ height: "calc(100vh - 80px)" ,scrollbarWidth:'none'}}>
       <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
 
     </div>

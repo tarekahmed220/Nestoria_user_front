@@ -94,7 +94,7 @@ const Chat = () => {
       {/* Main Chat Area */}
       <main className="flex-1 flex flex-col border border-[#A5A5A5] h-full rounded-3xl bg-black overflow-y-auto" style={{scrollbarWidth:'none'}}>
         {user && (
-          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} style={{scrollbarWidth: "none"}} />
         )}
       </main>
     </div>

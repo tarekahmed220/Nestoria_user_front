@@ -1,20 +1,3 @@
-// import React ,{useState,useEffect, useMemo}from 'react'
-// import io from "socket.io-client";
-// import { ChatState } from '../context/ChatProvidor';
-// import Loader from './Loader';
-// import Lottie from "react-lottie";
-// import animationData from "../animations/typing.json";
-// import {FaPaperPlane }from "react-icons/fa";
-// import { toast } from 'react-toastify';
-// import axiosInstance from '../apis/axiosConfig';
-// import UpdateGroupChatModal from '../components/chatPage/UpdateGroupChatModal';
-// import {messagesBg,scrollable }  from "../css modules/chat.module.css";
-// import { BiLoaderCircle } from 'react-icons/bi';
-// import ScrollableChat from './chatPage/ScrollableChat';
-// import { FaPaperclip } from 'react-icons/fa';
-// import MessageArea from './chatPage/MessageArea';
-// const ENDPOINT = "http://localhost:5000"; // Adjust the endpoint for deployment
-// var socket, selectedChatCompare;
 
 // function SingleChat({fetchAgain,setFetchAgain}) {
 //     const { selectedChat, setSelectedChat, user, notification, setNotification } =ChatState();
@@ -36,41 +19,8 @@
 //         },
 //       };
 
-//       const socket = useMemo(() => {
-//         if (token) {
-//           return io('http://localhost:5000', {
-//             auth: { token: token },
-//             transports: ["websocket", "polling"],
-//           })
-//         }
-//         return null; // Return null if there's no token
-//       }, [token])
 
-//       // Ensure socket is defined before calling methods on it
-//       if (socket) {
-//         socket.on("connection", () => {
-//           console.log("Connected to server");
-//         })
-//       }
-//       const fetchMessages = async () => {
-//         if (!selectedChat) return;
 
-//         try {
-
-//           setLoading(true);
-
-//           const { data } = await axiosInstance.get(
-//             `/api/v1/fur/message/${selectedChat._id}`
-//           );
-//           console.log(data);
-//           setMessages(data);
-//           setLoading(false);
-
-//            socket.emit("join chat", selectedChat._id);
-//         } catch (error) {
-//           toast("Failed to Load the Messages");
-//         }
-//       };
 
 //       const sendMessage = async (event) => {
 //         if (!selectedChat || !selectedChat._id) {
@@ -195,12 +145,7 @@
 //               </div>
 //         <section className="h-16 bg-black flex items-center px-4 fa-border rounded-3xl w-[95%] mx-auto ">
 //           <div className="relative">
-//             <button
-//               className="flex justify-center items-center w-11 h-11 rounded-full text-white hover:text-orange-500"
-//               onClick={() => setToggle(!toggle)}
-//             >
-//               {/* <Plus size={20} /> */}<FaPaperclip fontSize={22} className="d-absolute z-22"/>
-//             </button>
+
 //           </div>
 //           <div
 //             // onSubmit={sendMessage}
@@ -215,67 +160,18 @@
 //                onKeyDown={sendMessage}
 
 //             />
-//             <button type="button" className="text-gray-300 hover:text-orange-500"    onClick={sendMessage}>
-//               {/* <Send size={28} /> */}   <FaPaperPlane />
-//             </button>
 
-//             {toggle && (
-//               <div className="bg-secondary text-gray-300 shadow rounded absolute bottom-14 w-36">
-//                 <form>
-//                   <label
-//                     htmlFor="uploadImage"
-//                     className="flex items-center py-2 px-3 gap-3 hover:bg-gray-600  cursor-pointer"
-//                   >
-//                     <div className="text-gray-200 ">
-//                       {/* <Image size={18} /> */} <p>Add Image</p>
-//                     </div>
-//                     {/* <p>Add Image</p> */}
-//                   </label>
 
-//                   <input
-//                     type="file"
-//                     id="uploadImage"
-//                     onChange={(e) => handleUpload(e, "imageUrl")}
-//                     className="hidden"
-//                   />
-//                 </form>
-//               </div>
-//             )}
-//           </div>
-//         </section>
-//               {/* <footer className="p-4 lg:p-6 border-t border-[#929292] bg-black flex items-center"> </footer>*/}
-//                 {/* <div className="h-full w-full flex gap-2 items-center">            */}
-//                   {/* <input
-//                type="text"
-//                placeholder="Type here message.."
-//                className="py-1 px-4 outline-none w-full h-12 rounded-lg bg-[#344047] text-white bottom-0 right-0 left-0"
-//               value={newMessage}
-//              onChange={typingHandler}
-//               onKeyDown={sendMessage}
-//             /> */}
-//              {/* <button type="button"
-//               className="text-gray-300 hover:text-orange-500"
-//                  onClick={sendMessage}
-//                 >
-//               <FaPaperPlane />
-//              </button> */}
-
-//           {/* </div>  */}
-//             </div>
-//         </div>
+//            
 
 //       ):
-//       <div className="flex justify-center items-center h-full">
-//       <span className="text-lg font-semibold">
-//         Click on a user to start chatting
-//       </span>
-//     </div>
-//       }
+//     
+//       
 //     </div>
 //   )
 // }
 
-// export default SingleChat
+
 import React, { useState, useEffect, useMemo ,createRef} from "react";
 import io from "socket.io-client";
 import { ChatState } from "../context/ChatProvidor";
@@ -304,16 +200,7 @@ const fileInput=createRef()
   const userInfo = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
 
-  // const socket = useMemo(() => {
-  //   if (token) {
-  //     return io(ENDPOINT, {
-  //       auth: { token },
-  //       transports: ["websocket", "polling"],
-  //     });
-  //   }
-  //   return null;
-  // }, [token]);
-
+ 
   useEffect(() => {
     if (socket) {
       socket.emit("setup", user);
@@ -376,7 +263,44 @@ const options={
     }
   };
  
+//       const typingHandler = (e) => {
+//         setNewMessage(e.target.value);
 
+//          if (!socketConnected) return;
+
+//         if (!typing) {
+//           setTyping(true);
+//            socket.emit("typing", selectedChat._id);
+//         }
+//         let lastTypingTime = new Date().getTime();
+//         let timerLength = 3000;
+//         setTimeout(() => {
+//           let timeNow = new Date().getTime();
+//           let timeDiff = timeNow - lastTypingTime;
+//           if (timeDiff >= timerLength && typing) {
+//              socket.emit("stop typing", selectedChat._id);
+//             setTyping(false);
+//           }
+//         }, timerLength);
+//     }
+//     useEffect(() => {
+//         fetchMessages();
+//         selectedChatCompare = selectedChat;
+//       }, [selectedChat]);
+//       useEffect(() => {
+//         socket.on("message recieved", (newMessageRecieved) => {
+//           if (!selectedChatCompare ||
+//             selectedChatCompare._id !== newMessageRecieved.chat._id
+//           ) {
+//             if (!notification.includes(newMessageRecieved)) {
+//               setNotification([newMessageRecieved, ...notification]);
+//               setFetchAgain(!fetchAgain);
+//             }
+//           } else {
+//             setMessages([...messages, newMessageRecieved]);
+//           }
+//         });
+//       },[...messages, newMessageRecieved]);
   const handleUpload = async (event) => {
     const file = fileInput.current.files[0]; // Correctly accessing the file from the input ref
     if (!file) return;
@@ -500,6 +424,7 @@ socket.on("recieve message", (newMessageRecieved) => {
           placeholder="Type a message"
           value={newMessage}
           onChange={(e) => typingHandler(e)}
+
           onKeyDown={sendMessage}
         />
        <button className="cursor-pointer hover:text-[#C26510]  " type="button" > <FaPaperPlane

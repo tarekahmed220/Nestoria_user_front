@@ -64,6 +64,13 @@ const HeroSection = () => {
   }
 
   const handleChatSelect = async (userId) => {
+    const getToken = !!localStorage.getItem("token");
+    if (!getToken) {
+      navigate("/login");
+      toast.error("You Should Signin First");
+      return;
+    }
+
     console.log("id ", userId);
     try {
       const { data } = await axiosInstance.post("/api/v1/fur/chat", {
@@ -142,7 +149,7 @@ const HeroSection = () => {
 
             <div className="mb-6">
               <p className="text-gray-300 mb-2">
-                Rating: {workshop.averageRating}
+                Rating: {workshop.averageRating.toFixed(1)}
               </p>
               <div className="flex items-center mb-2">
                 {[...Array(5)].map((_, index) => (

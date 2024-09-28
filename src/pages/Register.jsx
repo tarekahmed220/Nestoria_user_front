@@ -12,7 +12,7 @@ import { IoEye } from "react-icons/io5";
 import { useSearchContext } from "../context/SearchContext";
 import { useSelector } from "react-redux";
 function Register() {
-    const translate = useSelector((state) => state.language.translation);
+  const translate = useSelector((state) => state.language.translation);
 
   const { search } = useSearchContext();
   console.log(search);
@@ -259,8 +259,8 @@ function Register() {
                   <option value="" disabled>
                     <span> {translate.Role}* </span>
                   </option>
-                  <option value="client">{translate.Client}</option>
-                  <option value="workshop">{translate.Workshop}</option>
+                  <option value="client">Client</option>
+                  <option value="workshop">Workshop</option>
                 </select>
                 {errors.role ? (
                   <span

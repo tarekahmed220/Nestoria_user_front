@@ -9,10 +9,11 @@ import { HeaderPages } from "../components/HeaderPages.jsx";
 import { toast } from "react-toastify";
 import { FaTh, FaThLarge, FaThList, FaBars } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import { useSearchContext } from "../context/SearchContext.jsx";
 
 const Shop = () => {
   const translate = useSelector((state) => state.language.translation);
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -60,7 +61,8 @@ const Shop = () => {
   const [favorites, setFavorites] = useState([]);
   // إضافة حالة جديدة للتحكم بعدد الأعمدة
   const [activeGrid, setActiveGrid] = useState(3);
- 
+
+  const { products, setProducts } = useSearchContext();
 
   // جلب المنتجات المفضلة
   useEffect(() => {
@@ -82,8 +84,6 @@ const Shop = () => {
   // جلب المنتجات من السيرفر مع التصفية
 
   const fetchProducts = (page = 1, category = "All", maxPrice = 2499) => {
-    
-
     setIsLoading(true);
     axios
       .get(
@@ -107,7 +107,6 @@ const Shop = () => {
       .finally(() => {
         setIsLoading(false);
       });
-   
   };
 
   // تحديث المنتجات عند تغيير الصفحة أو الفئة أو رفع الضغط عن الفلتر

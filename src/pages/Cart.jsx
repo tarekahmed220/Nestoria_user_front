@@ -72,19 +72,30 @@ function Cart() {
     }
   };
 
+  const [minMessageShown, setMinMessageShown] = useState(false);
+  const [maxMessageShown, setMaxMessageShown] = useState(false);
   const handleQuantityChange = (action, product) => {
     let newQuantity = product.quantity;
+
     if (action === "increase") {
       if (newQuantity < product.productId.quantity) {
         newQuantity += 1;
+        setMaxMessageShown(false);
       } else {
-        toast.error("This is the maximum.");
+        if (!maxMessageShown) {
+          toast.error("This is the maximum.");
+          setMaxMessageShown(true);
+        }
       }
     } else if (action === "decrease") {
       if (newQuantity > 1) {
         newQuantity -= 1;
+        setMinMessageShown(false);
       } else {
-        toast.error("This is the minimum.");
+        if (!minMessageShown) {
+          toast.error("This is the minimum.");
+          setMinMessageShown(true);
+        }
       }
     }
 
@@ -263,25 +274,27 @@ function Cart() {
                       </li>
                       <li className="col-span-5 md:col-span-2 text-center md:text-start ml-auto mr-auto mt-6 md:m-0">
                         <div className="p-3 w-fit flex gap-5 rounded-3xl border border-[#C26510]">
-                          <span
+                          <button
                             id="decrease"
                             onClick={() =>
                               handleQuantityChange("decrease", product)
                             }
-                            className="text-[#C26510] cursor-pointer"
+                            disabled={minMessageShown}
+                            className="text-[#C26510]"
                           >
                             -
-                          </span>
+                          </button>
                           <span className="text-white">{product.quantity}</span>
-                          <span
+                          <button
                             id="increase"
                             onClick={() =>
                               handleQuantityChange("increase", product)
                             }
-                            className="text-[#C26510] cursor-pointer"
+                            disabled={maxMessageShown}
+                            className="text-[#C26510]"
                           >
                             +
-                          </span>
+                          </button>
                         </div>
                       </li>
                       <li className="col-span-full my-5 block md:hidden h-[1px] bg-[#C26510]"></li>
@@ -324,7 +337,9 @@ function Cart() {
             {/* cart totals */}
             <div className="text-center md:text-start mt-14 mb-14 px-12 py-10 border border-[#5E5E5E] rounded-2xl">
               <div>
-                <h3 className="mb-5 text-2xl text-white">{translate.Cart_Totals}</h3>
+                <h3 className="mb-5 text-2xl text-white">
+                  {translate.Cart_Totals}
+                </h3>
                 <div className="flex flex-col gap-4 md:gap-0 md:flex-row md:justify-between">
                   <span className="text-white">{translate.Subtotal}</span>
                   <span className="text-white">EGP {subTotal}</span>
@@ -333,11 +348,15 @@ function Cart() {
                 <div>
                   <div className="flex flex-col gap-4 md:gap-0 md:flex-row justify-between">
                     <span className="text-white">{translate.Shipping}</span>
-                    <span className="text-white">{translate.Free_Shipping}</span>
+                    <span className="text-white">
+                      {translate.Free_Shipping}
+                    </span>
                   </div>
                   <div className="md:text-end">
                     <div className="flex flex-col my-3">
-                      <span className="text-white mb-1">{translate.Shipping_to}</span>
+                      <span className="text-white mb-1">
+                        {translate.Shipping_to}
+                      </span>
                       <span className="text-white font-bold">
                         {currentUser.address && currentUser.address}
                       </span>

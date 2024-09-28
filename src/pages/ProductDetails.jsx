@@ -32,14 +32,12 @@ function ProductDetails() {
     axios
       .get(`http://localhost:5000/api/v1/fur/products/${params.id}`)
       .then((res) => {
-        console.log("product", res.data.data.product);
         setproduct(res.data.data.product);
         const convertColors = res.data.data.product.color.map((colorHex) => {
           const colorNames = ColorNamer(colorHex);
           return { hex: colorHex, colorName: colorNames.ntc[0].name };
         });
         setNewColors(convertColors);
-        console.log("convertColors", convertColors);
       })
       .catch((err) => {
         toast.error(err);
@@ -67,7 +65,6 @@ function ProductDetails() {
         productId,
         color,
       });
-      console.log(response);
       if (response) {
         return toast.success(response.data.message);
       }
@@ -90,19 +87,29 @@ function ProductDetails() {
     addToCart(quantity, product._id, colorSelect);
   };
 
+  const [minMessageShown, setMinMessageShown] = useState(false);
+  const [maxMessageShown, setMaxMessageShown] = useState(false);
   const handleIncreaseQuantity = (product) => {
     if (quantity < product.quantity) {
       setQuantity((prevQuantity) => prevQuantity + 1);
+      setMaxMessageShown(false);
     } else {
-      toast.error("This is the maximum.");
+      if(!maxMessageShown){
+        toast.error("This is the maximum.");
+        setMaxMessageShown(true);
+      }
     }
   };
 
   const handleDecreaseQuantity = () => {
     if (quantity > 1) {
       setQuantity((prevQuantity) => (prevQuantity > 1 ? prevQuantity - 1 : 1));
+      setMinMessageShown(false);
     } else {
-      toast.error("This is the minimum.");
+      if(!minMessageShown){
+        toast.error("This is the minimum.");
+        setMinMessageShown(true);
+      }
     }
   };
 
@@ -184,7 +191,7 @@ function ProductDetails() {
               : product.description}
           </p>
 
-          <div className="text-xl font-semibold mb-4">{product.price} ₹</div>
+          <div className="text-xl font-semibold mb-4">{product.price} EGP</div>
 
           {product.quantity === 0 ? (
             <>
@@ -210,7 +217,6 @@ function ProductDetails() {
                         }`}
                         onClick={() => {
                           handleColorSelect(index, color.colorName);
-                          console.log(color.hex);
                         }}
                       >
                         {selectedColor === index && (
@@ -227,7 +233,7 @@ function ProductDetails() {
                   <button
                     className="px-3 py-2 rounded-l-lg"
                     onClick={handleDecreaseQuantity}
-                    disabled={quantity === 1}
+                    disabled={minMessageShown}
                   >
                     -
                   </button>
@@ -235,7 +241,7 @@ function ProductDetails() {
                   <button
                     className="px-3 py-2 rounded-r-lg"
                     onClick={() => handleIncreaseQuantity(product)}
-                    disabled={quantity === product.quantity}
+                    disabled={maxMessageShown}
                   >
                     +
                   </button>
@@ -318,7 +324,6 @@ function ProductDetails() {
           </button>
         </div>
 
-        {/* Sections 1 */}
         <div className="mt-6">
           {activeTab === "description" && (
             <div className="p-6 rounded-lg text-white">
@@ -332,7 +337,7 @@ function ProductDetails() {
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm md:text-base">
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />
-                      {translate.quantity} : {product.quantity}
+                      {translate.Quantity} : {product.quantity}
                     </li>
                     <li className="flex items-center">
                       <GiCheckMark className="mr-2 text-[--mainColor]" />

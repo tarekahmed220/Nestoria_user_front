@@ -13,7 +13,6 @@ import { useSearchContext } from "../context/SearchContext.jsx";
 
 const Shop = () => {
   const translate = useSelector((state) => state.language.translation);
-  // const [products, setProducts] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -59,7 +58,6 @@ const Shop = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPriceSliding, setIsPriceSliding] = useState(false);
   const [favorites, setFavorites] = useState([]);
-  // إضافة حالة جديدة للتحكم بعدد الأعمدة
   const [activeGrid, setActiveGrid] = useState(3);
 
   const { products, setProducts } = useSearchContext();
@@ -311,7 +309,7 @@ const Shop = () => {
               `}
               </style>
               <p className="text-white">
-                {translate.Price}: ₹{priceRange[0]} - ₹{priceRange[1]}
+                {translate.Price}: EGP{priceRange[0]} - EGP{priceRange[1]}
               </p>
             </div>
           </div>
@@ -319,7 +317,7 @@ const Shop = () => {
           <div
             className={`lg:col-span-3 grid grid-cols-1 lg:grid-cols-${
               activeGrid === 1
-                ? "1" // عند اختيار عرض بعمود واحد
+                ? "1" 
                 : activeGrid === 2
                 ? "2"
                 : activeGrid === 3

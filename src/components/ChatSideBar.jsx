@@ -266,10 +266,10 @@ const [onlineUsers, setOnlineUsers] = useState([]);
   }, [socket]);
   
   return (
-    <div className="flex flex-col w-full h-[calc(100vh-80px)] lg:h-auto overflow-y-auto lg:overflow-y-auto custom-scrollbar">
+    <div className="flex flex-col w-full h-[calc(100vh-80px)] lg:h-auto  scrollbar-none custom-scrollbar">
       {/* Chat List */}
       {chats ? (
-        <div className="space-y-2 overflow-y-auto">
+        <div className="space-y-2 ">
           {chats?.map((chat) => (
             <div
               onClick={() => {

@@ -11,7 +11,7 @@ const MessageArea = ({ messages, setMessages, messageEndRef }) => {
       {messages.map((msg, index) => (
         <div
           key={index}
-          className={`flex ${msg.sender === 'currentUser' ? 'justify-end' : 'justify-start'} mb-4`}
+          className={`flex ${msg.sender === 'currentUser' ? 'justify-end' : 'justify-start'} mb-4 scrollbar-hide`}
         >
           {msg.sender !== 'currentUser' && (
             <img

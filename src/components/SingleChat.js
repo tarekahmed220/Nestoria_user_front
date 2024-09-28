@@ -407,8 +407,7 @@ socket.on("recieve message", (newMessageRecieved) => {
       </div>
 
       <div
-        style={{ scrollbarWidth: 'none' }}
-        className="flex-1 overflow-y-auto overflow-x-hidden  p-4 bg-black rounded-lg h-full  "
+        className="flex-1 overflow-x-hidden  p-4 bg-black rounded-lg h-full"
       >
         <ScrollableChat
           messages={messages}
@@ -460,7 +459,7 @@ socket.on("recieve message", (newMessageRecieved) => {
         </div>
       </div>
     </div>) :
-      (<div className="flex justify-center items-center align-center h-full">
+      (<div className="flex justify-center items-center align-center h-full ">
        <span className="text-lg font-semibold">
          Click on a user to start chatting
        </span>

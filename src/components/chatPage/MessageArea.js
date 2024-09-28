@@ -7,7 +7,7 @@ const MessageArea = ({ messages, setMessages, messageEndRef }) => {
   };
 
   return (
-    <div className="flex-1 p-4 lg:p-6 overflow-y-auto bg-black">
+    <div className="flex-1 p-4 lg:p-6 overflow-y-auto bg-black scrollbar-hide">
       {messages.map((msg, index) => (
         <div
           key={index}

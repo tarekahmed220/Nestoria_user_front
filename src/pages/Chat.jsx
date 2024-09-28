@@ -61,13 +61,12 @@ const Chat = () => {
 
   return (
     <div
-      className="relative flex flex-col lg:flex-row mx-auto  mt-12 gap-3 lg:flex-row h-screen bg-black text-[#929292] overflow-hidden"
+      className="relative flex flex-col lg:flex-row mx-auto  mt-12 gap-3 lg:flex-row h-screen bg-black text-[#929292] overflow-hidden "
       style={{
         backgroundImage: "url('/body-bg.png')",
         backgroundPosition: "left top",
         backgroundSize: "auto",
         backgroundRepeat: "repeat",
-        backgroundAttachment: "scroll",
         backgroundColor: "#101010",
       }}
     >
@@ -85,14 +84,14 @@ const Chat = () => {
           isSidebarOpen ? "translate-x-0 z-index-1 pt-8" : "-translate-x-full"
         } top-0 left-0 lg:w-1/4 w-3/4 bg-black lg:p-6 flex flex-col border-b lg:border-b-0 lg:border-r border-[#929292] rounded-3xl z-40`}
       >
-        <div className="mb-6 pt-4 overflow-y-auto overflow-x-hidden" style={{scrollbarWidth: "none"}}>
+        <div className="mb-6 pt-4 overflow-x-hidden" style={{scrollbarWidth: "none"}}>
           <h3 className="text-center text-xl text-[#929292] mb-1">All Chats</h3>
           {user && <SideBar fetchAgain={fetchAgain} />}
         </div>
       </aside>
 
       {/* Main Chat Area */}
-      <main className="flex-1 flex flex-col border border-[#A5A5A5] h-full rounded-3xl bg-black overflow-y-auto" style={{scrollbarWidth:'none'}}>
+      <main className="flex-1 flex flex-col border border-[#A5A5A5] h-full rounded-3xl bg-black" style={{scrollbarWidth:'none'}}>
         {user && (
           <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} style={{scrollbarWidth: "none"}} />
         )}

@@ -248,19 +248,20 @@ const [onlineUsers, setOnlineUsers] = useState([]);
       socket.off("refresh chats");
     };
   }, []);
-  const timeout=5000
-  setTimeout(() => {
+  // const timeout=5000
+  // setTimeout(() => {
     
-  }, timeout);
+  // }, timeout);
   useEffect(() => {
-    socket.on("onlineUsers", (onlineUsers) => {
-      console.log("Online users:", onlineUsers);
+    if(socket){
+    socket.on("onlineUsers", (users) => {
+      console.log("Online users:", users);
       // تحديث حالة المستخدمين المتصلين
-      setOnlineUsers(onlineUsers);
-    });
+      setOnlineUsers(users);
+    });}
   
     return () => {
-      socket.off("onlineUsers");
+      socket.disconnect();
     };
   }, [socket]);
   
@@ -307,8 +308,15 @@ const [onlineUsers, setOnlineUsers] = useState([]);
                       minute: "2-digit",
                     })}
                   </small>
-                  { onlineUsers.includes(chat._id)  ? <span className="w-3 h-3 mr-3 rounded-full bg-green-500"></span>:<span className="w-3 h-3 mr-3 p-0 rounded-full bg-gray-500"></span> }
-
+                  { 
+  onlineUsers.includes(
+    chat.users[1]?._id 
+    ? (chat.users[0]._id === user._id ? chat.users[1]._id : chat.users[0]._id)
+    : null
+  ) 
+  ? <span className="w-3 h-3 mr-3 rounded-full bg-green-500"></span>
+  : <span className="w-3 h-3 mr-3 p-0 rounded-full bg-gray-500"></span> 
+}
                 </div>
                 {/* Truncate the latest message */}
                 <p className="text-sm truncate w-2/3">
@@ -326,7 +334,7 @@ const [onlineUsers, setOnlineUsers] = useState([]);
           ))}
         </div>
       ) : (
-        <p>No Chats Available</p>
+        <p className="p-4 flex align-items-center justify-content-center">No Chats Available</p>
       )}
     </div>
   );

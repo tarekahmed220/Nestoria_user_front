@@ -182,10 +182,11 @@ import axiosInstance from "../apis/axiosConfig";
 import UpdateGroupChatModal from "../components/chatPage/UpdateGroupChatModal";
 import ScrollableChat from "./chatPage/ScrollableChat";
 import Loader from "./Loader";
+import AdminLoader from "./adminLoader";
 
 
 const ENDPOINT = "http://localhost:5000"; // Adjust the endpoint for deployment
-
+var selectedChatCompare;
 function SingleChat({ fetchAgain, setFetchAgain }) {
   const { selectedChat, user, notification, setNotification ,socket,setChats} = ChatState();
   const [messages, setMessages] = useState([]);
@@ -333,7 +334,7 @@ const options={
   }, [selectedChat]);
 useEffect(() => {
   socket.emit("join chat", selectedChat);
-  socket.on(" recieve message", (newMessage) => {
+  socket.on("recieve message", (newMessage) => {
     setMessages([...messages, newMessage]);
     // setMessages((prevMessages) => [...prevMessages, messageData]);
   })
@@ -342,21 +343,62 @@ useEffect(() => {
     socket.off("recieve message");
   }
 },[selectedChat])
+const typingHandler = (e) => {
+  setNewMessage(e.target.value);
+
+   if (!socketConnected) return;
+
+  if (!typing) {
+    setTyping(true);
+     socket.emit("typing", selectedChat._id);
+  }
+  let lastTypingTime = new Date().getTime();
+  let timerLength = 3000;
+  setTimeout(() => {
+    let timeNow = new Date().getTime();
+    let timeDiff = timeNow - lastTypingTime;
+    if (timeDiff >= timerLength && typing) {
+       socket.emit("stop typing", selectedChat._id);
+      setTyping(false);
+    }
+  }, timerLength);
+}
+useEffect(() => {
+socket.on("recieve message", (newMessageRecieved) => {
+  if (
+    !selectedChatCompare || // if chat is not selected or doesn't match current chat
+    selectedChatCompare._id !== newMessageRecieved.chat._id
+  ) {
+    if (!notification.includes(newMessageRecieved)) {
+      setNotification([newMessageRecieved, ...notification]);
+      setFetchAgain(!fetchAgain);
+    }
+  } else {
+    setMessages([...messages, newMessageRecieved]);
+  }
+});
+});
 
   if (loading) {
-    return <Loader />;
+    return <AdminLoader />;
   }
 
   return (
     <>
        {selectedChat ? 
-    (<div className="w-full h-full" style={{ scrollbarWidth: "none" }}>
-      <div className="flex justify-between items-center ">
-        <span className="text-xl ">
-          {selectedChat?.chat?.users[0]?.fullName === user?.fullName
-            ? selectedChat?.chat?.users[1]?.fullName
-            : selectedChat?.chat?.users[0]?.fullName}
-        </span>
+    (<div className="w-full h-full relative bg-black" style={{ scrollbarWidth: 'none' }}>
+      <div className="flex justify-between items-center relative bg-black" style={{scrollbarWidth:'none'}} >
+      {istyping ? (  <span className="text-xl text-white my-[-5px] fixed bg-black absolute top-4 left-14 z-50 w-100">
+          {selectedChat?.users[0]?._id === user?._id
+            ? selectedChat?.users[1]?.name
+            : selectedChat?.users[0]?.name}
+        <span className="text-xs text-white">typing..</span></span>):
+         <span className="text-xl text-white my-[-5px] fixed bg-black absolute top-4 left-14 z-50 w-100">
+         {selectedChat?.users[0]?._id === user?._id
+           ? selectedChat?.users[1]?.name
+           : selectedChat?.users[0]?.name}
+           </span>
+        }
         <UpdateGroupChatModal
           fetchMessages={fetchMessages}
           fetchAgain={fetchAgain}
@@ -365,12 +407,12 @@ useEffect(() => {
       </div>
 
       <div
-        style={{ scrollbarWidth: "none" }}
-        className="flex-1 overflow-y-auto overflow-x-hidden  p-4 bg-black rounded-lg h-full "
+        style={{ scrollbarWidth: 'none' }}
+        className="flex-1 overflow-y-auto overflow-x-hidden  p-4 bg-black rounded-lg h-full  "
       >
         <ScrollableChat
           messages={messages}
-          style={{ scrollbarWidth: "none" }}
+          style={{ scrollbarWidth: 'none' }}
         />
       </div>
 
@@ -381,8 +423,8 @@ useEffect(() => {
           className="flex-grow p-2 border rounded-lg "
           placeholder="Type a message"
           value={newMessage}
-          onChange={(e) =>{ setNewMessage(e.target.value);// typingHandler(e)
-            }}
+          onChange={(e) => typingHandler(e)}
+
           onKeyDown={sendMessage}
         />
        <button className="cursor-pointer hover:text-[#C26510]  " type="button" > <FaPaperPlane

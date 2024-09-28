@@ -13,9 +13,9 @@ import { ChatState } from "../../context/ChatProvidor";
 
 const ScrollableChat = ({ messages }) => {
   const { user } = ChatState();
-
+  // max-height: inherit;height: inherit;overflow-y: auto;scrollbar-width: none;
   return (
-    <ScrollableFeed >
+    <ScrollableFeed style={{scrollbarWidth:'none'}} >
       {messages &&
         messages.map((m, i) => (
           <div className="flex"  key={m._id} style={{scrollbarWidth: 'none'}} >

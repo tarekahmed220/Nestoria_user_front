@@ -52,7 +52,7 @@ import { io } from "socket.io-client";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../apis/axiosConfig";
 import { useUserInfoContext } from "./UserProvider";
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://nestoria-server.vercel.app";
 const ChatContext = createContext();
 
 const ChatProvider = ({ children }) => {

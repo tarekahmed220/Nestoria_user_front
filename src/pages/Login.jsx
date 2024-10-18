@@ -107,14 +107,18 @@ function Login() {
           localStorage.setItem("token", token);
           localStorage.setItem("role", user2?.data?.user?.role);
           // navigate("/seller ");
-          window.location.href = "http://localhost:3000/seller";
+      //    window.location.href = "http://localhost:3000/seller";
+      window.location.href = "https://nestoria-user-front.vercel.app/seller";
           toast.info("please complete your registration");
         } else if (user2.data.user.registerStatus === "completed") {
-          window.location.href = `http://localhost:4200/dashboard?token=${token}`;
+         // window.location.href = `http://localhost:4200/dashboard?token=${token}`;
+         window.location.href =`https://nestoria-workshop-front.vercel.app/dashboard?token=${token}`;
         } else {
           localStorage.setItem("token", token);
           localStorage.setItem("role", user2?.data?.user?.role);
-          window.location.href = "http://localhost:3000/admin";
+          // window.location.href = "http://localhost:3000/admin";
+          window.location.href = "https://nestoria-user-front.vercel.app/admin";
+
         }
       } catch (error) {
         if (
